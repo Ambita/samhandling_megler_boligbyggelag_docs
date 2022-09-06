@@ -1,0 +1,2 @@
+# samhandling_megler_boligbyggelag_docs
+Documentation for cooperation between brokers and housing federations
