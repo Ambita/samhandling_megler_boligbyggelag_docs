@@ -46,7 +46,8 @@ export interface Lag {
 export interface Bestiller {
   id: string,
   navn: string,
-  epost: string
+  epost: string,
+  telefon?: string
 }
 
 export interface Adresse {
