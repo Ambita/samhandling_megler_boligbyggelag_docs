@@ -34,16 +34,15 @@ export interface Kontakt {
   eierbrok: Eierbrok
 }
 
-// Common callback type
 export interface USBLCallback {
-  type: CallbackType // Type discriminator
+  type: CallbackType
   ordreId: string
   forretningsforer: {
     navn: string
     adresse: Adresse
     epost: string
   }
-  levert?: string // ISO8601
+  levert?: string
   referanse?: string
   eierform?: string
 }
@@ -52,7 +51,7 @@ export interface Feil extends USBLCallback {
   type: CallbackType.feil
   feilmelding: string
   feilkode?: number
-  tidspunkt: string // ISO8601
+  tidspunkt: string
   kansellert?: boolean
 }
 
@@ -61,7 +60,6 @@ export interface Boliginformasjon extends USBLCallback {
   type: CallbackType.boliginformasjon
   forkjopsrett: {
     harForkjopsrett: boolean
-    // Relevant only if harForkjopsrett
     intern?: boolean
     bestillingsformat?: BestillingsFormat
   }
@@ -81,15 +79,15 @@ export interface Boliginformasjon extends USBLCallback {
 export interface ForhandsutlysingTidlig extends USBLCallback {
   type: CallbackType.forhandsutlysingtidlig
   utlysingssted: string
-  utlysingsdato: string // ISO8601
+  utlysingsdato: string
   meldefrist: string
 }
 
 export interface ForhandsutlysingSen extends USBLCallback {
   type: CallbackType.forhandsutlysingsen
   utlysingssted: string
-  utlysingsdato: string // ISO8601
-  meldefrist: string // ISO8601
+  utlysingsdato: string
+  meldefrist: string
   antallInteressenter: number
   varighetForkjopsrett: string
 }
@@ -134,5 +132,3 @@ export interface SalgsmeldingFullfort extends USBLCallback {
 
 export type CallbackEvent = Boliginformasjon | ForhandsutlysingTidlig | ForhandsutlysingSen |
 ForhandsutlysingUtlopt | SalgsmeldingMottatt | SalgsmeldingFullfort | Feil
-
-// ***************************

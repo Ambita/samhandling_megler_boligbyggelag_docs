@@ -13,8 +13,8 @@ Ambita has designed a set of api messages to capture the flow between a broker a
 
 In more detail the message format and process is described per product. You may take a look at typescript types for the messages here:
 
-[Request types](requestTypes.ts)
-[Response types](callbackTypes.ts)
+* [Request types](requestTypes.ts)
+* [Response types](callbackTypes.ts)
 
 ### Boliginformasjon
 
@@ -25,6 +25,7 @@ First on behalf of the broker the following request is made, the request
 ```json
 {
   "type": "boliginformasjon",
+  "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
   "lag": { 
     "navn": "Boligsameiet Blåklokken",
     "orgnr": "913861205"
@@ -74,7 +75,7 @@ The housing federation responds with information about the given object, here id
   },
   "andreHensyn": "Kundeforhold avsluttes 1.1.2023 - det gjenstår endel i forbindelse med regnskap og TPO for 2022",
   "type": "boliginformasjon",
-  "ordreId": "20aa6a2e-685d-4271-9182-8f2c1518f99a",
+  "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
   "forretningsforer": {
     "navn": "UNTL",
     "adresse": {
@@ -102,6 +103,7 @@ We will transmit the following message:
 ```json
 {
   "type": "forhandsutlysing",
+  "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
   "lag": { 
     "navn": "Boligsameiet Blåklokken",
     "orgnr": "913861205"
@@ -134,12 +136,12 @@ After some processing the following early response message is returned, this mes
 ```json
 {
   "utlysingssted": "Sendt styre, utlysing i laget",
-  "utlysingsdato": "2022-06-22T02:00:00+03:00",
-  "meldefrist": "2022-06-30T12:00:00+03:00",
+  "utlysingsdato": "2022-06-22T02:00:00+02:00",
+  "meldefrist": "2022-06-30T12:00:00+02:00",
   "type": "forhandsutlysingtidlig",
-  "ordreId": "20aa6a2e-685d-4271-9182-8f2c1518f99a",
+  "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
   "forretningsforer": {
-    "navn": "USBL",
+    "navn": "UNTL",
     "adresse": {
       "gateadresse": "Postboks 112 Lier",
       "postnummer": "0501",
@@ -147,25 +149,25 @@ After some processing the following early response message is returned, this mes
     },
     "epost": "post@kunde.no"
   },
-  "levert": "2022-07-07T18:42:51.3081344+03:00",
+  "levert": "2022-07-07T18:42:51.3081344+02:00",
   "referanse": "622/1",
   "eierform": "Seksjonseier"
 }
 ```
 
-When the process is done this message is sent, summing up the result:
+When the process is done the final message is sent, summing up the result. Only two extra fields are added here. Number of interested parties and how long the advance clarification lasts.
 
 ```json
 {
-  "antallInteressenter": 2, // This is a new field
-  "varighetForkjopsrett": "2022-09-20T12:10:53+03:00", // This is a new field
+  "antallInteressenter": 2, // Added to the last message
+  "varighetForkjopsrett": "2022-09-20T12:10:53+03:00", // Added to the last message
   "utlysingssted": "Sendt styre, utlysing i laget",
   "utlysingsdato": "2022-06-22T02:00:00+03: 00",
   "meldefrist": "2022-06-30T12: 00: 00+03: 00",
   "type": "forhandsutlysingsen",
-  "ordreId": "20aa6a2e-685d-4271-9182-8f2c1518f99a",
+  "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
   "forretningsforer": {
-    "navn": "USBL",
+    "navn": "UNTL",
     "adresse": {
       "gateadresse": "Postboks 112 Lier",
       "postnummer": "0501",
@@ -173,8 +175,218 @@ When the process is done this message is sent, summing up the result:
     },
     "epost": "post@kunde.no"
   },
-  "levert": "2022-07-27T18:44:15.8474644+03:00",
+  "levert": "2022-07-27T18:44:15.8474644+02:00",
   "referanse": "622/1",
   "eierform": "Seksjonseier"
 }
 ```
+
+### Salgsmelding
+
+When the object has been sold the broker sends a sales message. This message contains all the necessary information for updating data and proceed with clarification and board approval. An example json request can look like this:
+
+```json
+{
+  "type": "salgsmelding",
+  "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "lag": {
+    "navn": "Boligsameiet Blåklokken",
+    "orgnr": "913861205"
+  },
+  "registerenhet": {
+    "type": "matrikkel",
+    "ident": "3802-71-119-0-21"
+  },
+  "bestiller": {
+    "id": "TBF",
+    "navn": "Broker Doe",
+    "epost": "tbf@domene.no",
+    "telefon": "79119911"
+  },
+  "meglerkontor": {
+    "orgnr": "987654323",
+    "avdelingsnr": "3",
+    "navn": "Avdeling3",
+    "adresse": {
+      "gateadresse": "Testvei 3",
+      "postnummer": "0030",
+      "poststed": "OSLO"
+    }
+  },
+  "kjopere": [{
+    "id": "12345",
+    "navn": "Ola Nordmann",
+    "adresse": {
+      "gateadresse": "Testveg 1",
+      "postnummer": "0010",
+      "poststed": "OSLO"
+    },
+    "epost": "test@kjoper.no",
+    "telefon": "12345678",
+    "eierbrok": {
+      "teller": 1,
+      "nevner": 1
+    }
+  }],
+  "selgere": [{
+    "id": "54321",
+    "navn": "Kari Nordmann",
+    "adresse": {
+      "gateadresse": "Testveg 2",
+      "postnummer": "0010",
+      "poststed": "OSLO"
+    },
+    "epost": "test@selger.no",
+    "telefon": "12345678",
+    "eierbrok": {
+      "teller": 1,
+      "nevner": 1
+    }
+  }],
+  "salg": {
+    "kjopesum": 2990000,
+    "datoAkseptBud": "2022-06-30T12:00:00+02:00",
+    "datoOverdragelse": "2022-09-01T12:00:00+02:00",
+  },
+  "bolig": {
+    "prom": 60,
+    "promBeskrivelse": "",
+    "bra": 70,
+    "bta": 50,
+    "antallRom": 4,
+    "antallSoverom": 2,
+    "energibokstav": "F",
+    "energifargekode": "G",
+    "heis": false,
+    "veranda": true,
+    "parkering": "",
+    "oppvarming": ""
+  }
+}
+```
+
+After receiving and processing the sales request message a message received an immidiate response with information about what will be done:
+
+```json
+{
+  "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "type": "salgsmeldingmottatt",
+  "levert": "2022-06-30T12:00:00+02:00",
+  "referanse": "1571/2",
+  "eierform": "Seksjonseier",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
+  "avklaring": {
+    "harForkjopsrett": true,
+    "type": "Fastpris",
+    "utlysingsdato": "2022-07-02T12:00:00+02:00",
+    "utlysingssted": "https://untl.no",
+    "meldefrist": "2022-07-12T12:00:00+02:00",
+  },
+  "styregodkjenning": {
+    "pakrevd": true,
+    "initiertDato": "2022-07-12T12:00:00+02:00",
+    "meldefrist": "2022-07-22T12:00:00+02:00",
+  },
+  "tilknyttetLag": true,
+}
+```
+
+Later, when all the processes like clarification and board approval has been completed a final response is sent:
+
+```json
+{
+  "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "type": "salgsmeldingfullfort",
+  "levert": "2022-07-22T12:00:00+02:00",
+  "referanse": "1571/2",
+  "eierform": "Seksjonseier",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
+  "styregodkjenning": {
+    "status": "Innvilget",
+    "andreHensyn": "Tekst om andre hensyn kommer her",
+  },
+  "forkjopsrett": {
+    "status": "Forkjøpsrett benyttet",
+    "andreHensyn": "Tekst om andre hensyn kommer her",
+    "kjopere": [{
+      "id": "01010112345",
+      "navn": "Ole Duck",
+      "epost": "ole@andeby.co",
+      "adresse": {
+        "gateadresse": "Testvegen 1",
+        "postnummer": "9999",
+        "poststed": "Test",
+      },
+      "telefon": "12345678",
+      "eierbrok": {
+        "teller": 1,
+        "nevner": 2,
+      },
+    },
+    {
+      "id": "01010154321",
+      "navn": "Dole Duck",
+      "epost": "dole@andeby.co",
+      "adresse": {
+        "gateadresse": "Testvegen 1",
+        "postnummer": "9999",
+        "poststed": "Test",
+      },
+      "telefon": "12345678",
+      "eierbrok": {
+        "teller": 1,
+        "nevner": 2,
+      },
+    }],
+  },
+}
+```
+
+### Errors
+
+Errors might happen. If we get into a situation where the responding system needs to send an error the following message may be used:
+
+```json
+{
+  "tidspunkt": "2022-07-08T14:48:03.7753374Z",
+  "kansellert": true,
+  "feilmelding": "Forrige forhåndsutlysing-request har ikke utløpt ennå.",
+  "feilkode": 3,
+  "type": "feil",
+  "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
+  "levert": "2022-07-08T14:48:03.7537667+00:00",
+  "referanse": "622/1",
+  "eierform": "Seksjonseier"
+}
+```
+
+Here we include:
+
+* feilkode (error code) - A predefined unique identifier for this error case
+* feilmelding (error message) - A descriptive text explaining the error situation
+* kansellert (Cancelled) - A boolean field indicating if this error cancels the whole order

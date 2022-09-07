@@ -7,7 +7,7 @@ export enum RequestType {
 
 export interface Salg {
   kjopesum: number
-  datoAkseptBud: string // ISO8601
+  datoAkseptBud: string
   datoOverdragelse: string
 }
 
@@ -39,14 +39,14 @@ export interface Registerenhet {
 }
 
 export interface Lag {
-  navn: string,
+  navn: string
   orgnr: string
 }
 
 export interface Bestiller {
-  id: string,
-  navn: string,
-  epost: string,
+  id: string
+  navn: string
+  epost: string
   telefon?: string
 }
 
@@ -80,9 +80,10 @@ export interface Kontakt {
 
 // Common request type :
 export interface USBLBasicProduct {
-  lag: Lag,
+  ordreId: string
+  lag: Lag
   registerenhet: Registerenhet
-  bestiller: Bestiller,
+  bestiller: Bestiller
   meglerkontor: Meglerkontor
 }
 
