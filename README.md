@@ -54,6 +54,36 @@ First on behalf of the broker the following request is made, the request
 }
 ```
 
+* type - The request message type. Defines the diffent flows. Can be of four different types:
+  * boliginformasjon
+  * forhandsutlysing
+  * salgsmelding
+  * restanse.
+* ordreId (order id) - A unique identifier that will be included in the responses
+* lag (cooperative) - organisation the object is connected to
+  * navn (name) - Name of the cooperative the object is connected to
+  * orgnr (organisation number) - The unique identifier for the cooperative
+* registerenhet (realty) - A cadastre or share
+  * type - type of realty
+    * matrikkel (cadastre) - This is a cadastre in the Land Registry 
+    * borettsandel (cooperative share) - This is a share in the Land Registry
+    * aksjeandel (stock share) - This is a privately held share property
+    * obligasjonsandel (bond share) - This is a privately held bond property
+  * ident - the unique identifier for the realty
+* bestiller (orderer) - The broker making the product order
+  * id - A unique identifier within the broker office
+  * navn (name) - The name of the broker
+  * epost (e-mail) - The e-mail of the broker
+  * telefon (phone) - The phone number of the broker
+* meglerkontor (broker department)
+  * orgnr (organisation number) - The organisation number of the broker
+  * avdelingsnr (department number) - The broker department number
+  * navn (name) - The name of the broker department
+  * adresse (address) - The address of the broker department
+    * gateadresse (street address) - The street address with number and letter
+    * postnummer (postal number) - The postal number of the address
+    * poststed (postal place) - The postal place name of the address
+
 The housing federation responds with information about the given object, here identified with the cadastre identity 3802-71-119-0-21, the response is just a constructed example:
 
 ```json
