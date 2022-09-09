@@ -20,6 +20,8 @@ In more detail the message format and process is described per product. You may 
 
 The first thing a broker needs to do is to find out which operations can be done at all, which of them can be done digitally and which of them they need to continue to do manually. This can differ from one job to the next. This product can be ordered by the broker and we will forward it to the correct recipient. If the recipient is not part of the system yet we will inform the broker about this.
 
+#### Request
+
 First on behalf of the broker the following request is made, the request
 
 ```json
@@ -54,6 +56,8 @@ First on behalf of the broker the following request is made, the request
 }
 ```
 
+#### Request fields that are in all requests
+
 * type - The request message type. Defines the diffent flows. Can be of four different types:
   * boliginformasjon
   * forhandsutlysing
@@ -83,6 +87,8 @@ First on behalf of the broker the following request is made, the request
     * gateadresse (street address) - The street address with number and letter
     * postnummer (postal number) - The postal number of the address
     * poststed (postal place) - The postal place name of the address
+
+#### Response
 
 The housing federation responds with information about the given object, here identified with the cadastre identity 3802-71-119-0-21, the response is just a constructed example:
 
@@ -127,6 +133,8 @@ When our system receives this message it will construct a styled document and de
 ### Forhåndsutlysing
 
 If the seller wants to clarify the preemption before the sale is concluded they may ask the broker to order this. The response will come in two messages. One early message that explains the process and one late message that comes after the prcess has been completed, which may take a while. 
+
+#### Request
 
 We will transmit the following message:
 
@@ -213,7 +221,11 @@ When the process is done the final message is sent, summing up the result. Only 
 
 ### Salgsmelding
 
-When the object has been sold the broker sends a sales message. This message contains all the necessary information for updating data and proceed with clarification and board approval. An example json request can look like this:
+When the object has been sold the broker sends a sales message. This message contains all the necessary information for updating data and proceed with clarification and board approval. 
+
+#### Request
+
+An example json request can look like this:
 
 ```json
 {
@@ -294,6 +306,31 @@ When the object has been sold the broker sends a sales message. This message con
   }
 }
 ```
+
+#### Extra request fields specific for sales requests
+
+* kjopere (buyers) - list of persons. Has same fields as "bestiller" but also includes
+  * eierbrok (ownership fraction) - defines how large fraction this person will get
+    * teller (numerator)
+    * nevner (denominator)
+* selgere (sellers) - list of persons. Same structure as buyers.
+* salg (sale) - information about the sale
+  * kjopesum (purchase price) - What the object was sold for
+  * datoAkseptBud (bid accepted date) - The date the bid was accepted
+  * datoOverdragelse (transfer date) - The date the object will be transferred
+* bolig (housing) - information about the object. Fetched from broker system
+  * prom (primary room area) - The area you live in
+  * promBeskrivelse (description of prom)
+  * bra (Usable area) - The usable area
+  * bta (Gross area) - The total area
+  * antallRom (number of rooms)
+  * antallSoverom (number of bedrooms)
+  * energibokstav (energy letter) - How energy efficient the object is (A-G)
+  * energifargekode (energy color code) - (green, lightgreen, yellow, orange, red)
+  * heis (elevator) - If the object has an elevator (true/false)
+  * veranda (balcony) - If the object has a balcony (true/false)
+  * parkering (parking) - Text field about parking
+  * oppvaring (heating) - Text field about heating
 
 After receiving and processing the sales request message a message received an immidiate response with information about what will be done:
 
