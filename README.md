@@ -127,7 +127,7 @@ The housing federation responds with information about the given object, here id
 }
 ```
 
-**** Response fields
+#### Response fields
 
 General comment. For each step in the process we have a field called "bestillingsformat". This field can be of two types; "Elektronisk" or "Manuelt". "Elektonisk" means that the step can be completed through the integration. "Manuelt" means it has to be done manually. In other words, it has to be done the same way as before.
 
