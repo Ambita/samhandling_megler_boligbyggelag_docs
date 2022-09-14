@@ -127,7 +127,34 @@ The housing federation responds with information about the given object, here id
 }
 ```
 
-When our system receives this message it will construct a styled document and deliver it directly to the broker.
+**** Response fields
+
+General comment. For each step in the process we have a field called "bestillingsformat". This field can be of two types; "Elektronisk" or "Manuelt". "Elektonisk" means that the step can be completed through the integration. "Manuelt" means it has to be done manually. In other words, it has to be done the same way as before.
+
+* forkjopsrett (right of first refusal)
+  * harForkjopsrett (has right of first refusal) - true if the object supports right of first refusal
+  * intern (internal) - true if right is only available inside the cooperative
+  * bestillingsformat (order format) - Elektronisk (Electronic) or Manuelt (Manually).
+* styregodkjenning (board approval)
+  * pakrevd (required) - need board approval before moving into object
+  * bestillingsformat (order format) - See above
+* salgsmelding (sales message)
+  * bestillingsformat (order format) - See above
+* restanse (arrears)
+  * bestillingsformat (order format) - See above
+* andre hensyn (other considerations) - Textual explanation of things one need to consider
+* type (message type)
+* ordreId (order id)
+* forretningsforer (business manager) - Information about the company that handles this object
+  * navn (name) - name of company
+  * adresse (address) - address of company
+  * epost (email) - email to company
+* levert (delivered) - timestamp when the response message was created
+* referanse (reference) - a reference to the assignement from the business manager
+* eierform (type of ownership) - can be Andelseier, Seksjonseier or Aksjonær
+
+
+When our system receives this message it will construct a styled document as a PDF and deliver it directly to the broker system.
 
 
 ### Forhåndsutlysing
@@ -193,6 +220,13 @@ After some processing the following early response message is returned, this mes
 }
 ```
 
+#### Extra response fields specific for early clarification
+
+* utlysingssted (annonuncement location) - where the clarification is annonunced
+* utlysingsdato (annonuncement date) - when the clarification will be annonunced
+* meldefrist (deadline) - respondants need to report before this time
+
+
 When the process is done the final message is sent, summing up the result. Only two extra fields are added here. Number of interested parties and how long the advance clarification lasts.
 
 ```json
@@ -218,6 +252,11 @@ When the process is done the final message is sent, summing up the result. Only 
   "eierform": "Seksjonseier"
 }
 ```
+
+#### Extra response fields specific for late clarification
+
+* antallInteressenter (number of interested) - Number of respondants to the clarification.
+* varighetForkjopsrett (clarification valid through) - The date that the clarification expires
 
 ### Salgsmelding
 
@@ -320,7 +359,7 @@ An example json request can look like this:
   * datoOverdragelse (transfer date) - The date the object will be transferred
 * bolig (housing) - information about the object. Fetched from broker system
   * prom (primary room area) - The area you live in
-  * promBeskrivelse (description of prom)
+  * promBeskrivelse (description of prom) - A written description of the object
   * bra (Usable area) - The usable area
   * bta (Gross area) - The total area
   * antallRom (number of rooms)
@@ -365,6 +404,20 @@ After receiving and processing the sales request message a message received an i
   "tilknyttetLag": true,
 }
 ```
+
+#### Extra response fields specific for sale message received
+
+* avklaring (clarification)
+  * harForkjopsrett (has right of first refusal) - true if clarification needed
+  * type (type of clarification) - if this block is needed the field may be Fastpris or Forhåndsutlyst
+  * utlysingsdato - see clarification response
+  * utlysingssted - see clarification response
+  * meldefrist - see clarification response
+* styregodkjenning (board approval)
+  * pakrevd (required) - true if this is needed
+  * initiertDato (date initialised) - The date the board will be notified
+  * meldefrist (deadline) - The date the board needs to respond before
+* tilknyttetlag (connected to a cooperative)
 
 Later, when all the processes like clarification and board approval has been completed a final response is sent:
 
@@ -424,6 +477,16 @@ Later, when all the processes like clarification and board approval has been com
   },
 }
 ```
+
+#### Extra response fields specific for sale message completed
+
+* styregodkjenning (board approval)
+  * status - "Innvilget" means approved
+  * andreHensyn (considerations) - Description of things to consider
+* forkjopsrett (advance clarification)
+  * status - "Forkjøpsrett benyttet" means someone else aquiered the object
+  * andreHensyn (considerations) - Description of things to consider
+  * kjopere (buyers) - List of new buyers that replace the original buyers
 
 ### Errors
 
