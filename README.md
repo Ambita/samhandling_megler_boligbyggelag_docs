@@ -192,7 +192,14 @@ We will transmit the following message:
       "postnummer": "0030",
       "poststed": "OSLO"
     }
-  }
+  },
+  "bolig": {
+    "prom": 120,
+    "promBeskrivelse": "Bruksareal: 1. etasje: 62 kvm Primærrom: 1. etasje: 62 kvm",
+    "bra": 130,
+    "bta": 140
+  },
+  "prisantydning": 1000000
 }
 ```
 

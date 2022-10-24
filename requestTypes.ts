@@ -94,6 +94,8 @@ export interface Boliginfo extends USBLBasicProduct {
 
 export interface Forhandsutlysing extends USBLBasicProduct {
   type: RequestType.forhandsutlysing
+  bolig: Bolig
+  prisantydning?: number
 }
 
 export interface Restanse extends USBLBasicProduct {
