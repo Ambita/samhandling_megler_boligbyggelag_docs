@@ -202,6 +202,14 @@ We will transmit the following message:
   "prisantydning": 1000000
 }
 ```
+#### Extra request fields specific for preemption requests
+
+* bolig (housing) - information about the object. Fetched from broker system
+  * prom (primary room area) - The area you live in
+  * promBeskrivelse (description of prom) - A written description of the object
+  * bra (Usable area) - The usable area
+  * bta (Gross area) - The total area
+* prisantydning - price suggestion 
 
 After some processing the following early response message is returned, this message explains the steps that will be taken:
 
