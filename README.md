@@ -51,7 +51,8 @@ First on behalf of the broker the following request is made, the request
       "gateadresse": "Testvei 3",
       "postnummer": "0030",
       "poststed": "OSLO"
-    }
+    },
+    "telefon": "12345678"
   }
 }
 ```
@@ -87,6 +88,7 @@ First on behalf of the broker the following request is made, the request
     * gateadresse (street address) - The street address with number and letter
     * postnummer (postal number) - The postal number of the address
     * poststed (postal place) - The postal place name of the address
+  * telefon - The phone number of the broker department
 
 #### Response
 
@@ -191,7 +193,8 @@ We will transmit the following message:
       "gateadresse": "Testvei 3",
       "postnummer": "0030",
       "poststed": "OSLO"
-    }
+     },
+    "telefon": "12345678"
   },
   "bolig": {
     "prom": 120,
@@ -307,7 +310,8 @@ An example json request can look like this:
       "gateadresse": "Testvei 3",
       "postnummer": "0030",
       "poststed": "OSLO"
-    }
+    },
+    "telefon": "12345678"
   },
   "kjopere": [{
     "id": "12345",
