@@ -61,6 +61,7 @@ export interface Meglerkontor {
   avdelingsnr: string
   navn: string
   adresse: Adresse
+  telefon: string
 }
 
 export interface Eierbrok {
