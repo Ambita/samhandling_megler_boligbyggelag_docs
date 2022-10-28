@@ -193,10 +193,8 @@ We will transmit the following message:
       "gateadresse": "Testvei 3",
       "postnummer": "0030",
       "poststed": "OSLO"
-    },
+     },
     "telefon": "12345678"
-  }
-    }
   },
   "bolig": {
     "prom": 120,
