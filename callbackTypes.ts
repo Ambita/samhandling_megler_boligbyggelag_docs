@@ -13,6 +13,20 @@ export enum CallbackType {
   feil = 'feil'
 }
 
+export interface Styreleder {
+  navn: string
+  epost?: string
+  telefonnr?: string
+}
+
+export interface Klient {
+  klienttype: string
+  organisasjonsnavn: string
+  organisasjonsnummer: string
+  epost?: string
+  styreleder?: Styreleder
+}
+
 export interface Adresse {
   gateadresse: string
   postnummer: string
@@ -42,6 +56,7 @@ export interface USBLCallback {
     adresse: Adresse
     epost: string
   }
+  klient: Klient
   levert?: string
   referanse?: string
   eierform?: string

@@ -38,11 +38,6 @@ export interface Registerenhet {
   ident: string
 }
 
-export interface Lag {
-  navn: string
-  orgnr: string
-}
-
 export interface Bestiller {
   id: string
   navn: string
@@ -82,7 +77,6 @@ export interface Kontakt {
 // Common request type :
 export interface USBLBasicProduct {
   ordreId: string
-  lag: Lag
   registerenhet: Registerenhet
   bestiller: Bestiller
   meglerkontor: Meglerkontor

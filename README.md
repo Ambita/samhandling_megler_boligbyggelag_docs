@@ -28,10 +28,6 @@ First on behalf of the broker the following request is made, the request
 {
   "type": "boliginformasjon",
   "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
-  "lag": { 
-    "navn": "Boligsameiet Blåklokken",
-    "orgnr": "913861205"
-  },
   "registerenhet": {
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
@@ -65,9 +61,6 @@ First on behalf of the broker the following request is made, the request
   * salgsmelding
   * restanse.
 * ordreId (order id) - A unique identifier that will be included in the responses
-* lag (cooperative) - organisation the object is connected to
-  * navn (name) - Name of the cooperative the object is connected to
-  * orgnr (organisation number) - The unique identifier for the cooperative
 * registerenhet (realty) - A cadastre or share
   * type - type of realty
     * matrikkel (cadastre) - This is a cadastre in the Land Registry 
@@ -123,6 +116,11 @@ The housing federation responds with information about the given object, here id
     },
     "epost": "post@kunde.no"
   },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
   "levert": "2022-07-07T15:48:07.6328836Z",
   "referanse": "622/1",
   "eierform": "Seksjonseier"
@@ -151,6 +149,7 @@ General comment. For each step in the process we have a field called "bestilling
   * navn (name) - name of company
   * adresse (address) - address of company
   * epost (email) - email to company
+* klient - Information about the company that is the owner of the realties
 * levert (delivered) - timestamp when the response message was created
 * referanse (reference) - a reference to the assignement from the business manager
 * eierform (type of ownership) - can be Andelseier, Seksjonseier or Aksjonær
@@ -171,10 +170,6 @@ We will transmit the following message:
 {
   "type": "forhandsutlysing",
   "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
-  "lag": { 
-    "navn": "Boligsameiet Blåklokken",
-    "orgnr": "913861205"
-  },
   "registerenhet": {
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
@@ -232,6 +227,11 @@ After some processing the following early response message is returned, this mes
     },
     "epost": "post@kunde.no"
   },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
   "levert": "2022-07-07T18:42:51.3081344+02:00",
   "referanse": "622/1",
   "eierform": "Seksjonseier"
@@ -265,6 +265,11 @@ When the process is done the final message is sent, summing up the result. Only 
     },
     "epost": "post@kunde.no"
   },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
   "levert": "2022-07-27T18:44:15.8474644+02:00",
   "referanse": "622/1",
   "eierform": "Seksjonseier"
@@ -288,10 +293,6 @@ An example json request can look like this:
 {
   "type": "salgsmelding",
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
-  "lag": {
-    "navn": "Boligsameiet Blåklokken",
-    "orgnr": "913861205"
-  },
   "registerenhet": {
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
@@ -396,6 +397,11 @@ After receiving and processing the sales request message a message received an i
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
   "type": "salgsmeldingmottatt",
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
   "levert": "2022-06-30T12:00:00+02:00",
   "referanse": "1571/2",
   "eierform": "Seksjonseier",
@@ -444,6 +450,11 @@ Later, when all the processes like clarification and board approval has been com
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
   "type": "salgsmeldingfullfort",
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
   "levert": "2022-07-22T12:00:00+02:00",
   "referanse": "1571/2",
   "eierform": "Seksjonseier",
@@ -527,6 +538,11 @@ Errors might happen. If we get into a situation where the responding system need
       "poststed": "Oslo"
     },
     "epost": "post@kunde.no"
+  },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
   },
   "levert": "2022-07-08T14:48:03.7537667+00:00",
   "referanse": "622/1",
