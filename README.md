@@ -107,6 +107,7 @@ The housing federation responds with information about the given object, here id
   "andreHensyn": "Kundeforhold avsluttes 1.1.2023 - det gjenstår endel i forbindelse med regnskap og TPO for 2022",
   "type": "boliginformasjon",
   "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
+  "ordreMottatt": "2022-07-06T15:48:07.6328836Z",
   "forretningsforer": {
     "navn": "UNTL",
     "adresse": {
@@ -145,6 +146,7 @@ General comment. For each step in the process we have a field called "bestilling
 * andre hensyn (other considerations) - Textual explanation of things one need to consider
 * type (message type)
 * ordreId (order id)
+* ordreMottatt - timestamp when order is received by the business manager
 * forretningsforer (business manager) - Information about the company that handles this object
   * navn (name) - name of company
   * adresse (address) - address of company
@@ -218,6 +220,7 @@ After some processing the following early response message is returned, this mes
   "meldefrist": "2022-06-30T12:00:00+02:00",
   "type": "forhandsutlysingtidlig",
   "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
+  "ordreMottatt": "2022-07-06T15:48:07.6328836Z",
   "forretningsforer": {
     "navn": "UNTL",
     "adresse": {
@@ -249,13 +252,16 @@ When the process is done the final message is sent, summing up the result. Only 
 
 ```json
 {
-  "antallInteressenter": 2, // Added to the last message
-  "varighetForkjopsrett": "2022-09-20T12:10:53+03:00", // Added to the last message
+  "antallInteressenter": 2,
+  // Added to the last message
+  "varighetForkjopsrett": "2022-09-20T12:10:53+03:00",
+  // Added to the last message
   "utlysingssted": "Sendt styre, utlysing i laget",
   "utlysingsdato": "2022-06-22T02:00:00+03: 00",
   "meldefrist": "2022-06-30T12: 00: 00+03: 00",
   "type": "forhandsutlysingsen",
   "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
+  "ordreMottatt": "2022-07-06T15:48:07.6328836Z",
   "forretningsforer": {
     "navn": "UNTL",
     "adresse": {
@@ -396,6 +402,7 @@ After receiving and processing the sales request message a message received an i
 ```json
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "ordreMottatt": "2022-06-29T15:48:07.6328836Z",
   "type": "salgsmeldingmottatt",
   "klient": {
     "klienttype": "Borettslag tilknyttet",
@@ -419,14 +426,14 @@ After receiving and processing the sales request message a message received an i
     "type": "Fastpris",
     "utlysingsdato": "2022-07-02T12:00:00+02:00",
     "utlysingssted": "https://untl.no",
-    "meldefrist": "2022-07-12T12:00:00+02:00",
+    "meldefrist": "2022-07-12T12:00:00+02:00"
   },
   "styregodkjenning": {
     "pakrevd": true,
     "initiertDato": "2022-07-12T12:00:00+02:00",
-    "meldefrist": "2022-07-22T12:00:00+02:00",
+    "meldefrist": "2022-07-22T12:00:00+02:00"
   },
-  "tilknyttetLag": true,
+  "tilknyttetLag": true
 }
 ```
 
@@ -449,6 +456,7 @@ Later, when all the processes like clarification and board approval has been com
 ```json
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "ordreMottatt": "2022-06-29T15:48:07.6328836Z",
   "type": "salgsmeldingfullfort",
   "klient": {
     "klienttype": "Borettslag tilknyttet",
@@ -469,42 +477,44 @@ Later, when all the processes like clarification and board approval has been com
   },
   "styregodkjenning": {
     "status": "Innvilget",
-    "andreHensyn": "Tekst om andre hensyn kommer her",
+    "andreHensyn": "Tekst om andre hensyn kommer her"
   },
   "forkjopsrett": {
     "status": "Forkjøpsrett benyttet",
     "andreHensyn": "Tekst om andre hensyn kommer her",
-    "kjopere": [{
-      "id": "01010112345",
-      "navn": "Ole Duck",
-      "epost": "ole@andeby.co",
-      "adresse": {
-        "gateadresse": "Testvegen 1",
-        "postnummer": "9999",
-        "poststed": "Test",
+    "kjopere": [
+      {
+        "id": "01010112345",
+        "navn": "Ole Duck",
+        "epost": "ole@andeby.co",
+        "adresse": {
+          "gateadresse": "Testvegen 1",
+          "postnummer": "9999",
+          "poststed": "Test"
+        },
+        "telefon": "12345678",
+        "eierbrok": {
+          "teller": 1,
+          "nevner": 2
+        }
       },
-      "telefon": "12345678",
-      "eierbrok": {
-        "teller": 1,
-        "nevner": 2,
-      },
-    },
-    {
-      "id": "01010154321",
-      "navn": "Dole Duck",
-      "epost": "dole@andeby.co",
-      "adresse": {
-        "gateadresse": "Testvegen 1",
-        "postnummer": "9999",
-        "poststed": "Test",
-      },
-      "telefon": "12345678",
-      "eierbrok": {
-        "teller": 1,
-        "nevner": 2,
-      },
-    }],
-  },
+      {
+        "id": "01010154321",
+        "navn": "Dole Duck",
+        "epost": "dole@andeby.co",
+        "adresse": {
+          "gateadresse": "Testvegen 1",
+          "postnummer": "9999",
+          "poststed": "Test"
+        },
+        "telefon": "12345678",
+        "eierbrok": {
+          "teller": 1,
+          "nevner": 2
+        }
+      }
+    ]
+  }
 }
 ```
 
@@ -530,6 +540,7 @@ Errors might happen. If we get into a situation where the responding system need
   "feilkode": 3,
   "type": "feil",
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "ordreMottatt": "2022-07-01T15:48:07.6328836Z",
   "forretningsforer": {
     "navn": "UNTL",
     "adresse": {

@@ -51,6 +51,7 @@ export interface Kontakt {
 export interface USBLCallback {
   type: CallbackType
   ordreId: string
+  ordreMottatt: string
   forretningsforer: {
     navn: string
     adresse: Adresse
