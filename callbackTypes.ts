@@ -56,7 +56,7 @@ export interface USBLCallback {
     adresse: Adresse
     epost: string
   }
-  klient: Klient
+  klient?: Klient
   levert?: string
   referanse?: string
   eierform?: string
