@@ -107,7 +107,6 @@ The housing federation responds with information about the given object, here id
   "andreHensyn": "Kundeforhold avsluttes 1.1.2023 - det gjenstår endel i forbindelse med regnskap og TPO for 2022",
   "type": "boliginformasjon",
   "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
-  "ordreMottatt": "2022-07-06T15:48:07.6328836Z",
   "forretningsforer": {
     "navn": "UNTL",
     "adresse": {
@@ -146,7 +145,6 @@ General comment. For each step in the process we have a field called "bestilling
 * andre hensyn (other considerations) - Textual explanation of things one need to consider
 * type (message type)
 * ordreId (order id)
-* ordreMottatt - timestamp when order is received by the business manager
 * forretningsforer (business manager) - Information about the company that handles this object
   * navn (name) - name of company
   * adresse (address) - address of company
@@ -243,6 +241,7 @@ After some processing the following early response message is returned, this mes
 
 #### Extra response fields specific for early clarification
 
+* ordreMottatt (order received date) - when the clarification is received
 * utlysingssted (annonuncement location) - where the clarification is annonunced
 * utlysingsdato (annonuncement date) - when the clarification will be annonunced
 * meldefrist (deadline) - respondants need to report before this time
@@ -353,7 +352,7 @@ An example json request can look like this:
   "salg": {
     "kjopesum": 2990000,
     "datoAkseptBud": "2022-06-30T12:00:00+02:00",
-    "datoOverdragelse": "2022-09-01T12:00:00+02:00",
+    "datoOverdragelse": "2022-09-01T12:00:00+02:00"
   },
   "bolig": {
     "prom": 60,
@@ -402,7 +401,6 @@ After receiving and processing the sales request message a message received an i
 ```json
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
-  "ordreMottatt": "2022-06-29T15:48:07.6328836Z",
   "type": "salgsmeldingmottatt",
   "klient": {
     "klienttype": "Borettslag tilknyttet",
@@ -456,7 +454,6 @@ Later, when all the processes like clarification and board approval has been com
 ```json
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
-  "ordreMottatt": "2022-06-29T15:48:07.6328836Z",
   "type": "salgsmeldingfullfort",
   "klient": {
     "klienttype": "Borettslag tilknyttet",
@@ -540,7 +537,6 @@ Errors might happen. If we get into a situation where the responding system need
   "feilkode": 3,
   "type": "feil",
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
-  "ordreMottatt": "2022-07-01T15:48:07.6328836Z",
   "forretningsforer": {
     "navn": "UNTL",
     "adresse": {

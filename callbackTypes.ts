@@ -51,7 +51,6 @@ export interface Kontakt {
 export interface USBLCallback {
   type: CallbackType
   ordreId: string
-  ordreMottatt: string
   forretningsforer: {
     navn: string
     adresse: Adresse
@@ -94,6 +93,7 @@ export interface Boliginformasjon extends USBLCallback {
 
 export interface ForhandsutlysingTidlig extends USBLCallback {
   type: CallbackType.forhandsutlysingtidlig
+  ordreMottatt: string
   utlysingssted: string
   utlysingsdato: string
   meldefrist: string
@@ -101,6 +101,7 @@ export interface ForhandsutlysingTidlig extends USBLCallback {
 
 export interface ForhandsutlysingSen extends USBLCallback {
   type: CallbackType.forhandsutlysingsen
+  ordreMottatt: string
   utlysingssted: string
   utlysingsdato: string
   meldefrist: string
