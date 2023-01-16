@@ -401,7 +401,6 @@ After receiving and processing the sales request message a message received an i
 ```json
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
-  "ordreMottatt": "2022-06-29T15:48:07.6328836Z",
   "type": "salgsmeldingmottatt",
   "klient": {
     "klienttype": "Borettslag tilknyttet",
@@ -455,7 +454,6 @@ Later, when all the processes like clarification and board approval has been com
 ```json
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
-  "ordreMottatt": "2022-06-29T15:48:07.6328836Z",
   "type": "salgsmeldingfullfort",
   "klient": {
     "klienttype": "Borettslag tilknyttet",
@@ -539,7 +537,6 @@ Errors might happen. If we get into a situation where the responding system need
   "feilkode": 3,
   "type": "feil",
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
-  "ordreMottatt": "2022-07-01T15:48:07.6328836Z",
   "forretningsforer": {
     "navn": "UNTL",
     "adresse": {
