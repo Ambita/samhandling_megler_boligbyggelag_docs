@@ -149,7 +149,7 @@ General comment. For each step in the process we have a field called "bestilling
   * navn (name) - name of company
   * adresse (address) - address of company
   * epost (email) - email to company
-* klient - Information about the company that is the owner of the realties
+* klient - Information about the company that is the owner of the realties. Required for all callbacktypes except callbacktype "feil"
 * levert (delivered) - timestamp when the response message was created
 * referanse (reference) - a reference to the assignement from the business manager
 * eierform (type of ownership) - can be Andelseier, Seksjonseier or Aksjonær
