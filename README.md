@@ -18,7 +18,7 @@ In more detail the message format and process is described per product. You may 
 
 ### Boliginformasjon
 
-The first thing a broker needs to do is to find out which operations can be done at all, which of them can be done digitally and which of them they need to continue to do manually. This can differ from one job to the next. This product can be ordered by the broker and we will forward it to the correct recipient. If the recipient is not part of the system yet we will inform the broker about this.
+The first thing a broker needs to do is to find out which operations can be done at all, which of them can be done digitally and which of them they need to continue to do manually. This can differ from one job to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. If the recipient is not part of the system, yet we will inform the broker about this.
 
 #### Request
 
@@ -49,6 +49,12 @@ First on behalf of the broker the following request is made, the request
       "poststed": "OSLO"
     },
     "telefon": "12345678"
+  },
+  "kontaktperson": {
+    "id": "AO",
+    "navn": "Anne Olsen",
+    "epost": "aol@domene.no",
+    "telefon": "12548630"
   }
 }
 ```
@@ -82,6 +88,11 @@ First on behalf of the broker the following request is made, the request
     * postnummer (postal number) - The postal number of the address
     * poststed (postal place) - The postal place name of the address
   * telefon - The phone number of the broker department
+* kontaktperson (person to contact) - Person to contact about the order, e.g. the main broker
+  * id - A unique identifier within the broker office
+  * navn (name) - The name of the broker
+  * epost (e-mail) - The e-mail of the broker
+  * telefon (phone) - The phone number of the broker
 
 #### Response
 
@@ -190,6 +201,12 @@ We will transmit the following message:
       "poststed": "OSLO"
      },
     "telefon": "12345678"
+  },
+  "kontaktperson": {
+    "id": "AO",
+    "navn": "Anne Olsen",
+    "epost": "aol@domene.no",
+    "telefon": "12548630"
   },
   "bolig": {
     "prom": 120,
@@ -318,6 +335,12 @@ An example json request can look like this:
       "poststed": "OSLO"
     },
     "telefon": "12345678"
+  },
+  "kontaktperson": {
+    "id": "AO",
+    "navn": "Anne Olsen",
+    "epost": "aol@domene.no",
+    "telefon": "12548630"
   },
   "kjopere": [{
     "id": "12345",

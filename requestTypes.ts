@@ -38,7 +38,7 @@ export interface Registerenhet {
   ident: string
 }
 
-export interface Bestiller {
+export interface Kontaktinfo {
   id: string
   navn: string
   epost: string
@@ -78,8 +78,9 @@ export interface Kontakt {
 export interface USBLBasicProduct {
   ordreId: string
   registerenhet: Registerenhet
-  bestiller: Bestiller
+  bestiller: Kontaktinfo
   meglerkontor: Meglerkontor
+  kontaktperson: Kontaktinfo
 }
 
 // Request types :
