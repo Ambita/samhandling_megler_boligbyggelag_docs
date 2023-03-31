@@ -6,6 +6,7 @@ export enum BestillingsFormat {
 export enum CallbackType {
   boliginformasjon = 'boliginformasjon',
   forhandsutlysingtidlig = 'forhandsutlysingtidlig',
+  forhandsutlysingutsatt = 'forhandsutlysingutsatt',
   forhandsutlysingsen = 'forhandsutlysingsen',
   forhandsutlysingutlopt = 'forhandsutlysingutlopt',
   salgsmeldingmottatt = 'salgsmeldingmottatt',
@@ -99,6 +100,14 @@ export interface ForhandsutlysingTidlig extends USBLCallback {
   meldefrist: string
 }
 
+export interface ForhandsutlysingUtsatt extends USBLCallback {
+  type: CallbackType.forhandsutlysingutsatt
+  ordreMottatt: string
+  utlysingssted: string
+  utlysingsdato: string
+  meldefrist: string
+}
+
 export interface ForhandsutlysingSen extends USBLCallback {
   type: CallbackType.forhandsutlysingsen
   ordreMottatt: string
@@ -147,5 +156,5 @@ export interface SalgsmeldingFullfort extends USBLCallback {
   forkjopsrett: SalgsmeldingForkjopsrett
 }
 
-export type CallbackEvent = Boliginformasjon | ForhandsutlysingTidlig | ForhandsutlysingSen |
-ForhandsutlysingUtlopt | SalgsmeldingMottatt | SalgsmeldingFullfort | Feil
+export type CallbackEvent = Boliginformasjon | ForhandsutlysingTidlig | ForhandsutlysingUtsatt |
+ForhandsutlysingSen | ForhandsutlysingUtlopt | SalgsmeldingMottatt | SalgsmeldingFullfort | Feil

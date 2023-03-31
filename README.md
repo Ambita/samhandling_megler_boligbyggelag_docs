@@ -32,9 +32,9 @@ First on behalf of the broker the following request is made, the request
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
   },
-  "bestiller": { 
-    "id": "TBF", 
-    "navn": "Broker Doe", 
+  "bestiller": {
+    "id": "TBF",
+    "navn": "Broker Doe",
     "epost": "tbf@domene.no",
     "telefon": "79119911"
 
@@ -69,7 +69,7 @@ First on behalf of the broker the following request is made, the request
 * ordreId (order id) - A unique identifier that will be included in the responses
 * registerenhet (realty) - A cadastre or share
   * type - type of realty
-    * matrikkel (cadastre) - This is a cadastre in the Land Registry 
+    * matrikkel (cadastre) - This is a cadastre in the Land Registry
     * borettsandel (cooperative share) - This is a share in the Land Registry
     * aksjeandel (stock share) - This is a privately held share property
     * obligasjonsandel (bond share) - This is a privately held bond property
@@ -171,7 +171,7 @@ When our system receives this message it will construct a styled document as a P
 
 ### Forhåndsutlysing
 
-If the seller wants to clarify the preemption before the sale is concluded they may ask the broker to order this. The response will come in two messages. One early message that explains the process and one late message that comes after the prcess has been completed, which may take a while. 
+If the seller wants to clarify the preemption before the sale is concluded they may ask the broker to order this. The response will come in two messages. One early message that explains the process and one late message that comes after the prcess has been completed, which may take a while.
 
 #### Request
 
@@ -185,7 +185,7 @@ We will transmit the following message:
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
   },
-  "bestiller": { 
+  "bestiller": {
     "id": "TBF",
     "navn": "Broker Doe",
     "epost": "tbf@domene.no",
@@ -199,7 +199,7 @@ We will transmit the following message:
       "gateadresse": "Testvei 3",
       "postnummer": "0030",
       "poststed": "OSLO"
-     },
+    },
     "telefon": "12345678"
   },
   "kontaktperson": {
@@ -224,7 +224,7 @@ We will transmit the following message:
   * promBeskrivelse (description of prom) - A written description of the object
   * bra (Usable area) - The usable area
   * bta (Gross area) - The total area
-* prisantydning - price suggestion 
+* prisantydning - price suggestion
 
 After some processing the following early response message is returned, this message explains the steps that will be taken:
 
@@ -263,6 +263,35 @@ After some processing the following early response message is returned, this mes
 * utlysingsdato (annonuncement date) - when the clarification will be annonunced
 * meldefrist (deadline) - respondants need to report before this time
 
+In some cases the broker contacts the business manager to change the announcement period. Then a message with updated dates for announcment date and deadline are sent:
+
+```json
+{
+  "utlysingssted": "Sendt styre, utlysing i laget",
+  "utlysingsdato": "2022-06-24T02:00:00+02:00",
+  "meldefrist": "2022-07-02T12:00:00+02:00",
+  "type": "forhandsutlysingutsatt",
+  "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
+  "ordreMottatt": "2022-07-06T15:48:07.6328836Z",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
+  "levert": "2022-07-08T18:42:51.3081344+02:00",
+  "referanse": "622/1",
+  "eierform": "Seksjonseier"
+}
+```
 
 When the process is done the final message is sent, summing up the result. Only two extra fields are added here. Number of interested parties and how long the advance clarification lasts.
 
@@ -305,7 +334,7 @@ When the process is done the final message is sent, summing up the result. Only 
 
 ### Salgsmelding
 
-When the object has been sold the broker sends a sales message. This message contains all the necessary information for updating data and proceed with clarification and board approval. 
+When the object has been sold the broker sends a sales message. This message contains all the necessary information for updating data and proceed with clarification and board approval.
 
 #### Request
 
