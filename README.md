@@ -373,7 +373,8 @@ An example json request can look like this:
   },
   "kjopere": [{
     "id": "12345",
-    "navn": "Ola Nordmann",
+    "fornavn": "Ola",
+    "etternavn": "Nordmann",
     "adresse": {
       "gateadresse": "Testveg 1",
       "postnummer": "0010",
@@ -388,7 +389,8 @@ An example json request can look like this:
   }],
   "selgere": [{
     "id": "54321",
-    "navn": "Kari Nordmann",
+    "fornavn": "Kari Nordmann",
+    "etternavn": "Nordmann",
     "adresse": {
       "gateadresse": "Testveg 2",
       "postnummer": "0010",

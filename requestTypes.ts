@@ -66,7 +66,9 @@ export interface Eierbrok {
 
 export interface Kontakt {
   id: string
-  navn: string
+  fornavn?: string
+  etternavn?: string
+  organisasjonsnavn?: string
   kontaktperson?: string
   adresse?: Adresse
   epost?: string
