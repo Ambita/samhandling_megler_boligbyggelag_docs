@@ -41,7 +41,9 @@ export interface Eierbrok {
 
 export interface Kontakt {
   id: string
-  navn: string
+  fornavn?: string
+  etternavn?: string
+  organisasjonsnavn?: string
   kontaktperson?: string
   adresse: Adresse
   epost: string
@@ -122,7 +124,7 @@ export interface ForhandsutlysingUtlopt extends USBLCallback {
   type: CallbackType.forhandsutlysingutlopt
 }
 
-interface SalgsmeldingStyregodkjenning {
+export interface SalgsmeldingStyregodkjenning {
   pakrevd?: boolean
   initiertDato?: string
   meldefrist?: string
@@ -130,19 +132,20 @@ interface SalgsmeldingStyregodkjenning {
   andreHensyn?: string
 }
 
-interface SalgsmeldingForkjopsrett {
+export interface SalgsmeldingForkjopsrett {
   status: string
   andreHensyn?: string
   kjopere: Kontakt[]
 }
 
-interface SalgsmeldingAvklaring {
+export interface SalgsmeldingAvklaring {
   harForkjopsrett: boolean
   type: string
   utlysingsdato?: string
   utlysingssted?: string
   meldefrist?: string
 }
+
 export interface SalgsmeldingMottatt extends USBLCallback {
   type: CallbackType.salgsmeldingmottatt
   avklaring: SalgsmeldingAvklaring

@@ -534,7 +534,8 @@ Later, when all the processes like clarification and board approval has been com
     "kjopere": [
       {
         "id": "01010112345",
-        "navn": "Ole Duck",
+        "fornavn": "Ole",
+        "etternavn": "Duck",
         "epost": "ole@andeby.co",
         "adresse": {
           "gateadresse": "Testvegen 1",
@@ -549,7 +550,8 @@ Later, when all the processes like clarification and board approval has been com
       },
       {
         "id": "01010154321",
-        "navn": "Dole Duck",
+        "fornavn": "Dole",
+        "etternavn": "Duck",
         "epost": "dole@andeby.co",
         "adresse": {
           "gateadresse": "Testvegen 1",
