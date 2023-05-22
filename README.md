@@ -1,28 +1,32 @@
 # Samhandling Megler Boligbyggelag
 
-Documentation for cooperation between brokers and housing federations
+Documentation for cooperation between brokers and accountants
 
-Ambita has designed a set of api messages to capture the flow between a broker and a housing federation. We have split the process into four separate steps:
+Ambita has designed a set of api messages to capture the flow between a broker and an accountant. We have split the process into four separate steps:
 
-1. Boliginformasjon (Information about the object). Used to inform the broker about which rules apply to the sale of the given object.
+1. Boliginformasjon (Information about the object). Used to inform the broker about which rules that apply to the sale of a given object.
 2. Forhåndsutlysing (Advance clarification). If the seller want to, he or she can clarify any preemption before the object is sold.
-3. Salgsmelding (Sales message). The broker informs about the object being sold .
-4. Restanse (Arrears). The broker request what payment needs to be fulfilled.
+3. Salgsmelding (Sales message). The broker informs the accountant about the object being sold.
+4. Restanse (Arrears). The broker requests what payment needs to be fulfilled.
 
 ## Messages
 
-In more detail the message format and process is described per product. You may take a look at typescript types for the messages here:
+The message format and process is described in more detail per product. You may take a look at typescript types for the messages here:
 
 * [Request types](requestTypes.ts)
 * [Response types](callbackTypes.ts)
 
+### General information about the message flow
+
+Each flow starts with an order from a broker using the Vitec Next platform. This order will trigger a request from our system to the accountant backend. The accountant will send one or more response messages back to us, and we will transform these into a series of operations on Vitec Next. The first version of the system relies heavily on PDF files that we deliver into the project archive, These files will gradually be replaced with API calls that push the structured data into the broker system. This will be done with little or no effect on the accountant integrations.
+
 ### Boliginformasjon
 
-The first thing a broker needs to do is to find out which operations can be done at all, which of them can be done digitally and which of them they need to continue to do manually. This can differ from one job to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. If the recipient is not part of the system, yet we will inform the broker about this.
+The first thing a broker needs to do is to find out which operations can be done at all, which of them can be done digitally and which of them they need to continue to do manually. This can differ from one sales project to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. If the recipient is not part of the system, we will inform the broker about this.
 
 #### Request
 
-First on behalf of the broker the following request is made, the request
+On behalf of the broker the following request is made:
 
 ```json
 {
@@ -61,13 +65,13 @@ First on behalf of the broker the following request is made, the request
 
 #### Request fields that are in all requests
 
-* type - The request message type. Defines the diffent flows. Can be of four different types:
+* type - The request message type. Defines the following flow. Can be one of four different types:
   * boliginformasjon
   * forhandsutlysing
   * salgsmelding
-  * restanse.
+  * restanse
 * ordreId (order id) - A unique identifier that will be included in the responses
-* registerenhet (realty) - A cadastre or share
+* registerenhet (realty) - A cadastre, share, stock or obligation property
   * type - type of realty
     * matrikkel (cadastre) - This is a cadastre in the Land Registry
     * borettsandel (cooperative share) - This is a share in the Land Registry
@@ -96,7 +100,7 @@ First on behalf of the broker the following request is made, the request
 
 #### Response
 
-The housing federation responds with information about the given object, here identified with the cadastre identity 3802-71-119-0-21, the response is just a constructed example:
+The accountant responds with information about the given object, here identified with the cadastre identity 3802-71-119-0-21. This response is just an example:
 
 ```json
 {
@@ -156,13 +160,13 @@ General comment. For each step in the process we have a field called "bestilling
 * andre hensyn (other considerations) - Textual explanation of things one need to consider
 * type (message type)
 * ordreId (order id)
-* forretningsforer (business manager) - Information about the company that handles this object
+* forretningsforer (accountant) - Information about the company that handles this object
   * navn (name) - name of company
   * adresse (address) - address of company
   * epost (email) - email to company
 * klient - Information about the company that is the owner of the realties. Required for all callbacktypes except callbacktype "feil"
 * levert (delivered) - timestamp when the response message was created
-* referanse (reference) - a reference to the assignement from the business manager
+* referanse (reference) - a reference to the assignement from the accountant
 * eierform (type of ownership) - can be Andelseier, Seksjonseier or Aksjonær
 
 
@@ -175,7 +179,7 @@ If the seller wants to clarify the preemption before the sale is concluded they 
 
 #### Request
 
-We will transmit the following message:
+We will transmit the following request message:
 
 ```json
 {
@@ -217,7 +221,10 @@ We will transmit the following message:
   "prisantydning": 1000000
 }
 ```
+
 #### Extra request fields specific for preemption requests
+
+For the other fields explanations see earlier descriptions
 
 * bolig (housing) - information about the object. Fetched from broker system
   * prom (primary room area) - The area you live in
@@ -258,12 +265,12 @@ After some processing the following early response message is returned, this mes
 
 #### Extra response fields specific for early clarification
 
-* ordreMottatt (order received date) - when the clarification is received
+* ordreMottatt (order received date) - when the clarification was received
 * utlysingssted (annonuncement location) - where the clarification is annonunced
 * utlysingsdato (annonuncement date) - when the clarification will be annonunced
 * meldefrist (deadline) - respondants need to report before this time
 
-In some cases the broker contacts the business manager to change the announcement period. Then a message with updated dates for announcment date and deadline are sent:
+In some cases the broker contacts the accountant to change the announcement period. Right now this will be done manually The following response message with updated announcement date and deadline are sent to inform us and the broker abouth the change:
 
 ```json
 {
@@ -293,7 +300,7 @@ In some cases the broker contacts the business manager to change the announcemen
 }
 ```
 
-When the process is done the final message is sent, summing up the result. Only two extra fields are added here. Number of interested parties and how long the advance clarification lasts.
+When the process is done the final message is sent, summing up the result. Only two extra fields are added here; number of interested parties and how long the advance clarification lasts.
 
 ```json
 {
@@ -334,7 +341,7 @@ When the process is done the final message is sent, summing up the result. Only 
 
 ### Salgsmelding
 
-When the object has been sold the broker sends a sales message. This message contains all the necessary information for updating data and proceed with clarification and board approval.
+When the object has been sold the broker sends a sales message to the accountant. This request message contains all the necessary information needed for updating data and proceed with clarification and board approval.
 
 #### Request
 
@@ -427,7 +434,7 @@ An example json request can look like this:
 
 #### Extra request fields specific for sales requests
 
-* kjopere (buyers) - list of persons. Has same fields as "bestiller" but also includes
+* kjopere (buyers) - list of persons. Has the same fields as "bestiller" with one notable difference. Name is split into fornavn (first name) and etternavn (last name). This is usually needed to correctly identify a person in the land registry. The structure also includes eierbrok (ownership fraction):
   * eierbrok (ownership fraction) - defines how large fraction this person will get
     * teller (numerator)
     * nevner (denominator)
@@ -617,4 +624,4 @@ Here we include:
 
 * feilkode (error code) - A predefined unique identifier for this error case
 * feilmelding (error message) - A descriptive text explaining the error situation
-* kansellert (Cancelled) - A boolean field indicating if this error cancels the whole order
+* kansellert (cancelled) - A boolean field indicating if this error cancels the whole order
