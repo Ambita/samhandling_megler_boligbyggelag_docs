@@ -306,11 +306,11 @@ When the process is done the final message is sent, summing up the result. Only 
 {
   "antallInteressenter": 2,
   // Added to the last message
-  "varighetForkjopsrett": "2022-09-20T12:10:53+03:00",
+  "varighetForkjopsrett": "2022-09-20T12:10:53+02:00",
   // Added to the last message
   "utlysingssted": "Sendt styre, utlysing i laget",
-  "utlysingsdato": "2022-06-22T02:00:00+03: 00",
-  "meldefrist": "2022-06-30T12: 00: 00+03: 00",
+  "utlysingsdato": "2022-06-22T02:00:00+02:00",
+  "meldefrist": "2022-06-30T12:00:00+02:00",
   "type": "forhandsutlysingsen",
   "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
   "ordreMottatt": "2022-07-06T15:48:07.6328836Z",
