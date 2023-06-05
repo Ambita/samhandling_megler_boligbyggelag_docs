@@ -305,9 +305,7 @@ When the process is done the final message is sent, summing up the result. Only 
 ```json
 {
   "antallInteressenter": 2,
-  // Added to the last message
   "varighetForkjopsrett": "2022-09-20T12:10:53+02:00",
-  // Added to the last message
   "utlysingssted": "Sendt styre, utlysing i laget",
   "utlysingsdato": "2022-06-22T02:00:00+02:00",
   "meldefrist": "2022-06-30T12:00:00+02:00",
@@ -396,8 +394,8 @@ An example json request can look like this:
   }],
   "selgere": [{
     "id": "54321",
-    "fornavn": "Kari Nordmann",
-    "etternavn": "Nordmann",
+    "organisasjonsnavn": "Kari Nordmann AS",
+    "kontaktperson": "Kari Nordmann",
     "adresse": {
       "gateadresse": "Testveg 2",
       "postnummer": "0010",
