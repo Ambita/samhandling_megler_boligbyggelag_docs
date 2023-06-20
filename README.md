@@ -349,6 +349,7 @@ An example json request can look like this:
 {
   "type": "salgsmelding",
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "oppdragsnummer": "8-0148/23",
   "registerenhet": {
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
@@ -432,6 +433,7 @@ An example json request can look like this:
 
 #### Extra request fields specific for sales requests
 
+* oppdragsnummer - assignment number in the broker system
 * kjopere (buyers) - list of persons or organizations. The structure also includes eierbrok (ownership fraction):
   * id - (identification) - A unique number that identifies the buyer, can be personal number or organization number
   * fornavn (first name) - Required for persons
