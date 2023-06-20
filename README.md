@@ -432,7 +432,18 @@ An example json request can look like this:
 
 #### Extra request fields specific for sales requests
 
-* kjopere (buyers) - list of persons. Has the same fields as "bestiller" with one notable difference. Name is split into fornavn (first name) and etternavn (last name). This is usually needed to correctly identify a person in the land registry. The structure also includes eierbrok (ownership fraction):
+* kjopere (buyers) - list of persons or organizations. The structure also includes eierbrok (ownership fraction):
+  * id - (identification) - A unique number that identifies the buyer, can be personal number or organization number
+  * fornavn (first name) - Required for persons
+  * etternavn (surname) - Required for persons
+  * organisasjonsnavn (organization name) - Required for organizations
+  * kontaktperson (contact person) - Required for organizations
+  * adresse (address) - The address of the person or organization
+    * gateadresse (street address) - The street address with number and letter
+    * postnummer (postal number) - The postal number of the address
+    * poststed (postal place) - The postal place name of the address
+  * epost (e-mail) - The contact e-mail
+  * telefon (phone) - The contact phone number
   * eierbrok (ownership fraction) - defines how large fraction this person will get
     * teller (numerator)
     * nevner (denominator)

@@ -77,7 +77,7 @@ export interface Kontakt {
 }
 
 // Common request type :
-export interface USBLBasicProduct {
+export interface BasicProduct {
   ordreId: string
   registerenhet: Registerenhet
   bestiller: Kontaktinfo
@@ -86,21 +86,21 @@ export interface USBLBasicProduct {
 }
 
 // Request types :
-export interface Boliginfo extends USBLBasicProduct {
+export interface Boliginfo extends BasicProduct {
   type: RequestType.boliginformasjon
 }
 
-export interface Forhandsutlysing extends USBLBasicProduct {
+export interface Forhandsutlysing extends BasicProduct {
   type: RequestType.forhandsutlysing
   bolig: Bolig
   prisantydning?: number
 }
 
-export interface Restanse extends USBLBasicProduct {
+export interface Restanse extends BasicProduct {
   type: RequestType.restanse
 }
 
-export interface Salgsmelding extends USBLBasicProduct {
+export interface Salgsmelding extends BasicProduct {
   type: RequestType.salgsmelding
   kjopere: Kontakt[]
   selgere: Kontakt[]

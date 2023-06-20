@@ -3,6 +3,13 @@ export enum BestillingsFormat {
   ELEKTRONISK = 'Elektronisk'
 }
 
+export enum Feilkode {
+  forhandsutlysningStottesIkke = 4,
+  tilknyttetAnnetBoligbyggelag = 6, // behandles av annet boligbyggelag
+  forhandIkkeUtloptSjekkStatus = 31, // ny ordre på samme objekt fra samme megler
+  forhandIkkeUtloptKontaktForrForer = 32, // ny ordre på samme objekt fra annen megler
+}
+
 export enum CallbackType {
   boliginformasjon = 'boliginformasjon',
   forhandsutlysingtidlig = 'forhandsutlysingtidlig',
@@ -51,7 +58,7 @@ export interface Kontakt {
   eierbrok: Eierbrok
 }
 
-export interface USBLCallback {
+export interface Callback {
   type: CallbackType
   ordreId: string
   forretningsforer: {
@@ -65,16 +72,16 @@ export interface USBLCallback {
   eierform?: string
 }
 
-export interface Feil extends USBLCallback {
+export interface Feil extends Callback {
   type: CallbackType.feil
   feilmelding: string
-  feilkode?: number
+  feilkode?: Feilkode
   tidspunkt: string
   kansellert?: boolean
 }
 
 // Callback types
-export interface Boliginformasjon extends USBLCallback {
+export interface Boliginformasjon extends Callback {
   type: CallbackType.boliginformasjon
   forkjopsrett: {
     harForkjopsrett: boolean
@@ -94,7 +101,7 @@ export interface Boliginformasjon extends USBLCallback {
   andreHensyn?: string
 }
 
-export interface ForhandsutlysingTidlig extends USBLCallback {
+export interface ForhandsutlysingTidlig extends Callback {
   type: CallbackType.forhandsutlysingtidlig
   ordreMottatt: string
   utlysingssted: string
@@ -102,7 +109,7 @@ export interface ForhandsutlysingTidlig extends USBLCallback {
   meldefrist: string
 }
 
-export interface ForhandsutlysingUtsatt extends USBLCallback {
+export interface ForhandsutlysingUtsatt extends Callback {
   type: CallbackType.forhandsutlysingutsatt
   ordreMottatt: string
   utlysingssted: string
@@ -110,7 +117,7 @@ export interface ForhandsutlysingUtsatt extends USBLCallback {
   meldefrist: string
 }
 
-export interface ForhandsutlysingSen extends USBLCallback {
+export interface ForhandsutlysingSen extends Callback {
   type: CallbackType.forhandsutlysingsen
   ordreMottatt: string
   utlysingssted: string
@@ -120,7 +127,7 @@ export interface ForhandsutlysingSen extends USBLCallback {
   varighetForkjopsrett: string
 }
 
-export interface ForhandsutlysingUtlopt extends USBLCallback {
+export interface ForhandsutlysingUtlopt extends Callback {
   type: CallbackType.forhandsutlysingutlopt
 }
 
@@ -146,14 +153,14 @@ export interface SalgsmeldingAvklaring {
   meldefrist?: string
 }
 
-export interface SalgsmeldingMottatt extends USBLCallback {
+export interface SalgsmeldingMottatt extends Callback {
   type: CallbackType.salgsmeldingmottatt
   avklaring: SalgsmeldingAvklaring
   styregodkjenning: SalgsmeldingStyregodkjenning
   tilknyttetLag: boolean
 }
 
-export interface SalgsmeldingFullfort extends USBLCallback {
+export interface SalgsmeldingFullfort extends Callback {
   type: CallbackType.salgsmeldingfullfort
   styregodkjenning: SalgsmeldingStyregodkjenning
   forkjopsrett: SalgsmeldingForkjopsrett
