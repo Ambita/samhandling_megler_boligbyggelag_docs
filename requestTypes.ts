@@ -79,6 +79,7 @@ export interface Kontakt {
 // Common request type :
 export interface BasicProduct {
   ordreId: string
+  oppdragsnummer?: string
   registerenhet: Registerenhet
   bestiller: Kontaktinfo
   meglerkontor: Meglerkontor
