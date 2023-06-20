@@ -21,6 +21,12 @@ export enum CallbackType {
   feil = 'feil'
 }
 
+export enum SalgsmeldingForhandsutlysing {
+  ikke_forhandsutlysing = 'ikke_forhandsutlysing',
+  med_interessenter = 'med_interessenter',
+  uten_interessenter = 'uten_interessenter'
+}
+
 export interface Styreleder {
   navn: string
   epost?: string
@@ -148,6 +154,7 @@ export interface SalgsmeldingForkjopsrett {
 export interface SalgsmeldingAvklaring {
   harForkjopsrett: boolean
   type: string
+  statusForhandsutlysing: SalgsmeldingForhandsutlysing 
   utlysingsdato?: string
   utlysingssted?: string
   meldefrist?: string

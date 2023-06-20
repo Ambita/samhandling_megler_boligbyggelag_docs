@@ -492,6 +492,7 @@ After receiving and processing the sales request message a message received an i
   "avklaring": {
     "harForkjopsrett": true,
     "type": "Fastpris",
+    "statusForhandsutlysing": "ikke_forhandsutlysing",
     "utlysingsdato": "2022-07-02T12:00:00+02:00",
     "utlysingssted": "https://untl.no",
     "meldefrist": "2022-07-12T12:00:00+02:00"
@@ -510,6 +511,7 @@ After receiving and processing the sales request message a message received an i
 * avklaring (clarification)
   * harForkjopsrett (has right of first refusal) - true if clarification needed
   * type (type of clarification) - if this block is needed the field may be Fastpris or Forhåndsutlyst
+  * statusForhandsutlysing (status clarification) - if previous clarification has been done and with what status
   * utlysingsdato - see clarification response
   * utlysingssted - see clarification response
   * meldefrist - see clarification response
