@@ -426,7 +426,13 @@ An example json request can look like this:
     "heis": false,
     "veranda": true,
     "parkering": "",
-    "oppvarming": ""
+    "oppvarming": "",
+    "adresse": {
+      "gateadresse": "Strandgaten 3",
+      "postnummer": 5000,
+      "poststed": "Bergen"
+    },
+    "leilighetsnummer": "H0101"
   }
 }
 ```
@@ -467,6 +473,8 @@ An example json request can look like this:
   * veranda (balcony) - If the object has a balcony (true/false)
   * parkering (parking) - Text field about parking
   * oppvaring (heating) - Text field about heating
+  * adresse (address) - housing address
+  * leilighetsnummer (apartment number) 
 
 After receiving and processing the sales request message a message received an immidiate response with information about what will be done:
 
