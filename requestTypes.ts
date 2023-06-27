@@ -24,6 +24,8 @@ export interface Bolig {
   veranda?: boolean
   parkering?: string
   oppvarming?: string
+  adresse?: Adresse
+  leilighetsnummer?: string
 }
 
 export enum RegisterenhetType {

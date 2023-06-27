@@ -349,6 +349,7 @@ An example json request can look like this:
 {
   "type": "salgsmelding",
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "oppdragsnummer": "8-0148/23",
   "registerenhet": {
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
@@ -425,13 +426,20 @@ An example json request can look like this:
     "heis": false,
     "veranda": true,
     "parkering": "",
-    "oppvarming": ""
+    "oppvarming": "",
+    "adresse": {
+      "gateadresse": "Strandgaten 3",
+      "postnummer": 5000,
+      "poststed": "Bergen"
+    },
+    "leilighetsnummer": "H0101"
   }
 }
 ```
 
 #### Extra request fields specific for sales requests
 
+* oppdragsnummer - assignment number in the broker system
 * kjopere (buyers) - list of persons or organizations. The structure also includes eierbrok (ownership fraction):
   * id - (identification) - A unique number that identifies the buyer, can be personal number or organization number
   * fornavn (first name) - Required for persons
@@ -465,6 +473,8 @@ An example json request can look like this:
   * veranda (balcony) - If the object has a balcony (true/false)
   * parkering (parking) - Text field about parking
   * oppvaring (heating) - Text field about heating
+  * adresse (address) - housing address
+  * leilighetsnummer (apartment number) 
 
 After receiving and processing the sales request message a message received an immidiate response with information about what will be done:
 
