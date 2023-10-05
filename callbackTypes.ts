@@ -148,13 +148,13 @@ export interface SalgsmeldingStyregodkjenning {
 export interface SalgsmeldingForkjopsrett {
   status: string
   andreHensyn?: string
-  kjopere: Kontakt[]
+  kjopere?: Kontakt[]
 }
 
 export interface SalgsmeldingAvklaring {
   harForkjopsrett: boolean
   type: string
-  statusForhandsutlysing: SalgsmeldingForhandsutlysing 
+  statusForhandsutlysing: SalgsmeldingForhandsutlysing
   utlysingsdato?: string
   utlysingssted?: string
   meldefrist?: string
