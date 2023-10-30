@@ -24,7 +24,8 @@ export enum CallbackType {
 export enum SalgsmeldingForhandsutlysing {
   ikke_forhandsutlysing = 'ikke_forhandsutlysing',
   med_interessenter = 'med_interessenter',
-  uten_interessenter = 'uten_interessenter'
+  uten_interessenter = 'uten_interessenter',
+  ikke_vist_interesse = 'ikke_vist_interesse'
 }
 
 export interface Styreleder {
@@ -146,32 +147,23 @@ export interface SalgsmeldingStyregodkjenning {
 }
 
 export interface SalgsmeldingForkjopsrett {
-  status: string
-  andreHensyn?: string
-  kjopere?: Kontakt[]
-}
-
-export interface SalgsmeldingAvklaring {
   harForkjopsrett: boolean
-  type: string
-  statusForhandsutlysing: SalgsmeldingForhandsutlysing
+  typeAvklaring?: 'Fastpris' | string
+  statusForhandsutlysing?: SalgsmeldingForhandsutlysing
   utlysingsdato?: string
   utlysingssted?: string
   meldefrist?: string
+  statusForkjopsrett?: 'Forkjøpsrett ikke benyttet' | string
+  kjopere?: Kontakt[]
+  andreHensyn?: string
 }
 
-export interface SalgsmeldingMottatt extends Callback {
-  type: CallbackType.salgsmeldingmottatt
-  avklaring: SalgsmeldingAvklaring
+export interface SalgsmeldingRespons extends Callback {
+  type: CallbackType.salgsmeldingmottatt | CallbackType.salgsmeldingfullfort
+  forkjopsrett: SalgsmeldingForkjopsrett
   styregodkjenning: SalgsmeldingStyregodkjenning
   tilknyttetLag: boolean
 }
 
-export interface SalgsmeldingFullfort extends Callback {
-  type: CallbackType.salgsmeldingfullfort
-  styregodkjenning: SalgsmeldingStyregodkjenning
-  forkjopsrett: SalgsmeldingForkjopsrett
-}
-
 export type CallbackEvent = Boliginformasjon | ForhandsutlysingTidlig | ForhandsutlysingUtsatt |
-ForhandsutlysingSen | ForhandsutlysingUtlopt | SalgsmeldingMottatt | SalgsmeldingFullfort | Feil
+    ForhandsutlysingSen | ForhandsutlysingUtlopt | SalgsmeldingRespons | Feil

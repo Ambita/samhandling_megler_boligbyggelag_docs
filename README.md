@@ -499,9 +499,9 @@ After receiving and processing the sales request message a message received an i
     },
     "epost": "post@kunde.no"
   },
-  "avklaring": {
+  "forkjopsrett": {
     "harForkjopsrett": true,
-    "type": "Fastpris",
+    "typeAvklaring": "Fastpris",
     "statusForhandsutlysing": "ikke_forhandsutlysing",
     "utlysingsdato": "2022-07-02T12:00:00+02:00",
     "utlysingssted": "https://untl.no",
@@ -518,9 +518,9 @@ After receiving and processing the sales request message a message received an i
 
 #### Extra response fields specific for sale message received
 
-* avklaring (clarification)
+* forkjopsrett (clarification)
   * harForkjopsrett (has right of first refusal) - true if clarification needed
-  * type (type of clarification) - if this block is needed the field may be Fastpris or Forhåndsutlyst
+  * typeAvklaring (type of clarification) - if this block is needed the field may be Fastpris or Forhåndsutlyst
   * statusForhandsutlysing (status clarification) - if previous clarification has been done and with what status
   * utlysingsdato - see clarification response
   * utlysingssted - see clarification response
@@ -559,7 +559,7 @@ Later, when all the processes like clarification and board approval has been com
     "andreHensyn": "Tekst om andre hensyn kommer her"
   },
   "forkjopsrett": {
-    "status": "Forkjøpsrett benyttet",
+    "statusForkjopsrett": "Forkjøpsrett benyttet",
     "andreHensyn": "Tekst om andre hensyn kommer her",
     "kjopere": [
       {
@@ -605,7 +605,7 @@ Later, when all the processes like clarification and board approval has been com
   * status - "Innvilget" means approved
   * andreHensyn (considerations) - Description of things to consider
 * forkjopsrett (advance clarification)
-  * status - "Forkjøpsrett benyttet" means someone else aquiered the object
+  * statusForkjopsrett - "Forkjøpsrett benyttet" means someone else aquiered the object
   * andreHensyn (considerations) - Description of things to consider
   * kjopere (buyers) - List of new buyers that replace the original buyers
 
