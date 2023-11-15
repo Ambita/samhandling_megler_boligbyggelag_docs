@@ -552,7 +552,8 @@ Later, when all the processes like clarification and board approval has been com
       "postnummer": "0501",
       "poststed": "Oslo"
     },
-    "epost": "post@kunde.no"
+    "epost": "post@kunde.no",
+    "epostRestanse": "restanse@kunde.no"
   },
   "styregodkjenning": {
     "status": "Innvilget",
