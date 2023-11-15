@@ -72,6 +72,7 @@ export interface Callback {
     navn: string
     adresse: Adresse
     epost: string
+    epostRestanse?: string
   }
   klient?: Klient
   levert?: string
