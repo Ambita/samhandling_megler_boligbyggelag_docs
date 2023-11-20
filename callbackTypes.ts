@@ -161,6 +161,7 @@ export interface SalgsmeldingForkjopsrett {
 
 export interface SalgsmeldingRespons extends Callback {
   type: CallbackType.salgsmeldingmottatt | CallbackType.salgsmeldingfullfort
+  ordreMottatt: string
   forkjopsrett: SalgsmeldingForkjopsrett
   styregodkjenning: SalgsmeldingStyregodkjenning
   tilknyttetLag: boolean
