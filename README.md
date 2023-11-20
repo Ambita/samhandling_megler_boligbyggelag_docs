@@ -482,6 +482,7 @@ After receiving and processing the sales request message a message received an i
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
   "type": "salgsmeldingmottatt",
+  "ordreMottatt": "2022-01-06T15:48:07.6328836Z",
   "klient": {
     "klienttype": "Borettslag tilknyttet",
     "organisasjonsnavn": "Skauen Borettslag",
@@ -518,6 +519,7 @@ After receiving and processing the sales request message a message received an i
 
 #### Extra response fields specific for sale message received
 
+* ordreMottatt (order received date) - when the sale message was received
 * forkjopsrett (clarification)
   * harForkjopsrett (has right of first refusal) - true if clarification needed
   * typeAvklaring (type of clarification) - if this block is needed the field may be Fastpris or Forhåndsutlyst
@@ -537,6 +539,7 @@ Later, when all the processes like clarification and board approval has been com
 {
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
   "type": "salgsmeldingfullfort",
+  "ordreMottatt": "2022-01-06T15:48:07.6328836Z",
   "klient": {
     "klienttype": "Borettslag tilknyttet",
     "organisasjonsnavn": "Skauen Borettslag",
