@@ -500,16 +500,16 @@ After receiving and processing the sales request message a message received an i
     },
     "epost": "post@kunde.no"
   },
+  "harForkjopsrett": true,
   "forkjopsrett": {
-    "harForkjopsrett": true,
-    "typeAvklaring": "Fastpris",
+    "typeAvklaring": "fastpris",
     "statusForhandsutlysing": "ikke_forhandsutlysing",
     "utlysingsdato": "2022-07-02T12:00:00+02:00",
     "utlysingssted": "https://untl.no",
     "meldefrist": "2022-07-12T12:00:00+02:00"
   },
+  "styregodkjenningPakrevd": true,
   "styregodkjenning": {
-    "pakrevd": true,
     "initiertDato": "2022-07-12T12:00:00+02:00",
     "meldefrist": "2022-07-22T12:00:00+02:00"
   },
@@ -520,15 +520,15 @@ After receiving and processing the sales request message a message received an i
 #### Extra response fields specific for sale message received
 
 * ordreMottatt (order received date) - when the sale message was received
-* forkjopsrett (clarification)
-  * harForkjopsrett (has right of first refusal) - true if clarification needed
+* harForkjopsrett (has right of first refusal) - true if clarification needed
+* forkjopsrett (clarification) - if clarification needed
   * typeAvklaring (type of clarification) - if this block is needed the field may be Fastpris or Forhåndsutlyst
   * statusForhandsutlysing (status clarification) - if previous clarification has been done and with what status
   * utlysingsdato - see clarification response
   * utlysingssted - see clarification response
   * meldefrist - see clarification response
-* styregodkjenning (board approval)
-  * pakrevd (required) - true if this is needed
+* styregodkjenningPakrevd (required) - true if board approval is needed
+* styregodkjenning (board approval) - if board approval is needed
   * initiertDato (date initialised) - The date the board will be notified
   * meldefrist (deadline) - The date the board needs to respond before
 * tilknyttetlag (connected to a cooperative)
@@ -545,7 +545,7 @@ Later, when all the processes like clarification and board approval has been com
     "organisasjonsnavn": "Skauen Borettslag",
     "organisasjonsnummer": "948677202"
   },
-  "levert": "2022-07-22T12:00:00+02:00",
+  "levert": "2022-01-22T12:00:00+02:00",
   "referanse": "1571/2",
   "eierform": "Seksjonseier",
   "forretningsforer": {
@@ -558,60 +558,65 @@ Later, when all the processes like clarification and board approval has been com
     "epost": "post@kunde.no",
     "epostRestanse": "restanse@kunde.no"
   },
+  "styregodkjenningPakrevd": true,
   "styregodkjenning": {
-    "status": "Innvilget",
+    "status": "godkjent_av_styret",
     "andreHensyn": "Tekst om andre hensyn kommer her"
   },
+  "harForkjopsrett": true,
   "forkjopsrett": {
-    "statusForkjopsrett": "Forkjøpsrett benyttet",
-    "andreHensyn": "Tekst om andre hensyn kommer her",
-    "kjopere": [
-      {
-        "id": "01010112345",
-        "fornavn": "Ole",
-        "etternavn": "Duck",
-        "epost": "ole@andeby.co",
-        "adresse": {
-          "gateadresse": "Testvegen 1",
-          "postnummer": "9999",
-          "poststed": "Test"
-        },
-        "telefon": "12345678",
-        "eierbrok": {
-          "teller": 1,
-          "nevner": 2
-        }
+    "statusForkjopsrett": "benyttet",
+    "typeAvklaring": "fastpris",
+    "statusForhandsutlysing": "med_interessenter",
+    "utlysingsdato": "2022-01-07T12:00:00+02:00",
+    "andreHensyn": "Tekst om andre hensyn kommer her"
+  },
+  "kjopere": [
+    {
+      "id": "01010112345",
+      "fornavn": "Ole",
+      "etternavn": "Duck",
+      "epost": "ole@andeby.co",
+      "adresse": {
+        "gateadresse": "Testvegen 1",
+        "postnummer": "9999",
+        "poststed": "Test"
       },
-      {
-        "id": "01010154321",
-        "fornavn": "Dole",
-        "etternavn": "Duck",
-        "epost": "dole@andeby.co",
-        "adresse": {
-          "gateadresse": "Testvegen 1",
-          "postnummer": "9999",
-          "poststed": "Test"
-        },
-        "telefon": "12345678",
-        "eierbrok": {
-          "teller": 1,
-          "nevner": 2
-        }
+      "telefon": "12345678",
+      "eierbrok": {
+        "teller": 1,
+        "nevner": 2
       }
-    ]
-  }
+    },
+    {
+      "id": "01010154321",
+      "fornavn": "Dole",
+      "etternavn": "Duck",
+      "epost": "dole@andeby.co",
+      "adresse": {
+        "gateadresse": "Testvegen 1",
+        "postnummer": "9999",
+        "poststed": "Test"
+      },
+      "telefon": "12345678",
+      "eierbrok": {
+        "teller": 1,
+        "nevner": 2
+      }
+    }
+  ]
 }
 ```
 
 #### Extra response fields specific for sale message completed
 
 * styregodkjenning (board approval)
-  * status - "Innvilget" means approved
+  * status - "godkjent_av_styret" means approved by the board
   * andreHensyn (considerations) - Description of things to consider
 * forkjopsrett (advance clarification)
-  * statusForkjopsrett - "Forkjøpsrett benyttet" means someone else aquiered the object
+  * statusForkjopsrett - "benyttet" means someone else aquiered the object
   * andreHensyn (considerations) - Description of things to consider
-  * kjopere (buyers) - List of new buyers that replace the original buyers
+* kjopere (buyers) - List of buyers registered by the business manager
 
 ### Errors
 
