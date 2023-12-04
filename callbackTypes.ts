@@ -142,7 +142,7 @@ export interface ForhandsutlysingUtlopt extends Callback {
 export interface SalgsmeldingStyregodkjenning {
   initiertDato: string
   meldefrist: string
-  status: 'godkjent_av_styret' | 'godkjent_av_bbl' | 'avvist_av_styret' | 'avvist_av_bbl' | 'frist_utlopt'
+  statusStyregodkjenning: 'under_behandling' | 'godkjent_av_styret' | 'godkjent_av_bbl' | 'avvist_av_styret' | 'avvist_av_bbl' | 'frist_utlopt'
   andreHensyn?: string
 }
 
