@@ -560,7 +560,7 @@ Later, when all the processes like clarification and board approval has been com
   },
   "styregodkjenningPakrevd": true,
   "styregodkjenning": {
-    "status": "godkjent_av_styret",
+    "statusStyregodkjenning": "godkjent_av_styret",
     "andreHensyn": "Tekst om andre hensyn kommer her"
   },
   "harForkjopsrett": true,
@@ -611,7 +611,7 @@ Later, when all the processes like clarification and board approval has been com
 #### Extra response fields specific for sale message completed
 
 * styregodkjenning (board approval)
-  * status - "godkjent_av_styret" means approved by the board
+  * statusStyregodkjenning - "godkjent_av_styret" means approved by the board
   * andreHensyn (considerations) - Description of things to consider
 * forkjopsrett (advance clarification)
   * statusForkjopsrett - "benyttet" means someone else aquiered the object
