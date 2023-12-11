@@ -140,9 +140,12 @@ export interface ForhandsutlysingUtlopt extends Callback {
 }
 
 export interface SalgsmeldingStyregodkjenning {
-  initiertDato: string
-  meldefrist: string
-  statusStyregodkjenning: 'under_behandling' | 'godkjent_av_styret' | 'godkjent_av_bbl' | 'avvist_av_styret' | 'avvist_av_bbl' | 'frist_utlopt'
+  initiertDato?: string
+  meldefrist?: string
+}
+
+export interface SalgsmeldingStyregodkjenningFullfort extends SalgsmeldingStyregodkjenning {
+  statusStyregodkjenning: 'godkjent_av_styret' | 'godkjent_av_bbl' | 'avvist_av_styret' | 'avvist_av_bbl' | 'frist_utlopt'
   andreHensyn?: string
 }
 
@@ -152,20 +155,33 @@ export interface SalgsmeldingForkjopsrett {
   utlysingsdato: string
   utlysingssted: string
   meldefrist: string
+}
+
+export interface SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsrett {
   statusForkjopsrett: 'ikke_benyttet' | 'benyttet'
   andreHensyn?: string
 }
 
-export interface SalgsmeldingRespons extends Callback {
-  type: CallbackType.salgsmeldingmottatt | CallbackType.salgsmeldingfullfort
+export interface SalgsmeldingMottatt extends Callback {
+  type: CallbackType.salgsmeldingmottatt
   ordreMottatt: string
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrett
   styregodkjenningPakrevd: boolean
   styregodkjenning?: SalgsmeldingStyregodkjenning
-  kjopere?: Kontakt[]
+  tilknyttetLag: boolean
+}
+
+export interface SalgsmeldingFullfort extends Callback {
+  type: CallbackType.salgsmeldingfullfort
+  ordreMottatt: string
+  harForkjopsrett: boolean
+  forkjopsrett?: SalgsmeldingForkjopsrettFullfort
+  styregodkjenningPakrevd: boolean
+  styregodkjenning?: SalgsmeldingStyregodkjenningFullfort
+  kjopere: Kontakt[]
   tilknyttetLag: boolean
 }
 
 export type CallbackEvent = Boliginformasjon | ForhandsutlysingTidlig | ForhandsutlysingUtsatt |
-    ForhandsutlysingSen | ForhandsutlysingUtlopt | SalgsmeldingRespons | Feil
+  ForhandsutlysingSen | ForhandsutlysingUtlopt | SalgsmeldingMottatt | SalgsmeldingFullfort | Feil
