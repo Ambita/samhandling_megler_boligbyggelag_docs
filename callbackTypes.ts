@@ -3,6 +3,8 @@ export enum BestillingsFormat {
   ELEKTRONISK = 'Elektronisk'
 }
 
+export type BestillingsmottakerType = 'forretningsforer' | 'lag'
+
 export enum Feilkode {
   forhandsutlysningStottesIkke = 4,
   tilknyttetAnnetBoligbyggelag = 6, // behandles av annet boligbyggelag
@@ -95,10 +97,12 @@ export interface Boliginformasjon extends Callback {
     harForkjopsrett: boolean
     intern?: boolean
     bestillingsformat?: BestillingsFormat
+    mottakerType?: BestillingsmottakerType
   }
   styregodkjenning: {
     pakrevd: boolean
     bestillingsformat?: BestillingsFormat
+    mottakerType?: BestillingsmottakerType
   }
   salgsmelding: {
     bestillingsformat: BestillingsFormat
