@@ -111,7 +111,8 @@ The accountant responds with information about the given object, here identified
   },
   "styregodkjenning": {
     "pakrevd": true,
-    "bestillingsformat": "Elektronisk"
+    "bestillingsformat": "Manuelt",
+    "mottakerType": "forretningsforer"
   },
   "salgsmelding": {
     "bestillingsformat": "Manuelt"
@@ -153,6 +154,7 @@ General comment. For each step in the process we have a field called "bestilling
 * styregodkjenning (board approval)
   * pakrevd (required) - need board approval before moving into object
   * bestillingsformat (order format) - See above
+  * mottakerType (recipient type of board approval) - if bestillingsformat is "Manuelt" then mottakerType is either "forretningsforer" (accountant) or "lag" (client)
 * salgsmelding (sales message)
   * bestillingsformat (order format) - See above
 * restanse (arrears)
