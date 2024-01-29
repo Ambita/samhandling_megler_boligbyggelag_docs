@@ -348,8 +348,7 @@ When the object has been sold the broker sends a sales message to the accountant
 This request message contains all the necessary information needed for updating data and proceed 
 with clarification and board approval.
 
-After issuing a sale message order the system expects at least two response messages 
-and one optional update message.
+After issuing a sale message order the system expects up to three unique response messages:
 
 When sending:
 
@@ -357,7 +356,7 @@ When sending:
 
 The following responses can be used once, in order of appearance:
 
-`salgsmeldingmottatt` (required - expected immediately - clarifies process)
+`salgsmeldingmottatt` (optional - clarifies process, can be omitted if no process is needed)
 
 `salgsmeldingoppdatering` (optional - can be sent before board approval process completed)
 
