@@ -2,7 +2,8 @@
 
 Documentation for cooperation between brokers and accountants
 
-Ambita has designed a set of api messages to capture the flow between a broker and an accountant. We have split the process into four separate steps:
+Ambita has designed a set of api messages to capture the flow between a broker and an accountant. 
+We have split the process into four separate steps:
 
 1. Boliginformasjon (Information about the object). Used to inform the broker about which rules that apply to the sale of a given object.
 2. Forhåndsutlysing (Advance clarification). If the seller want to, he or she can clarify any preemption before the object is sold.
@@ -166,9 +167,9 @@ General comment. For each step in the process we have a field called "bestilling
   * navn (name) - name of company
   * adresse (address) - address of company
   * epost (email) - email to company
-* klient - Information about the company that is the owner of the realties. Required for all callbacktypes except callbacktype "feil"
+* klient - Information about the company that is the owner of the realties. Required for all callback types except callback type "feil"
 * levert (delivered) - timestamp when the response message was created
-* referanse (reference) - a reference to the assignement from the accountant
+* referanse (reference) - a reference to the assignment from the accountant
 * eierform (type of ownership) - can be Andelseier, Seksjonseier or Aksjonær
 
 
@@ -235,7 +236,8 @@ For the other fields explanations see earlier descriptions
   * bta (Gross area) - The total area
 * prisantydning - price suggestion
 
-After some processing the following early response message is returned, this message explains the steps that will be taken:
+After some processing the following early response message is returned, 
+this message explains the steps that will be taken:
 
 ```json
 {
@@ -268,9 +270,9 @@ After some processing the following early response message is returned, this mes
 #### Extra response fields specific for early clarification
 
 * ordreMottatt (order received date) - when the clarification was received
-* utlysingssted (annonuncement location) - where the clarification is annonunced
-* utlysingsdato (annonuncement date) - when the clarification will be annonunced
-* meldefrist (deadline) - respondants need to report before this time
+* utlysingssted (announcement location) - where the clarification is announced
+* utlysingsdato (announcement date) - when the clarification will be announced
+* meldefrist (deadline) - respondents need to report before this time
 
 In some cases the broker contacts the accountant to change the announcement period. Right now this will be done manually The following response message with updated announcement date and deadline are sent to inform us and the broker abouth the change:
 
@@ -302,7 +304,8 @@ In some cases the broker contacts the accountant to change the announcement peri
 }
 ```
 
-When the process is done the final message is sent, summing up the result. Only two extra fields are added here; number of interested parties and how long the advance clarification lasts.
+When the process is done the final message is sent, summing up the result. Only two extra fields are added here; 
+number of interested parties and how long the advance clarification lasts.
 
 ```json
 {
@@ -336,12 +339,28 @@ When the process is done the final message is sent, summing up the result. Only 
 
 #### Extra response fields specific for late clarification
 
-* antallInteressenter (number of interested) - Number of respondants to the clarification.
+* antallInteressenter (number of interested) - Number of respondents to the clarification.
 * varighetForkjopsrett (clarification valid through) - The date that the clarification expires
 
 ### Salgsmelding
 
-When the object has been sold the broker sends a sales message to the accountant. This request message contains all the necessary information needed for updating data and proceed with clarification and board approval.
+When the object has been sold the broker sends a sales message to the accountant. 
+This request message contains all the necessary information needed for updating data and proceed 
+with clarification and board approval.
+
+After issuing a sale message order the system expects up to three unique response messages:
+
+When sending:
+
+`salgsmelding`
+
+The following responses can be used once, in order of appearance:
+
+`salgsmeldingmottatt` (optional - clarifies process, can be omitted if no process is needed)
+
+`salgsmeldingoppdatering` (optional - can be sent before board approval process completed)
+
+`salgsmeldingfullfort` (required - expected at the end of the process - marks sale process completed)
 
 #### Request
 
@@ -478,7 +497,8 @@ An example json request can look like this:
   * adresse (address) - housing address
   * leilighetsnummer (apartment number) 
 
-After receiving and processing the sales request message a message received an immidiate response with information about what will be done:
+After receiving and processing the sales request message a message received an immediate response with 
+information about what will be done:
 
 ```json
 {
@@ -534,6 +554,79 @@ After receiving and processing the sales request message a message received an i
   * initiertDato (date initialised) - The date the board will be notified
   * meldefrist (deadline) - The date the board needs to respond before
 * tilknyttetlag (connected to a cooperative)
+
+After clarification and change of ownership has been handled by the accountant an intermediate message may be
+sent containing everything except the board approval status. Please note that this message is not considered
+to be the final message. Every sale order is closed with the `salgsmeldingfullfort` message: 
+
+```json
+{
+  "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "type": "salgsmeldingoppdatering",
+  "ordreMottatt": "2022-01-06T15:48:07.6328836Z",
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
+  "levert": "2022-01-22T12:00:00+02:00",
+  "referanse": "1571/2",
+  "eierform": "Seksjonseier",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no",
+    "epostRestanse": "restanse@kunde.no"
+  },
+  "styregodkjenningPakrevd": true,
+  "harForkjopsrett": true,
+  "forkjopsrett": {
+    "statusForkjopsrett": "benyttet",
+    "typeAvklaring": "fastpris",
+    "statusForhandsutlysing": "med_interessenter",
+    "utlysingsdato": "2022-01-07T12:00:00+02:00",
+    "andreHensyn": "Tekst om andre hensyn kommer her"
+  },
+  "kjopere": [
+    {
+      "id": "01010112345",
+      "fornavn": "Ole",
+      "etternavn": "Duck",
+      "epost": "ole@andeby.co",
+      "adresse": {
+        "gateadresse": "Testvegen 1",
+        "postnummer": "9999",
+        "poststed": "Test"
+      },
+      "telefon": "12345678",
+      "eierbrok": {
+        "teller": 1,
+        "nevner": 2
+      }
+    },
+    {
+      "id": "01010154321",
+      "fornavn": "Dole",
+      "etternavn": "Duck",
+      "epost": "dole@andeby.co",
+      "adresse": {
+        "gateadresse": "Testvegen 1",
+        "postnummer": "9999",
+        "poststed": "Test"
+      },
+      "telefon": "12345678",
+      "eierbrok": {
+        "teller": 1,
+        "nevner": 2
+      }
+    }
+  ]
+}
+```
 
 Later, when all the processes like clarification and board approval has been completed a final response is sent:
 
@@ -610,19 +703,28 @@ Later, when all the processes like clarification and board approval has been com
 }
 ```
 
-#### Extra response fields specific for sale message completed
+#### Extra response fields specific for sale message update and sale message completed
 
 * styregodkjenning (board approval)
-  * statusStyregodkjenning - "godkjent_av_styret" means approved by the board
+  * statusStyregodkjenning
+    * "handteres_eksternt" - needs manual handling by the broker 
+    * "godkjent_av_styret" - approved by the board
+    * "avvist_av_styret" - not approved by the board
+    * "godkjent_av_bbl" - approved by the accountant
+    * "avvist_av_bbl" - not approved by the accountant
+    * "frist_utlopt" - no response from board, handled as approved
   * andreHensyn (considerations) - Description of things to consider
 * forkjopsrett (advance clarification)
-  * statusForkjopsrett - "benyttet" means someone else aquiered the object
+  * statusForkjopsrett
+    * "ikke_benyttet" - the initial buyers acquired the object
+    * "benyttet" - one of the preemption respondents acquired the object 
   * andreHensyn (considerations) - Description of things to consider
 * kjopere (buyers) - List of buyers registered by the business manager
 
 ### Errors
 
-Errors might happen. If we get into a situation where the responding system needs to send an error the following message may be used:
+Errors might happen. If we get into a situation where the responding system needs to send an error 
+the following message may be used:
 
 ```json
 {
