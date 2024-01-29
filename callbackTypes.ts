@@ -19,6 +19,7 @@ export enum CallbackType {
   forhandsutlysingsen = 'forhandsutlysingsen',
   forhandsutlysingutlopt = 'forhandsutlysingutlopt',
   salgsmeldingmottatt = 'salgsmeldingmottatt',
+  salgsmeldingoppdatering = 'salgsmeldingoppdatering',
   salgsmeldingfullfort = 'salgsmeldingfullfort',
   feil = 'feil'
 }
@@ -149,7 +150,7 @@ export interface SalgsmeldingStyregodkjenning {
 }
 
 export interface SalgsmeldingStyregodkjenningFullfort extends SalgsmeldingStyregodkjenning {
-  statusStyregodkjenning: 'godkjent_av_styret' | 'godkjent_av_bbl' | 'avvist_av_styret' | 'avvist_av_bbl' | 'frist_utlopt'
+  statusStyregodkjenning: 'handteres_eksternt' | 'godkjent_av_styret' | 'godkjent_av_bbl' | 'avvist_av_styret' | 'avvist_av_bbl' | 'frist_utlopt'
   andreHensyn?: string
 }
 
@@ -176,6 +177,16 @@ export interface SalgsmeldingMottatt extends Callback {
   tilknyttetLag: boolean
 }
 
+export interface SalgsmeldingOppdatering extends Callback {
+  type: CallbackType.salgsmeldingoppdatering
+  ordreMottatt: string
+  harForkjopsrett: boolean
+  forkjopsrett?: SalgsmeldingForkjopsrettFullfort
+  styregodkjenningPakrevd: boolean
+  kjopere: Kontakt[]
+  tilknyttetLag: boolean
+}
+
 export interface SalgsmeldingFullfort extends Callback {
   type: CallbackType.salgsmeldingfullfort
   ordreMottatt: string
@@ -187,5 +198,6 @@ export interface SalgsmeldingFullfort extends Callback {
   tilknyttetLag: boolean
 }
 
-export type CallbackEvent = Boliginformasjon | ForhandsutlysingTidlig | ForhandsutlysingUtsatt |
-  ForhandsutlysingSen | ForhandsutlysingUtlopt | SalgsmeldingMottatt | SalgsmeldingFullfort | Feil
+export type CallbackEvent = Boliginformasjon | Feil |
+  ForhandsutlysingTidlig | ForhandsutlysingUtsatt | ForhandsutlysingSen | ForhandsutlysingUtlopt |
+  SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort
