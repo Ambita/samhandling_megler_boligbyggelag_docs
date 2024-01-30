@@ -167,6 +167,10 @@ export interface SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsre
   andreHensyn?: string
 }
 
+/**
+ * SalgsmeldingMottatt
+ * optional - clarifies process, can be omitted if no process is needed
+ */
 export interface SalgsmeldingMottatt extends Callback {
   type: CallbackType.salgsmeldingmottatt
   ordreMottatt: string
@@ -177,6 +181,10 @@ export interface SalgsmeldingMottatt extends Callback {
   tilknyttetLag: boolean
 }
 
+/**
+ * SalgsmeldingOppdatering
+ * optional - can be sent before board approval process completed
+ */
 export interface SalgsmeldingOppdatering extends Callback {
   type: CallbackType.salgsmeldingoppdatering
   ordreMottatt: string
@@ -187,6 +195,10 @@ export interface SalgsmeldingOppdatering extends Callback {
   tilknyttetLag: boolean
 }
 
+/**
+ * SalgsmeldingFullfort
+ * required - expected at the end of the process - marks sale process completed
+ */
 export interface SalgsmeldingFullfort extends Callback {
   type: CallbackType.salgsmeldingfullfort
   ordreMottatt: string
