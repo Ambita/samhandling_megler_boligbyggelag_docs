@@ -107,6 +107,7 @@ export interface Salgsmelding extends BasicProduct {
   type: RequestType.salgsmelding
   kjopere: Kontakt[]
   selgere: Kontakt[]
+  eiere?: Kontakt[]
   salg: Salg
   bolig: Bolig
 }

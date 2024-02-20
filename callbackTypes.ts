@@ -42,6 +42,7 @@ export interface Klient {
   organisasjonsnavn: string
   organisasjonsnummer: string
   epost?: string
+  nettside?: string
   styreleder?: Styreleder
 }
 
@@ -96,9 +97,11 @@ export interface Boliginformasjon extends Callback {
   type: CallbackType.boliginformasjon
   forkjopsrett: {
     harForkjopsrett: boolean
+    kanForhandsutlyses: boolean
     intern?: boolean
     bestillingsformat?: BestillingsFormat
     mottakerType?: BestillingsmottakerType
+    gebyr?: number
   }
   styregodkjenning: {
     pakrevd: boolean
@@ -107,6 +110,7 @@ export interface Boliginformasjon extends Callback {
   }
   salgsmelding: {
     bestillingsformat: BestillingsFormat
+    gebyr?: number
   }
   restanse: {
     bestillingsformat: BestillingsFormat
@@ -145,12 +149,13 @@ export interface ForhandsutlysingUtlopt extends Callback {
 }
 
 export interface SalgsmeldingStyregodkjenning {
+  handteresAvForretningsforer?: boolean
   initiertDato?: string
   meldefrist?: string
 }
 
 export interface SalgsmeldingStyregodkjenningFullfort extends SalgsmeldingStyregodkjenning {
-  statusStyregodkjenning: 'handteres_eksternt' | 'godkjent_av_styret' | 'godkjent_av_bbl' | 'avvist_av_styret' | 'avvist_av_bbl' | 'frist_utlopt'
+  statusStyregodkjenning?: 'godkjent_av_styret' | 'godkjent_av_bbl' | 'avvist_av_styret' | 'avvist_av_bbl' | 'frist_utlopt'
   andreHensyn?: string
 }
 
