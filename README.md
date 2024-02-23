@@ -532,6 +532,7 @@ information about what will be done:
   },
   "styregodkjenningPakrevd": true,
   "styregodkjenning": {
+    "handteresAvForretningsforer": true,
     "initiertDato": "2022-07-12T12:00:00+02:00",
     "meldefrist": "2022-07-22T12:00:00+02:00"
   },
@@ -551,6 +552,7 @@ information about what will be done:
   * meldefrist - see clarification response
 * styregodkjenningPakrevd (required) - true if board approval is needed
 * styregodkjenning (board approval) - if board approval is needed
+  handteresAvForretningsforer (handled by accountant) - true if it is handled by the accountant 
   * initiertDato (date initialised) - The date the board will be notified
   * meldefrist (deadline) - The date the board needs to respond before
 * tilknyttetlag (connected to a cooperative)
@@ -655,6 +657,7 @@ Later, when all the processes like clarification and board approval has been com
   },
   "styregodkjenningPakrevd": true,
   "styregodkjenning": {
+    "handteresAvForretningsforer": true,
     "statusStyregodkjenning": "godkjent_av_styret",
     "andreHensyn": "Tekst om andre hensyn kommer her"
   },
@@ -706,6 +709,7 @@ Later, when all the processes like clarification and board approval has been com
 #### Extra response fields specific for sale message update and sale message completed
 
 * styregodkjenning (board approval)
+  * handteresAvForretningsforer (handled by accountant) - true if it is handled by the accountant
   * statusStyregodkjenning
     * "handteres_eksternt" - needs manual handling by the broker 
     * "godkjent_av_styret" - approved by the board
