@@ -136,7 +136,13 @@ The accountant responds with information about the given object, here identified
   "klient": {
     "klienttype": "Borettslag tilknyttet",
     "organisasjonsnavn": "Skauen Borettslag",
-    "organisasjonsnummer": "948677202"
+    "organisasjonsnummer": "948677202",
+    "epost": "styret@brl.no",
+    "styreleder": {
+      "navn": "Ole Styreleder",
+      "epost": "leder@brl.no",
+      "telefonnr": "99889988"
+    }
   },
   "levert": "2022-07-07T15:48:07.6328836Z",
   "referanse": "622/1",
@@ -168,6 +174,14 @@ General comment. For each step in the process we have a field called "bestilling
   * adresse (address) - address of company
   * epost (email) - email to company
 * klient - Information about the company that is the owner of the realties. Required for all callback types except callback type "feil"
+  * klienttype (client type) - The type of client (see list of examples)
+  * organisasjonsnavn (organization name) - The client name 
+  * organisasjonsnummer (organization number) - The client organization number
+  * epost (email) - Email to the client
+  * styreleder (chairperson) - The person leading the board
+    * navn (name) - Name of chair person
+    * epost (email) - Email to chair person
+    * telefonnr (phone numer) - The phone number to the chair person
 * levert (delivered) - timestamp when the response message was created
 * referanse (reference) - a reference to the assignment from the accountant
 * eierform (type of ownership) - can be Andelseier, Seksjonseier or Aksjonær
@@ -175,6 +189,20 @@ General comment. For each step in the process we have a field called "bestilling
 
 When our system receives this message it will construct a styled document as a PDF and deliver it directly to the broker system.
 
+List of client types:
+* Borettslag tilknyttet
+* Tilknyttet annet boligbyggelag
+* Tilknyttet boligsameie
+* Tilknyttet-Ikke forkjøpsrett/forr.førs
+* Forkjøpsrettsavklaring/ikke forr.fører
+* Forkjøpsrett selveier/ikke forr.førsel
+* Boligsameie
+* Forening
+* Borettslag frittstående
+* Aksjeselskap, Bolig AS
+* Garasjelag
+* Parkeringssameie
+* Tingrettslig sameie
 
 ### Forhåndsutlysing
 

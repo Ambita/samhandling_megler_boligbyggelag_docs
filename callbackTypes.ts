@@ -81,7 +81,7 @@ export interface Callback {
   klient?: Klient
   levert?: string
   referanse?: string
-  eierform?: string
+  eierform?: 'Aksjonær' | 'Andelseier' | 'Sameier' | 'Seksjonseier'
 }
 
 export interface Feil extends Callback {
