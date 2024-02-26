@@ -107,8 +107,10 @@ The accountant responds with information about the given object, here identified
 {
   "forkjopsrett": {
     "harForkjopsrett": true,
+    "kanForhandsutlyses": true,
     "intern": true,
-    "bestillingsformat": "Elektronisk"
+    "bestillingsformat": "Elektronisk",
+    "gebyr": 7225
   },
   "styregodkjenning": {
     "pakrevd": true,
@@ -116,7 +118,8 @@ The accountant responds with information about the given object, here identified
     "mottakerType": "forretningsforer"
   },
   "salgsmelding": {
-    "bestillingsformat": "Manuelt"
+    "bestillingsformat": "Manuelt",
+    "gebyr": 6850
   },
   "restanse": {
     "bestillingsformat": "Manuelt"
@@ -156,14 +159,18 @@ General comment. For each step in the process we have a field called "bestilling
 
 * forkjopsrett (right of first refusal)
   * harForkjopsrett (has right of first refusal) - true if the object supports right of first refusal
+  * kanForhandsutlyses (supports advance notice) - true if right of first refusal can be ordered in advance  
   * intern (internal) - true if right is only available inside the cooperative
   * bestillingsformat (order format) - Elektronisk (Electronic) or Manuelt (Manually).
+  * mottakerType (recipient type) - if bestillingsformat is "Manuelt" then mottakerType is either "forretningsforer" (accountant) or "lag" (client)
+  * gebyr (fee) - The price of the right of first refusal clarification
 * styregodkjenning (board approval)
   * pakrevd (required) - need board approval before moving into object
   * bestillingsformat (order format) - See above
-  * mottakerType (recipient type of board approval) - if bestillingsformat is "Manuelt" then mottakerType is either "forretningsforer" (accountant) or "lag" (client)
+  * mottakerType (recipient type) - See above
 * salgsmelding (sales message)
   * bestillingsformat (order format) - See above
+  * gebyr (fee) - The price of performing the change of ownership
 * restanse (arrears)
   * bestillingsformat (order format) - See above
 * andre hensyn (other considerations) - Textual explanation of things one need to consider
