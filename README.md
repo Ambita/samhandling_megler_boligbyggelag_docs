@@ -12,18 +12,27 @@ We have split the process into four separate steps:
 
 ## Messages
 
-The message format and process is described in more detail per product. You may take a look at typescript types for the messages here:
+The message format and process is described in more detail per product. You may take a look at typescript 
+types for the messages here:
 
 * [Request types](requestTypes.ts)
 * [Response types](callbackTypes.ts)
 
 ### General information about the message flow
 
-Each flow starts with an order from a broker using the Vitec Next platform. This order will trigger a request from our system to the accountant backend. The accountant will send one or more response messages back to us, and we will transform these into a series of operations on Vitec Next. The first version of the system relies heavily on PDF files that we deliver into the project archive, These files will gradually be replaced with API calls that push the structured data into the broker system. This will be done with little or no effect on the accountant integrations.
+Each flow starts with an order from a broker using the Vitec Next platform. This order will trigger a request 
+from our system to the accountant backend. The accountant will send one or more response messages back to us, 
+and we will transform these into a series of operations on Vitec Next. The first version of the system relies 
+heavily on PDF files that we deliver into the project archive, These files will gradually be replaced with API 
+calls that push the structured data into the broker system. This will be done with little or no effect on the 
+accountant integrations.
 
 ### Boliginformasjon
 
-The first thing a broker needs to do is to find out which operations can be done at all, which of them can be done digitally and which of them they need to continue to do manually. This can differ from one sales project to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. If the recipient is not part of the system, we will inform the broker about this.
+The first thing a broker needs to do is to find out which operations can be done at all, which of them can be 
+done digitally and which of them they need to continue to do manually. This can differ from one sales project 
+to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. 
+If the recipient is not part of the system, we will inform the broker about this.
 
 #### Request
 
@@ -101,7 +110,8 @@ On behalf of the broker the following request is made:
 
 #### Response
 
-The accountant responds with information about the given object, here identified with the cadastre identity 3802-71-119-0-21. This response is just an example:
+The accountant responds with information about the given object, here identified with the cadastre identity 
+3802-71-119-0-21. This response is just an example:
 
 ```json
 {
@@ -155,7 +165,10 @@ The accountant responds with information about the given object, here identified
 
 #### Response fields
 
-General comment. For each step in the process we have a field called "bestillingsformat". This field can be of two types; "Elektronisk" or "Manuelt". "Elektonisk" means that the step can be completed through the integration. "Manuelt" means it has to be done manually. In other words, it has to be done the same way as before.
+General comment. For each step in the process we have a field called "bestillingsformat". 
+This field can be of two types; "Elektronisk" or "Manuelt". "Elektonisk" means that the step 
+can be completed through the integration. "Manuelt" means it has to be done manually. 
+In other words, it has to be done the same way as before.
 
 * forkjopsrett (right of first refusal)
   * harForkjopsrett (has right of first refusal) - true if the object supports right of first refusal
@@ -194,7 +207,8 @@ General comment. For each step in the process we have a field called "bestilling
 * eierform (type of ownership) - can be Andelseier, Seksjonseier or Aksjonær
 
 
-When our system receives this message it will construct a styled document as a PDF and deliver it directly to the broker system.
+When our system receives this message it will construct a styled document as a PDF and deliver it 
+directly to the broker system.
 
 List of client types:
 * Borettslag tilknyttet
@@ -211,9 +225,11 @@ List of client types:
 * Parkeringssameie
 * Tingrettslig sameie
 
-### Forhåndsutlysing
+### Clarification / Forhåndsutlysing
 
-If the seller wants to clarify the preemption before the sale is concluded they may ask the broker to order this. The response will come in two messages. One early message that explains the process and one late message that comes after the prcess has been completed, which may take a while.
+If the seller wants to clarify the preemption before the sale is concluded they may ask the broker to 
+order this. The response will come in two messages. One early message that explains the process and 
+one late message that comes after the process has been completed, which may take a while.
 
 #### Request
 
@@ -271,6 +287,8 @@ For the other fields explanations see earlier descriptions
   * bta (Gross area) - The total area
 * prisantydning - price suggestion
 
+### Early clarification / Forhåndsutlysing tidlig
+
 After some processing the following early response message is returned, 
 this message explains the steps that will be taken:
 
@@ -309,7 +327,11 @@ this message explains the steps that will be taken:
 * utlysingsdato (announcement date) - when the clarification will be announced
 * meldefrist (deadline) - respondents need to report before this time
 
-In some cases the broker contacts the accountant to change the announcement period. Right now this will be done manually The following response message with updated announcement date and deadline are sent to inform us and the broker abouth the change:
+### Clarification delayed / Forhåndsutlysing utsatt
+
+In some cases the broker contacts the accountant to change the announcement period. 
+Right now this will be done manually. The following response message with updated 
+announcement date and deadline are sent to inform the broker about the change:
 
 ```json
 {
@@ -338,6 +360,7 @@ In some cases the broker contacts the accountant to change the announcement peri
   "eierform": "Seksjonseier"
 }
 ```
+### Late clarification / Forhåndsutlysing sen
 
 When the process is done the final message is sent, summing up the result. Only two extra fields are added here; 
 number of interested parties and how long the advance clarification lasts.
@@ -377,7 +400,38 @@ number of interested parties and how long the advance clarification lasts.
 * antallInteressenter (number of interested) - Number of respondents to the clarification.
 * varighetForkjopsrett (clarification valid through) - The date that the clarification expires
 
-### Salgsmelding
+### Clarification expired / Forhåndsutlysing utløpt
+
+A clarification is usually valid for three months. When it expires you need a new clarification.
+If not the following sales message will result in a fixed price clarification. The accountant
+may inform the broker about this expiration using a specific response message. This basic
+message does not contain any product specific data fields. It will result in a message to the broker.
+
+```json
+{
+  "type": "forhandsutlysingutlopt",
+  "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
+  "levert": "2022-07-27T18:44:15.8474644+02:00",
+  "referanse": "622/1",
+  "eierform": "Seksjonseier"
+}
+```
+
+### Sales message / Salgsmelding 
 
 When the object has been sold the broker sends a sales message to the accountant. 
 This request message contains all the necessary information needed for updating data and proceed 
@@ -530,7 +584,9 @@ An example json request can look like this:
   * parkering (parking) - Text field about parking
   * oppvaring (heating) - Text field about heating
   * adresse (address) - housing address
-  * leilighetsnummer (apartment number) 
+  * leilighetsnummer (apartment number)
+
+### Sales message received - Salgsmelding mottatt
 
 After receiving and processing the sales request message a message received an immediate response with 
 information about what will be done:
@@ -591,6 +647,8 @@ information about what will be done:
   * initiertDato (date initialised) - The date the board will be notified
   * meldefrist (deadline) - The date the board needs to respond before
 * tilknyttetlag (connected to a cooperative)
+
+### Sales message updated / Salgsmelding oppdatert
 
 After clarification and change of ownership has been handled by the accountant an intermediate message may be
 sent containing everything except the board approval status. Please note that this message is not considered
@@ -664,6 +722,8 @@ to be the final message. Every sale order is closed with the `salgsmeldingfullfo
   ]
 }
 ```
+
+### Sales message completed / Salgsmelding fullført 
 
 Later, when all the processes like clarification and board approval has been completed a final response is sent:
 
