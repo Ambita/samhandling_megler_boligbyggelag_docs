@@ -96,6 +96,8 @@ export interface Boliginfo extends BasicProduct {
 export interface Forhandsutlysing extends BasicProduct {
   type: RequestType.forhandsutlysing
   bolig: Bolig
+  selgere: Kontakt[]
+  finnkode?: string
   prisantydning?: number
 }
 
@@ -108,6 +110,7 @@ export interface Salgsmelding extends BasicProduct {
   kjopere: Kontakt[]
   selgere: Kontakt[]
   eiere?: Kontakt[]
+  finnkode?: string
   salg: Salg
   bolig: Bolig
 }
