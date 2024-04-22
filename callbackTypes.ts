@@ -21,6 +21,8 @@ export enum CallbackType {
   salgsmeldingmottatt = 'salgsmeldingmottatt',
   salgsmeldingoppdatering = 'salgsmeldingoppdatering',
   salgsmeldingfullfort = 'salgsmeldingfullfort',
+  eierskiftemottatt = 'eierskiftemottatt',
+  eierskiftefullfort = 'eierskiftefullfort',
   feil = 'feil'
 }
 
@@ -148,13 +150,13 @@ export interface ForhandsutlysingUtlopt extends Callback {
   type: CallbackType.forhandsutlysingutlopt
 }
 
-export interface SalgsmeldingStyregodkjenning {
+export interface Styregodkjenning {
   handteresAvForretningsforer?: boolean
   initiertDato?: string
   meldefrist?: string
 }
 
-export interface SalgsmeldingStyregodkjenningFullfort extends SalgsmeldingStyregodkjenning {
+export interface StyregodkjenningFullfort extends Styregodkjenning {
   statusStyregodkjenning?: 'godkjent_av_styret' | 'godkjent_av_bbl' | 'avvist_av_styret' | 'avvist_av_bbl' | 'frist_utlopt'
   andreHensyn?: string
 }
@@ -182,7 +184,7 @@ export interface SalgsmeldingMottatt extends Callback {
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrett
   styregodkjenningPakrevd: boolean
-  styregodkjenning?: SalgsmeldingStyregodkjenning
+  styregodkjenning?: Styregodkjenning
   tilknyttetLag: boolean
 }
 
@@ -210,11 +212,33 @@ export interface SalgsmeldingFullfort extends Callback {
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort
   styregodkjenningPakrevd: boolean
-  styregodkjenning?: SalgsmeldingStyregodkjenningFullfort
+  styregodkjenning?: StyregodkjenningFullfort
   kjopere: Kontakt[]
   tilknyttetLag: boolean
 }
 
+/**
+ * EierskifteMottatt
+ * optional - to be used if updates trigger new board approval
+ */
+export interface EierskifteMottatt extends Callback {
+  type: CallbackType.eierskiftemottatt
+  ordreMottatt: string
+  styregodkjenningPakrevd: boolean
+  styregodkjenning?: Styregodkjenning
+}
+
+/**
+ * EierskifteFullfort
+ * required - confirms process completed
+ */
+export interface EierskifteFullfort extends Callback {
+  type: CallbackType.eierskiftefullfort
+  ordreMottatt: string
+  styregodkjenningPakrevd: boolean
+  styregodkjenning?: StyregodkjenningFullfort
+}
+
 export type CallbackEvent = Boliginformasjon | Feil |
   ForhandsutlysingTidlig | ForhandsutlysingUtsatt | ForhandsutlysingSen | ForhandsutlysingUtlopt |
-  SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort
+  SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort | EierskifteMottatt | EierskifteFullfort
