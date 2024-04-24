@@ -36,6 +36,8 @@ done digitally and which of them they need to continue to do manually. This can 
 to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. 
 If the recipient is not part of the system, we will inform the broker about this.
 
+![Clarification](images/Information.png "Information flowchart")
+
 ### 1.1.0 Information request (Boliginformasjon)
 
 On behalf of the broker the following request is made:
