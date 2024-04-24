@@ -233,6 +233,8 @@ If the seller wants to clarify the preemption before the sale is concluded they 
 order this. The response will come in two messages. One early message that explains the process and 
 one late message that comes after the process has been completed, which may take a while.
 
+![Clarification](images/Clarification.png "Clarification flowchart")
+
 ### 2.1.0 Clarification request (Forhåndsutlysing)
 
 We will transmit the following request message:
