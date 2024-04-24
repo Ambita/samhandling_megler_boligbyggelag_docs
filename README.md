@@ -830,7 +830,9 @@ Later, when all the processes like clarification and board approval has been com
 ## 4. Change of transfer date / Endring overdragelsesdato
 
 The transfer date might change after the initial sales message has been sent from the broker to the accountant.
-If this happens this message can be used to inform about the change
+If this happens this message can be used to inform about the change.
+
+![Clarification](images/Changetransferdate.png "Change of transfer date flowchart")
 
 ### 4.1.0 Change of transfar date request (Endring overdragelsesdato)
 
