@@ -36,7 +36,7 @@ done digitally and which of them they need to continue to do manually. This can 
 to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. 
 If the recipient is not part of the system, we will inform the broker about this.
 
-### 1.1.0 Request
+### 1.1.0 Information request (Boliginformasjon)
 
 On behalf of the broker the following request is made:
 
@@ -110,7 +110,7 @@ On behalf of the broker the following request is made:
   * epost (e-mail) - The e-mail of the broker
   * telefon (phone) - The phone number of the broker
 
-### 1.2.0 Response
+### 1.2.0 Information response (Boliginformasjon)
 
 The accountant responds with information about the given object, here identified with the cadastre identity 
 3802-71-119-0-21. This response is just an example:
@@ -233,7 +233,7 @@ If the seller wants to clarify the preemption before the sale is concluded they 
 order this. The response will come in two messages. One early message that explains the process and 
 one late message that comes after the process has been completed, which may take a while.
 
-### 2.1.0 Request
+### 2.1.0 Clarification request (Forhåndsutlysing)
 
 We will transmit the following request message:
 
@@ -289,7 +289,7 @@ For the other fields explanations see earlier descriptions
   * bta (Gross area) - The total area
 * prisantydning - price suggestion
 
-## 2.2.0 Early clarification / Forhåndsutlysing tidlig
+### 2.2.0 Early clarification response (Forhåndsutlysing tidlig)
 
 After some processing the following early response message is returned, 
 this message explains the steps that will be taken:
@@ -329,7 +329,7 @@ this message explains the steps that will be taken:
 * utlysingsdato (announcement date) - when the clarification will be announced
 * meldefrist (deadline) - respondents need to report before this time
 
-### 2.2.1 Clarification delayed / Forhåndsutlysing utsatt
+### 2.2.1 Clarification delayed response (Forhåndsutlysing utsatt) 
 
 In some cases the broker contacts the accountant to change the announcement period. 
 Right now this will be done manually. The following response message with updated 
@@ -362,7 +362,7 @@ announcement date and deadline are sent to inform the broker about the change:
   "eierform": "Seksjonseier"
 }
 ```
-### 2.2.2 Late clarification / Forhåndsutlysing sen
+### 2.2.2 Late clarification response (Forhåndsutlysing sen)
 
 When the process is done the final message is sent, summing up the result. Only two extra fields are added here; 
 number of interested parties and how long the advance clarification lasts.
@@ -402,7 +402,7 @@ number of interested parties and how long the advance clarification lasts.
 * antallInteressenter (number of interested) - Number of respondents to the clarification.
 * varighetForkjopsrett (clarification valid through) - The date that the clarification expires
 
-### 2.2.3 Clarification expired / Forhåndsutlysing utløpt
+### 2.2.3 Clarification expired response (Forhåndsutlysing utløpt)
 
 A clarification is usually valid for three months. When it expires you need a new clarification.
 If not the following sales message will result in a fixed price clarification. The accountant
@@ -453,7 +453,7 @@ The following responses can be used once, in order of appearance:
 
 `salgsmeldingfullfort` (required - expected at the end of the process - marks sale process completed)
 
-### 3.1.0 Request
+### 3.1.0 Sales message request (Salgsmelding)
 
 An example json request can look like this:
 
@@ -588,7 +588,7 @@ An example json request can look like this:
   * adresse (address) - housing address
   * leilighetsnummer (apartment number)
 
-### 3.2.0 Sales message received - Salgsmelding mottatt
+### 3.2.0 Sales message received response (Salgsmelding mottatt)
 
 After receiving and processing the sales request message a message received an immediate response with 
 information about what will be done:
@@ -650,7 +650,7 @@ information about what will be done:
   * meldefrist (deadline) - The date the board needs to respond before
 * tilknyttetlag (connected to a cooperative)
 
-### 3.2.1 Sales message updated / Salgsmelding oppdatert
+### 3.2.1 Sales message updated response (Salgsmelding oppdatert) 
 
 After clarification and change of ownership has been handled by the accountant an intermediate message may be
 sent containing everything except the board approval status. Please note that this message is not considered
@@ -725,7 +725,7 @@ to be the final message. Every sale order is closed with the `salgsmeldingfullfo
 }
 ```
 
-### 3.2.2 Sales message completed / Salgsmelding fullført 
+### 3.2.2 Sales message completed response (Salgsmelding fullført)
 
 Later, when all the processes like clarification and board approval has been completed a final response is sent:
 
@@ -826,7 +826,7 @@ Later, when all the processes like clarification and board approval has been com
 The transfer date might change after the initial sales message has been sent from the broker to the accountant.
 If this happens this message can be used to inform about the change
 
-### 4.1.0 Request
+### 4.1.0 Change of transfar date request (Endring overdragelsesdato)
 
 ```json
 {
@@ -864,7 +864,7 @@ If this happens this message can be used to inform about the change
 }
 ```
 
-### 4.2.0 Change of transfer date processed - Endring overdragelsesdato behandlet
+### 4.2.0 Change of transfer date processed (Endring overdragelsesdato behandlet)
 
 The change of transfer date is a very simple change on the accountant side and the response will tell if the change will been done or not:
 
