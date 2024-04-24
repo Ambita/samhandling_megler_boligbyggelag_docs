@@ -3,12 +3,14 @@
 Documentation for cooperation between brokers and accountants
 
 Ambita has designed a set of api messages to capture the flow between a broker and an accountant. 
-We have split the process into four separate steps:
+We have split the process into separate steps:
 
 1. Boliginformasjon (Information about the object). Used to inform the broker about which rules that apply to the sale of a given object.
 2. Forhåndsutlysing (Advance clarification). If the seller want to, he or she can clarify any preemption before the object is sold.
 3. Salgsmelding (Sales message). The broker informs the accountant about the object being sold.
-4. Restanse (Arrears). The broker requests what payment needs to be fulfilled.
+4. Endring overdragelsesdato (Change of transfer date). The broker requests a new transfer date
+5. Endring kjøpere (Change of buyers). The broken requests a change of buyers (new owners)
+6. Restanse (Arrears). The broker requests what payment needs to be fulfilled.
 
 ## Messages
 
@@ -27,7 +29,7 @@ heavily on PDF files that we deliver into the project archive, These files will 
 calls that push the structured data into the broker system. This will be done with little or no effect on the 
 accountant integrations.
 
-### Boliginformasjon
+### 1. Information about the object / Boliginformasjon
 
 The first thing a broker needs to do is to find out which operations can be done at all, which of them can be 
 done digitally and which of them they need to continue to do manually. This can differ from one sales project 
@@ -225,7 +227,7 @@ List of client types:
 * Parkeringssameie
 * Tingrettslig sameie
 
-### Clarification / Forhåndsutlysing
+### 2. Clarification / Forhåndsutlysing
 
 If the seller wants to clarify the preemption before the sale is concluded they may ask the broker to 
 order this. The response will come in two messages. One early message that explains the process and 
@@ -431,7 +433,7 @@ message does not contain any product specific data fields. It will result in a m
 }
 ```
 
-### Sales message / Salgsmelding 
+### 3. Sales message / Salgsmelding 
 
 When the object has been sold the broker sends a sales message to the accountant. 
 This request message contains all the necessary information needed for updating data and proceed 
@@ -819,7 +821,7 @@ Later, when all the processes like clarification and board approval has been com
   * andreHensyn (considerations) - Description of things to consider
 * kjopere (buyers) - List of buyers registered by the business manager
 
-### Change of transfer date / Endring overdragelsesdato
+### 4. Change of transfer date / Endring overdragelsesdato
 
 The transfer date might change after the initial sales message has been sent from the broker to the accountant.
 If this happens this message can be used to inform about the change
@@ -895,7 +897,15 @@ There are two new fields in this message:
 * datoEndret - true if date was changed, false if not
 * avvisningsarsak - optional text field to explain the reason for not changing the transfer date
 
-### Errors
+### 5. Change of buyers / Endring kjøpere
+
+This product is in development
+
+### 6. Arrears / Restanse
+
+Not yet designed
+
+### Errors / Feilmeldinger
 
 Errors might happen. If we get into a situation where the responding system needs to send an error 
 the following message may be used:
