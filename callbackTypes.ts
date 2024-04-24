@@ -6,6 +6,7 @@ export enum BestillingsFormat {
 export type BestillingsmottakerType = 'forretningsforer' | 'lag'
 
 export enum Feilkode {
+  eierskifteAlleredeOpprettet = 2,
   forhandsutlysningStottesIkke = 4,
   tilknyttetAnnetBoligbyggelag = 6, // behandles av annet boligbyggelag
   forhandIkkeUtloptSjekkStatus = 31, // ny ordre på samme objekt fra samme megler
@@ -21,8 +22,9 @@ export enum CallbackType {
   salgsmeldingmottatt = 'salgsmeldingmottatt',
   salgsmeldingoppdatering = 'salgsmeldingoppdatering',
   salgsmeldingfullfort = 'salgsmeldingfullfort',
-  eierskiftemottatt = 'eierskiftemottatt',
-  eierskiftefullfort = 'eierskiftefullfort',
+  endringoverdragelse = 'endringoverdragelse',
+  endringkjoperemottatt = 'endringkjoperemottatt',
+  endringkjoperefullfort = 'endringkjoperefullfort',
   feil = 'feil'
 }
 
@@ -218,11 +220,21 @@ export interface SalgsmeldingFullfort extends Callback {
 }
 
 /**
+ * EndringOverdragelse
+ * required - Respond if the requested transfer date was accepted
+ */
+export interface EndringOverdragelseBehandlet extends Callback {
+  type: CallbackType.endringoverdragelse
+  ordreMottatt: string
+  datoEndret: boolean
+}
+
+/**
  * EierskifteMottatt
  * optional - to be used if updates trigger new board approval
  */
-export interface EierskifteMottatt extends Callback {
-  type: CallbackType.eierskiftemottatt
+export interface EndringKjopereMottatt extends Callback {
+  type: CallbackType.endringkjoperemottatt
   ordreMottatt: string
   styregodkjenningPakrevd: boolean
   styregodkjenning?: Styregodkjenning
@@ -232,13 +244,13 @@ export interface EierskifteMottatt extends Callback {
  * EierskifteFullfort
  * required - confirms process completed
  */
-export interface EierskifteFullfort extends Callback {
-  type: CallbackType.eierskiftefullfort
+export interface EndringKjopereFullfort extends Callback {
+  type: CallbackType.endringkjoperefullfort
   ordreMottatt: string
   styregodkjenningPakrevd: boolean
   styregodkjenning?: StyregodkjenningFullfort
 }
 
 export type CallbackEvent = Boliginformasjon | Feil |
-  ForhandsutlysingTidlig | ForhandsutlysingUtsatt | ForhandsutlysingSen | ForhandsutlysingUtlopt |
-  SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort | EierskifteMottatt | EierskifteFullfort
+  ForhandsutlysingTidlig | ForhandsutlysingUtsatt | ForhandsutlysingSen | ForhandsutlysingUtlopt | EndringOverdragelseBehandlet |
+  SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort | EndringKjopereMottatt | EndringKjopereFullfort

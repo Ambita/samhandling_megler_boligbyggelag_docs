@@ -2,7 +2,8 @@ export enum RequestType {
   boliginformasjon = 'boliginformasjon',
   forhandsutlysing = 'forhandsutlysing',
   salgsmelding = 'salgsmelding',
-  eierskifte = 'eierskifte',
+  endringoverdragelse = 'endringoverdragelse',
+  endringkjopere = 'endringkjopere',
   restanse = 'restanse'
 }
 
@@ -124,14 +125,21 @@ export interface Salgsmelding extends BasicProduct {
 }
 
 /**
- * Eierskifte
- * Notify about changes in the change of ownership process
- * This can be either the owners, the transfer date or both
+ * EndringOverdragelse
+ * Notify about change of transfer date
  */
-export interface Eierskifte extends BasicProduct {
-  type: RequestType.eierskifte,
-  kjopere?: Kontakt[],
-  datoOverdragelse?: string
+export interface EndringOverdragelse extends BasicProduct {
+  type: RequestType.endringoverdragelse,
+  datoOverdragelse: string
+}
+
+/**
+ * EndringKjopere
+ * Notify about change of buyers/owners
+ */
+export interface EndringKjopere extends BasicProduct {
+  type: RequestType.endringkjopere,
+  kjopere: Kontakt[],
 }
 
 /**
