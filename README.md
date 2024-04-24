@@ -819,6 +819,82 @@ Later, when all the processes like clarification and board approval has been com
   * andreHensyn (considerations) - Description of things to consider
 * kjopere (buyers) - List of buyers registered by the business manager
 
+### Change of transfer date / Endring overdragelsesdato
+
+The transfer date might change after the initial sales message has been sent from the broker to the accountant.
+If this happens this message can be used to inform about the change
+
+```json
+{
+  "type": "endringoverdragelse",
+  "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
+  "registerenhet": {
+    "type": "matrikkel",
+    "ident": "3802-71-119-0-21"
+  },
+  "bestiller": {
+    "id": "TBF",
+    "navn": "Broker Doe",
+    "epost": "tbf@domene.no",
+    "telefon": "79119911"
+
+  },
+  "meglerkontor": {
+    "orgnr": "987654323",
+    "avdelingsnr": "3",
+    "navn": "Avdeling3",
+    "adresse": {
+      "gateadresse": "Testvei 3",
+      "postnummer": "0030",
+      "poststed": "OSLO"
+    },
+    "telefon": "12345678"
+  },
+  "kontaktperson": {
+    "id": "AO",
+    "navn": "Anne Olsen",
+    "epost": "aol@domene.no",
+    "telefon": "12548630"
+  },
+  "datoOverdragelse": "2024-02-01T12:00:00+02:00"
+}
+```
+
+### Change of transfer date processed - Endring overdragelsesdato behandlet
+
+The change of transfer date is a very simple change on the accountant side and the response will tell if the change will been done or not:
+
+```json
+{
+  "tidspunkt": "2022-07-08T14:48:03.7753374Z",
+  "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
+  "levert": "2022-07-08T14:48:03.7537667+00:00",
+  "referanse": "622/1",
+  "eierform": "Seksjonseier",
+  "datoEndret": false,
+  "avvisningsarsak": "Dato passert"
+}
+```
+
+There are two new fields in this message:
+
+* datoEndret - true if date was changed, false if not
+* avvisningsarsak - optional text field to explain the reason for not changing the transfer date
+
 ### Errors
 
 Errors might happen. If we get into a situation where the responding system needs to send an error 

@@ -225,8 +225,8 @@ export interface SalgsmeldingFullfort extends Callback {
  */
 export interface EndringOverdragelseBehandlet extends Callback {
   type: CallbackType.endringoverdragelse
-  ordreMottatt: string
   datoEndret: boolean
+  avvisningsarsak?: string
 }
 
 /**
