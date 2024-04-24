@@ -457,6 +457,8 @@ The following responses can be used once, in order of appearance:
 
 `salgsmeldingfullfort` (required - expected at the end of the process - marks sale process completed)
 
+![Clarification](images/Salesmessage.png "Sales message flowchart")
+
 ### 3.1.0 Sales message request (Salgsmelding)
 
 An example json request can look like this:
