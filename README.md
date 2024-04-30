@@ -840,6 +840,7 @@ If this happens this message can be used to inform about the change.
 {
   "type": "endringoverdragelse",
   "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
+  "oppdragsnummer": "8-0148/23",
   "registerenhet": {
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
@@ -878,8 +879,8 @@ The change of transfer date is a very simple change on the accountant side and t
 
 ```json
 {
-  "tidspunkt": "2022-07-08T14:48:03.7753374Z",
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "type": "endringoverdragelse",
   "forretningsforer": {
     "navn": "UNTL",
     "adresse": {
