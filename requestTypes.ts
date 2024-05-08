@@ -11,6 +11,7 @@ export interface Salg {
   kjopesum: number
   datoAkseptBud: string
   datoOverdragelse: string
+  forbeholdBud?: string
 }
 
 export interface Bolig {

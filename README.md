@@ -530,7 +530,8 @@ An example json request can look like this:
   "salg": {
     "kjopesum": 2990000,
     "datoAkseptBud": "2022-06-30T12:00:00+02:00",
-    "datoOverdragelse": "2022-09-01T12:00:00+02:00"
+    "datoOverdragelse": "2022-09-01T12:00:00+02:00",
+    "forbeholdBud": "Innbo og parkeringsplass medfølger"
   },
   "bolig": {
     "prom": 60,
@@ -578,6 +579,7 @@ An example json request can look like this:
   * kjopesum (purchase price) - What the object was sold for
   * datoAkseptBud (bid accepted date) - The date the bid was accepted
   * datoOverdragelse (transfer date) - The date the object will be transferred
+  * forbeholdBud (bid reservation) - Any special considerations for the bid as free text 
 * bolig (housing) - information about the object. Fetched from broker system
   * prom (primary room area) - The area you live in
   * promBeskrivelse (description of prom) - A written description of the object
