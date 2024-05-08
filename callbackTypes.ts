@@ -28,13 +28,6 @@ export enum CallbackType {
   feil = 'feil'
 }
 
-export enum SalgsmeldingForhandsutlysing {
-  ikke_forhandsutlysing = 'ikke_forhandsutlysing',
-  med_interessenter = 'med_interessenter',
-  uten_interessenter = 'uten_interessenter',
-  ikke_vist_interesse = 'ikke_vist_interesse'
-}
-
 export interface Styreleder {
   navn: string
   epost?: string
