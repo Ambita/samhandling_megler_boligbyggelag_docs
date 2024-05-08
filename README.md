@@ -813,7 +813,6 @@ Later, when all the processes like clarification and board approval has been com
 
 * styregodkjenning (board approval)
   * statusStyregodkjenning
-    * "handteres_eksternt" - needs manual handling by the broker 
     * "godkjent_av_styret" - approved by the board
     * "avvist_av_styret" - not approved by the board
     * "godkjent_av_bbl" - approved by the accountant
