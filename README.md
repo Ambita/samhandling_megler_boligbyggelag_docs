@@ -870,6 +870,7 @@ If this happens this message can be used to inform about the change.
     "epost": "aol@domene.no",
     "telefon": "12548630"
   },
+  "salgsmeldingOrdreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
   "datoOverdragelse": "2024-02-01T12:00:00+02:00"
 }
 ```
@@ -880,7 +881,7 @@ The change of transfer date is a very simple change on the accountant side and t
 
 ```json
 {
-  "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
   "type": "endringoverdragelse",
   "forretningsforer": {
     "navn": "UNTL",

@@ -131,6 +131,7 @@ export interface Salgsmelding extends BasicProduct {
  */
 export interface EndringOverdragelse extends BasicProduct {
   type: RequestType.endringoverdragelse,
+  salgsmeldingOrdreId: string
   datoOverdragelse: string
 }
 
