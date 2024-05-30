@@ -146,7 +146,7 @@ export interface ForhandsutlysingUtlopt extends Callback {
 }
 
 export interface Styregodkjenning {
-  handteresAvForretningsforer?: boolean
+  handteresAvForretningsforer: boolean
   initiertDato?: string
   meldefrist?: string
 }
