@@ -653,7 +653,7 @@ information about what will be done:
   * meldefrist - see clarification response
 * styregodkjenningPakrevd (required) - true if board approval is needed
 * styregodkjenning (board approval) - if board approval is needed
-  * handteresAvForretningsforer (handled by accountant) - true if it is handled by the accountant 
+  * handteresAvForretningsforer (handled by accountant) - true if handled by the accountant. If false no other fields should be filled out in styregodkjenning  
   * initiertDato (date initialised) - The date the board will be notified
   * meldefrist (deadline) - The date the board needs to respond before
 * tilknyttetlag (connected to a cooperative)
@@ -814,7 +814,7 @@ Later, when all the processes like clarification and board approval has been com
 #### Extra response fields specific for sale message update and sale message completed
 
 * styregodkjenning (board approval)
-  * statusStyregodkjenning
+  * statusStyregodkjenning - filled out if handled by the accountant
     * "godkjent_av_styret" - approved by the board
     * "avvist_av_styret" - not approved by the board
     * "godkjent_av_bbl" - approved by the accountant
