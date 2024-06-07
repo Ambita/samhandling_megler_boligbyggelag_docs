@@ -2,6 +2,136 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/openapi3";
 
+// REQUEST DATA
+alias requests = "boliginformasjon" | "forhandsutlysing" | "salgsmelding" 
+| "endringoverdragelse" | "endringkjopere" | "restanse";
+
+alias registerenhettype = "matrikkel" | "borettsandel" | "aksjeandel" | "obligasjonsandel";
+
+@pattern("^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "Must be a date on SQL format (YYYY-MM-DD)")
+scalar date extends string;
+
+@pattern("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{2}:[0-9]{2}$", "Must be a date on ISO 8601 format (YYYY-MM-DDTHH:MM:SS+HH:MM)")
+scalar datetimeoffset extends string;
+
+model Salg {
+  kjopesum: integer;
+  datoAkseptBud: date;
+  datoOverdragelse: date;
+  forbeholdBud?: boolean;
+}
+
+model Bolig {
+  prom?: integer;
+  promBeskrivelse?: string;
+  bra?: integer;
+  bta?: integer;
+  antallRom?: integer;
+  antallSoverom?: integer;
+  energibokstav?: string;
+  energifargekode?: string;
+  heis?: boolean;
+  veranda?: boolean;
+  parkering?: string;
+  oppvarming?: string;
+  adresse?: Adresse;
+  leilighetsnummer?: string;
+}
+
+model Registerenhet {
+  type: registerenhettype;
+  ident: string;
+}
+
+model Kontaktinfo {
+  id: string;
+  navn: string;
+  epost: string;
+  telefon?: string;
+}
+
+model Meglerkontor {
+  orgnr: string;
+  avdelingsnr: string;
+  navn: string;
+  adresse: Adresse;
+  telefon: string;
+}
+
+/**
+ * Common request type for all product types
+ */
+model BasicProduct {
+  ordreId: string;
+  oppdragsnummer?: string;
+  registerenhet: Registerenhet;
+  bestiller: Kontaktinfo;
+  meglerkontor: Meglerkontor;
+  kontaktperson: Kontaktinfo;
+}
+
+/**
+ * Boliginfo
+ * Order information about a property
+ */
+model Boliginfo extends BasicProduct {
+  type: "boliginformasjon";
+}
+
+/**
+ * Forhandsutlysing
+ * Order a clarification
+ */
+model Forhandsutlysing extends BasicProduct {
+  type: "forhandsutlysing";
+  bolig: Bolig;
+  selgere: Kontakt[];
+  finnkode?: string;
+  prisantydning?: integer;
+}
+
+/**
+ * Salgsmelding
+ * Trigger the change of ownership
+ */
+model Salgsmelding extends BasicProduct {
+  type: "salgsmelding";
+  kjopere: Kontakt[];
+  selgere: Kontakt[];
+  eiere?: Kontakt[];
+  finnkode?: string;
+  salg: Salg;
+  bolig: Bolig;
+}
+
+/**
+ * EndringOverdragelse
+ * Notify about change of transfer date
+ */
+model EndringOverdragelse extends BasicProduct {
+  type: "endringoverdragelse";
+  salgsmeldingOrdreId: string;
+  datoOverdragelse: date;
+}
+
+/**
+ * EndringKjopere
+ * Notify about change of buyers/owners
+ */
+model EndringKjopere extends BasicProduct {
+  type: "endringkjopere";
+  kjopere: Kontakt[];
+}
+
+/**
+ * Restanse
+ * Order and handle arrears - not yet designed
+ */
+model Restanse extends BasicProduct {
+  type: "restanse"
+}
+
+// RESPONSE DATA
 alias callbacks = "boliginformasjon" | "forhandsutlysingtidlig" | "forhandsutlysingutsatt" 
   | "forhandsutlysingsen" | "forhandsutlysingutlopt" | "salgsmeldingmottatt" 
   | "salgsmeldingoppdatering" | "salgsmeldingfullfort" | "endringoverdragelse"
@@ -67,7 +197,7 @@ model Callback {
   levert?: string;
   referanse?: string;
   eierform?: "Aksjonær" | "Andelseier" | "Sameier" | "Seksjonseier";
-  ordreMottatt?: offsetDateTime;
+  ordreMottatt?: datetimeoffset;
 }
 
 /**
@@ -118,8 +248,8 @@ model Boliginformasjon extends Callback {
 model ForhandsutlysingTidlig extends Callback {
   type: "forhandsutlysingtidlig";
   utlysingssted: string;
-  utlysingsdato: offsetDateTime;
-  meldefrist: offsetDateTime;
+  utlysingsdato: datetimeoffset;
+  meldefrist: datetimeoffset;
 }
 
 /**
@@ -129,8 +259,8 @@ model ForhandsutlysingTidlig extends Callback {
 model ForhandsutlysingUtsatt extends Callback {
   type: "forhandsutlysingutsatt";
   utlysingssted: string;
-  utlysingsdato: offsetDateTime;
-  meldefrist: offsetDateTime;
+  utlysingsdato: datetimeoffset;
+  meldefrist: datetimeoffset;
 }
 
 /**
@@ -140,10 +270,10 @@ model ForhandsutlysingUtsatt extends Callback {
 model ForhandsutlysingSen extends Callback {
   type: "forhandsutlysingutsatt";
   utlysingssted: string;
-  utlysingsdato: offsetDateTime;
-  meldefrist: offsetDateTime;
+  utlysingsdato: datetimeoffset;
+  meldefrist: datetimeoffset;
   antallInteressenter: integer;
-  varighetForkjopsrett: offsetDateTime;
+  varighetForkjopsrett: datetimeoffset;
 }
 
 /**
@@ -156,8 +286,8 @@ model ForhandsutlysingUtlopt extends Callback {
 
 model Styregodkjenning {
   handteresAvForretningsforer: boolean;
-  initiertDato?: offsetDateTime;
-  meldefrist?: offsetDateTime;
+  initiertDato?: datetimeoffset;
+  meldefrist?: datetimeoffset;
 }
 
 model StyregodkjenningFullfort extends Styregodkjenning {
@@ -168,9 +298,9 @@ model StyregodkjenningFullfort extends Styregodkjenning {
 model SalgsmeldingForkjopsrett {
   typeAvklaring: "fastpris" | "forhandsutlysing";
   statusForhandsutlysing: "ikke_forhandsutlysing" | "med_interessenter" | "uten_interessenter" | "forkjop_ikke_benyttet";
-  utlysingsdato: offsetDateTime;
+  utlysingsdato: datetimeoffset;
   utlysingssted: string;
-  meldefrist: offsetDateTime;
+  meldefrist: datetimeoffset;
 }
 
 model SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsrett {
