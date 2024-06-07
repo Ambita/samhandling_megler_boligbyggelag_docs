@@ -2,6 +2,8 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/openapi3";
 
+using TypeSpec.Http;
+
 // REQUEST DATA
 alias requests = "boliginformasjon" | "forhandsutlysing" | "salgsmelding" 
 | "endringoverdragelse" | "endringkjopere" | "restanse";
@@ -61,7 +63,7 @@ model Meglerkontor {
 /**
  * Common request type for all product types
  */
-model BasicProduct {
+model BasicRequest {
   ordreId: string;
   oppdragsnummer?: string;
   registerenhet: Registerenhet;
@@ -74,7 +76,7 @@ model BasicProduct {
  * Boliginfo
  * Order information about a property
  */
-model Boliginfo extends BasicProduct {
+model BoliginformasjonOrdre extends BasicRequest {
   type: "boliginformasjon";
 }
 
@@ -82,7 +84,7 @@ model Boliginfo extends BasicProduct {
  * Forhandsutlysing
  * Order a clarification
  */
-model Forhandsutlysing extends BasicProduct {
+model ForhandsutlysingOrdre extends BasicRequest {
   type: "forhandsutlysing";
   bolig: Bolig;
   selgere: Kontakt[];
@@ -94,7 +96,7 @@ model Forhandsutlysing extends BasicProduct {
  * Salgsmelding
  * Trigger the change of ownership
  */
-model Salgsmelding extends BasicProduct {
+model SalgsmeldingOrdre extends BasicRequest {
   type: "salgsmelding";
   kjopere: Kontakt[];
   selgere: Kontakt[];
@@ -108,7 +110,7 @@ model Salgsmelding extends BasicProduct {
  * EndringOverdragelse
  * Notify about change of transfer date
  */
-model EndringOverdragelse extends BasicProduct {
+model EndringOverdragelseOrdre extends BasicRequest {
   type: "endringoverdragelse";
   salgsmeldingOrdreId: string;
   datoOverdragelse: date;
@@ -118,7 +120,7 @@ model EndringOverdragelse extends BasicProduct {
  * EndringKjopere
  * Notify about change of buyers/owners
  */
-model EndringKjopere extends BasicProduct {
+model EndringKjopereOrdre extends BasicRequest {
   type: "endringkjopere";
   kjopere: Kontakt[];
 }
@@ -127,7 +129,7 @@ model EndringKjopere extends BasicProduct {
  * Restanse
  * Order and handle arrears - not yet designed
  */
-model Restanse extends BasicProduct {
+model RestanseOrdre extends BasicRequest {
   type: "restanse"
 }
 
@@ -189,7 +191,7 @@ model Kontakt {
   eierbrok: Eierbrok; 
 }
 
-model Callback {
+model BasicResponse {
   type: callbacks;
   ordreId: string;
   forretningsforer: Forretningsforer;
@@ -204,7 +206,7 @@ model Callback {
  * Feil
  * optional - used to report errors
   */
-model Feil extends Callback {
+model Feil extends BasicResponse {
   type: "feil";
   feilmelding: string;
   feilkode?: feilkode;
@@ -216,7 +218,7 @@ model Feil extends Callback {
  * Boliginformasjon
  * required - used to report information on requested property
   */
-model Boliginformasjon extends Callback {
+model BoliginformasjonResponse extends BasicResponse {
   type: "boliginformasjon";
   forkjopsrett: {
     harForkjopsrett: boolean;
@@ -245,7 +247,7 @@ model Boliginformasjon extends Callback {
  * ForhandsutlysingTidlig
  * required - used to report announcement data
  */
-model ForhandsutlysingTidlig extends Callback {
+model ForhandsutlysingTidlig extends BasicResponse {
   type: "forhandsutlysingtidlig";
   utlysingssted: string;
   utlysingsdato: datetimeoffset;
@@ -256,7 +258,7 @@ model ForhandsutlysingTidlig extends Callback {
  * ForhandsutlysingUtsatt
  * required - used to report announcement postponed
  */
-model ForhandsutlysingUtsatt extends Callback {
+model ForhandsutlysingUtsatt extends BasicResponse {
   type: "forhandsutlysingutsatt";
   utlysingssted: string;
   utlysingsdato: datetimeoffset;
@@ -267,7 +269,7 @@ model ForhandsutlysingUtsatt extends Callback {
  * ForhandsutlysingSen
  * required - used to report announcement completed
  */
-model ForhandsutlysingSen extends Callback {
+model ForhandsutlysingSen extends BasicResponse {
   type: "forhandsutlysingutsatt";
   utlysingssted: string;
   utlysingsdato: datetimeoffset;
@@ -280,7 +282,7 @@ model ForhandsutlysingSen extends Callback {
  * ForhandsutlysingUtlopt
  * required - used to report announcement expired
  */
-model ForhandsutlysingUtlopt extends Callback {
+model ForhandsutlysingUtlopt extends BasicResponse {
   type: "forhandsutlysingutlopt";
 }
 
@@ -312,7 +314,7 @@ model SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsrett {
  * SalgsmeldingMottatt
  * optional - clarifies process, can be omitted if no process is needed
  */
-model SalgsmeldingMottatt extends Callback {
+model SalgsmeldingMottatt extends BasicResponse {
   type: "salgsmeldingmottatt";
   harForkjopsrett: boolean;
   forkjopsrett?: SalgsmeldingForkjopsrett;
@@ -325,7 +327,7 @@ model SalgsmeldingMottatt extends Callback {
  * SalgsmeldingOppdatering
  * optional - can be sent before board approval process completed
  */
-model SalgsmeldingOppdatering extends Callback {
+model SalgsmeldingOppdatering extends BasicResponse {
   type: "salgsmeldingoppdatering";
   harForkjopsrett: boolean;
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort;
@@ -338,7 +340,7 @@ model SalgsmeldingOppdatering extends Callback {
  * SalgsmeldingFullfort
  * required - expected at the end of the process - marks sale process completed
  */
-model SalgsmeldingFullfort extends Callback {
+model SalgsmeldingFullfort extends BasicResponse {
   type: "salgsmeldingfullfort";
   harForkjopsrett: boolean;
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort;
@@ -352,7 +354,7 @@ model SalgsmeldingFullfort extends Callback {
  * EndringOverdragelse
  * required - Respond if the requested transfer date was accepted
  */
-model EndringOverdragelseBehandlet extends Callback {
+model EndringOverdragelseBehandlet extends BasicResponse {
   type: "endringoverdragelse";
   datoEndret: boolean;
   avvisningsarsak?: string;
@@ -362,7 +364,7 @@ model EndringOverdragelseBehandlet extends Callback {
  * EierskifteMottatt
  * optional - to be used if updates trigger new board approval
  */
-model EndringKjopereMottatt extends Callback {
+model EndringKjopereMottatt extends BasicResponse {
   type: "endringkjoperemottatt";
   styregodkjenningPakrevd: boolean;
   styregodkjenning?: Styregodkjenning;
@@ -372,7 +374,7 @@ model EndringKjopereMottatt extends Callback {
  * EierskifteFullfort
  * required - confirms process completed
  */
-model EndringKjopereFullfort extends Callback {
+model EndringKjopereFullfort extends BasicResponse {
   type: "endringkjoperefullfort";
   styregodkjenningPakrevd: boolean;
   styregodkjenning?: StyregodkjenningFullfort;
@@ -381,3 +383,43 @@ model EndringKjopereFullfort extends Callback {
 alias CallbackEvent = Boliginformasjon | Feil |
   ForhandsutlysingTidlig | ForhandsutlysingUtsatt | ForhandsutlysingSen | ForhandsutlysingUtlopt | EndringOverdragelseBehandlet |
   SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort | EndringKjopereMottatt | EndringKjopereFullfort;
+
+model GenericResponse {
+}
+
+// PATHS FOR ORDERING
+@route("/boliginformasjon")
+interface Boliginformasjon {
+  order(@body req: BoliginformasjonOrdre): GenericResponse;
+}
+
+@route("/forhandsutlysing")
+interface Forhandsutlysing {
+  order(@body req: ForhandsutlysingOrdre): GenericResponse;
+}
+
+@route("/salgsmelding")
+interface Salgsmelding {
+  order(@body req: SalgsmeldingOrdre): GenericResponse;
+}
+
+@route("/endringoverdragelse")
+interface EndringOverdragelse {
+  order(@body req: EndringOverdragelseOrdre): GenericResponse;
+}
+
+@route("/endringkjopere")
+interface EndringKjopere {
+  order(@body req: EndringKjopereOrdre): GenericResponse;
+}
+
+@route("/restanse")
+interface Restanse {
+  order(@body req: RestanseOrdre): GenericResponse;
+}
+
+// PATHS FOR CALLBACKS
+@route("/callback")
+interface Callback {
+  receive(@body req: CallbackEvent): GenericResponse;
+}
