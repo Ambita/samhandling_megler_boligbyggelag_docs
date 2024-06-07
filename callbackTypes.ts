@@ -223,7 +223,7 @@ export interface EndringOverdragelseBehandlet extends Callback {
 }
 
 /**
- * EierskifteMottatt
+ * EndringKjopereMottatt
  * optional - to be used if updates trigger new board approval
  */
 export interface EndringKjopereMottatt extends Callback {
@@ -234,7 +234,7 @@ export interface EndringKjopereMottatt extends Callback {
 }
 
 /**
- * EierskifteFullfort
+ * EndringKjopereFullfort
  * required - confirms process completed
  */
 export interface EndringKjopereFullfort extends Callback {
