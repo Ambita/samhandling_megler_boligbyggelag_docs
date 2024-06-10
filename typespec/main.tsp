@@ -88,6 +88,7 @@ model ForhandsutlysingOrdre extends BasicRequest {
   type: "forhandsutlysing";
   bolig: Bolig;
   selgere: Kontakt[];
+  omsetningstype?: "salg" | "tvangssalg" | "utleie" | "verdivurdering" | "oppgjorsoppdrag";
   finnkode?: string;
   prisantydning?: integer;
 }
@@ -101,6 +102,7 @@ model SalgsmeldingOrdre extends BasicRequest {
   kjopere: Kontakt[];
   selgere: Kontakt[];
   eiere?: Kontakt[];
+  omsetningstype?: "salg" | "tvangssalg" | "utleie" | "verdivurdering" | "oppgjorsoppdrag";
   finnkode?: string;
   salg: Salg;
   bolig: Bolig;
@@ -332,6 +334,7 @@ model SalgsmeldingOppdatering extends BasicResponse {
   harForkjopsrett: boolean;
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort;
   styregodkjenningPakrevd: boolean;
+  styregodkjenning?: Styregodkjenning;
   kjopere: Kontakt[];
   tilknyttetLag: boolean;
 }
