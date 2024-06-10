@@ -193,6 +193,7 @@ export interface SalgsmeldingOppdatering extends Callback {
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort
   styregodkjenningPakrevd: boolean
+  styregodkjenning?: Styregodkjenning
   kjopere: Kontakt[]
   tilknyttetLag: boolean
 }
