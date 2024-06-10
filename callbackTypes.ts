@@ -14,17 +14,6 @@ export enum Feilkode {
 }
 
 export enum CallbackType {
-  boliginformasjon = 'boliginformasjon',
-  forhandsutlysingtidlig = 'forhandsutlysingtidlig',
-  forhandsutlysingutsatt = 'forhandsutlysingutsatt',
-  forhandsutlysingsen = 'forhandsutlysingsen',
-  forhandsutlysingutlopt = 'forhandsutlysingutlopt',
-  salgsmeldingmottatt = 'salgsmeldingmottatt',
-  salgsmeldingoppdatering = 'salgsmeldingoppdatering',
-  salgsmeldingfullfort = 'salgsmeldingfullfort',
-  endringoverdragelse = 'endringoverdragelse',
-  endringkjoperemottatt = 'endringkjoperemottatt',
-  endringkjoperefullfort = 'endringkjoperefullfort',
   feil = 'feil'
 }
 
@@ -67,7 +56,7 @@ export interface Kontakt {
 }
 
 export interface Callback {
-  type: CallbackType
+  type: string
   ordreId: string
   forretningsforer: {
     navn: string
@@ -91,7 +80,7 @@ export interface Feil extends Callback {
 
 // Callback types
 export interface Boliginformasjon extends Callback {
-  type: CallbackType.boliginformasjon
+  type: 'boliginformasjon'
   forkjopsrett: {
     harForkjopsrett: boolean
     kanForhandsutlyses: boolean
@@ -116,7 +105,7 @@ export interface Boliginformasjon extends Callback {
 }
 
 export interface ForhandsutlysingTidlig extends Callback {
-  type: CallbackType.forhandsutlysingtidlig
+  type: 'forhandsutlysingtidlig'
   ordreMottatt: string
   utlysingssted: string
   utlysingsdato: string
@@ -124,7 +113,7 @@ export interface ForhandsutlysingTidlig extends Callback {
 }
 
 export interface ForhandsutlysingUtsatt extends Callback {
-  type: CallbackType.forhandsutlysingutsatt
+  type: 'forhandsutlysingutsatt'
   ordreMottatt: string
   utlysingssted: string
   utlysingsdato: string
@@ -132,7 +121,7 @@ export interface ForhandsutlysingUtsatt extends Callback {
 }
 
 export interface ForhandsutlysingSen extends Callback {
-  type: CallbackType.forhandsutlysingsen
+  type: 'forhandsutlysingsen'
   ordreMottatt: string
   utlysingssted: string
   utlysingsdato: string
@@ -142,7 +131,7 @@ export interface ForhandsutlysingSen extends Callback {
 }
 
 export interface ForhandsutlysingUtlopt extends Callback {
-  type: CallbackType.forhandsutlysingutlopt
+  type: 'forhandsutlysingutlopt'
 }
 
 export interface Styregodkjenning {
@@ -174,7 +163,7 @@ export interface SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsre
  * optional - clarifies process, can be omitted if no process is needed
  */
 export interface SalgsmeldingMottatt extends Callback {
-  type: CallbackType.salgsmeldingmottatt
+  type: 'salgsmeldingmottatt'
   ordreMottatt: string
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrett
@@ -188,7 +177,7 @@ export interface SalgsmeldingMottatt extends Callback {
  * optional - can be sent before board approval process completed
  */
 export interface SalgsmeldingOppdatering extends Callback {
-  type: CallbackType.salgsmeldingoppdatering
+  type: 'salgsmeldingoppdatering'
   ordreMottatt: string
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort
@@ -203,7 +192,7 @@ export interface SalgsmeldingOppdatering extends Callback {
  * required - expected at the end of the process - marks sale process completed
  */
 export interface SalgsmeldingFullfort extends Callback {
-  type: CallbackType.salgsmeldingfullfort
+  type: 'salgsmeldingfullfort'
   ordreMottatt: string
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort
@@ -218,7 +207,7 @@ export interface SalgsmeldingFullfort extends Callback {
  * required - Respond if the requested transfer date was accepted
  */
 export interface EndringOverdragelseBehandlet extends Callback {
-  type: CallbackType.endringoverdragelse
+  type: 'endringoverdragelse'
   datoEndret: boolean
   avvisningsarsak?: string
 }
@@ -228,7 +217,7 @@ export interface EndringOverdragelseBehandlet extends Callback {
  * optional - to be used if updates trigger new board approval
  */
 export interface EndringKjopereMottatt extends Callback {
-  type: CallbackType.endringkjoperemottatt
+  type: 'endringkjoperemottatt'
   ordreMottatt: string
   styregodkjenningPakrevd: boolean
   styregodkjenning?: Styregodkjenning
@@ -239,12 +228,20 @@ export interface EndringKjopereMottatt extends Callback {
  * required - confirms process completed
  */
 export interface EndringKjopereFullfort extends Callback {
-  type: CallbackType.endringkjoperefullfort
+  type: 'endringkjoperefullfort'
   ordreMottatt: string
   styregodkjenningPakrevd: boolean
   styregodkjenning?: StyregodkjenningFullfort
 }
 
+/**
+ * SluttbrevAkseptert
+ * required - confirms process completed
+ */
+export interface SluttbrevAkseptert extends Callback {
+  type: 'sluttbrevakseptert'
+}
+
 export type CallbackEvent = Boliginformasjon | Feil |
   ForhandsutlysingTidlig | ForhandsutlysingUtsatt | ForhandsutlysingSen | ForhandsutlysingUtlopt | EndringOverdragelseBehandlet |
-  SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort | EndringKjopereMottatt | EndringKjopereFullfort
+  SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort | EndringKjopereMottatt | EndringKjopereFullfort | SluttbrevAkseptert

@@ -1,12 +1,3 @@
-export enum RequestType {
-  boliginformasjon = 'boliginformasjon',
-  forhandsutlysing = 'forhandsutlysing',
-  salgsmelding = 'salgsmelding',
-  endringoverdragelse = 'endringoverdragelse',
-  endringkjopere = 'endringkjopere',
-  restanse = 'restanse'
-}
-
 export interface Salg {
   kjopesum: number
   datoAkseptBud: string
@@ -96,7 +87,7 @@ export interface BasicProduct {
  * Order information about a property
  */
 export interface Boliginfo extends BasicProduct {
-  type: RequestType.boliginformasjon
+  type: 'boliginformasjon'
 }
 
 /**
@@ -104,7 +95,7 @@ export interface Boliginfo extends BasicProduct {
  * Order a clarification
  */
 export interface Forhandsutlysing extends BasicProduct {
-  type: RequestType.forhandsutlysing
+  type: 'forhandsutlysing'
   bolig: Bolig
   selgere: Kontakt[]
   omsetningstype?: 'salg' | 'tvangssalg' | 'utleie' | 'verdivurdering' | 'oppgjorsoppdrag'
@@ -117,7 +108,7 @@ export interface Forhandsutlysing extends BasicProduct {
  * Trigger the change of ownership
  */
 export interface Salgsmelding extends BasicProduct {
-  type: RequestType.salgsmelding
+  type: 'salgsmelding'
   kjopere: Kontakt[]
   selgere: Kontakt[]
   eiere?: Kontakt[]
@@ -132,7 +123,7 @@ export interface Salgsmelding extends BasicProduct {
  * Notify about change of transfer date
  */
 export interface EndringOverdragelse extends BasicProduct {
-  type: RequestType.endringoverdragelse,
+  type: 'endringoverdragelse',
   salgsmeldingOrdreId: string
   datoOverdragelse: string
 }
@@ -142,8 +133,21 @@ export interface EndringOverdragelse extends BasicProduct {
  * Notify about change of buyers/owners
  */
 export interface EndringKjopere extends BasicProduct {
-  type: RequestType.endringkjopere,
+  type: 'endringkjopere',
   kjopere: Kontakt[],
+}
+
+/**
+ * Sluttbrev
+ * Sent when the ownership transfer is completed
+ */
+export interface Sluttbrev extends BasicProduct {
+  type: 'sluttbrev'
+  tinglysteEiere?: Kontakt[]
+  registerforteEiere?: Kontakt[]
+  datoOverdragelse: string
+  forkjopsrettAvklart?: boolean
+  styregodkjenningAvklart?: boolean
 }
 
 /**
@@ -151,5 +155,5 @@ export interface EndringKjopere extends BasicProduct {
  * Order and handle arrears - not yet designed
  */
 export interface Restanse extends BasicProduct {
-  type: RequestType.restanse
+  type: 'restanse'
 }
