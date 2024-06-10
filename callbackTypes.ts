@@ -13,10 +13,6 @@ export enum Feilkode {
   forhandIkkeUtloptKontaktForrForer = 32, // ny ordre på samme objekt fra annen megler
 }
 
-export enum CallbackType {
-  feil = 'feil'
-}
-
 export interface Styreleder {
   navn: string
   epost?: string
@@ -71,7 +67,7 @@ export interface Callback {
 }
 
 export interface Feil extends Callback {
-  type: CallbackType.feil
+  type: 'feil'
   feilmelding: string
   feilkode?: Feilkode
   tidspunkt: string
