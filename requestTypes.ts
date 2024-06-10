@@ -107,6 +107,7 @@ export interface Forhandsutlysing extends BasicProduct {
   type: RequestType.forhandsutlysing
   bolig: Bolig
   selgere: Kontakt[]
+  omsetningstype?: 'salg' | 'tvangssalg' | 'utleie' | 'verdivurdering' | 'oppgjorsoppdrag'
   finnkode?: string
   prisantydning?: number
 }
@@ -120,6 +121,7 @@ export interface Salgsmelding extends BasicProduct {
   kjopere: Kontakt[]
   selgere: Kontakt[]
   eiere?: Kontakt[]
+  omsetningstype?: 'salg' | 'tvangssalg' | 'utleie' | 'verdivurdering' | 'oppgjorsoppdrag'
   finnkode?: string
   salg: Salg
   bolig: Bolig
