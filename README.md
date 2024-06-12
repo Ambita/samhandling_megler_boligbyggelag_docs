@@ -30,6 +30,25 @@ heavily on PDF files that we deliver into the project archive, These files will 
 calls that push the structured data into the broker system. This will be done with little or no effect on the 
 accountant integrations.
 
+The messages are sent as JSON objects over HTTPS. The messages are sent as POST requests to the accountant.
+Responses are sent back to us as POST requests. In other words, the communication is asynchronous.
+
+### Comments on message flow
+
+The following descriptions define a set of flows between us and the accountant system. The messages are
+described in a way that assumes that the process is fully automated and that the accountant can handle
+operations themselves. Sometimes part of the flow is handled outside the accountant system. In these cases
+we will inform the broker about this. The broker will then have to handle the operation manually.
+
+To explain this in more detail the process can be viewed as three separate large operations: 
+
+ * Clarification
+ * Ownership change
+ * Arrears
+
+All messages interact with these three operations. Special handling is required if the accountant system is not
+used to handle any one of these. 
+
 ## 1. Information about the object / Boliginformasjon
 
 The first thing a broker needs to do is to find out which operations can be done at all, which of them can be 
