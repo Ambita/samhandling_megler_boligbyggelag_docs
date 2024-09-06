@@ -1,3 +1,11 @@
+// Dato med tidspunkt i ISO-format.
+// Tidspunktet må oppgis i UTC, slik '2021-09-01T12:00:00Z'
+// eller i en gitt offset-zone ,'2021-09-01T12:00:00+02:00'
+export type ISODateTime = string
+
+// Dato på ISO format ('2021-09-01')
+export type ISODate = string
+
 export enum BestillingsFormat {
   MANUELT = 'Manuelt',
   ELEKTRONISK = 'Elektronisk'
@@ -61,7 +69,7 @@ export interface Callback {
     epostRestanse?: string
   }
   klient?: Klient
-  levert?: string
+  levert?: ISODateTime
   referanse?: string
   eierform?: 'Aksjonær' | 'Andelseier' | 'Sameier' | 'Seksjonseier'
 }
@@ -70,7 +78,7 @@ export interface Feil extends Callback {
   type: 'feil'
   feilmelding: string
   feilkode?: Feilkode
-  tidspunkt: string
+  tidspunkt: ISODateTime
   kansellert?: boolean
 }
 
@@ -102,28 +110,28 @@ export interface Boliginformasjon extends Callback {
 
 export interface ForhandsutlysingTidlig extends Callback {
   type: 'forhandsutlysingtidlig'
-  ordreMottatt: string
+  ordreMottatt: ISODateTime
   utlysingssted: string
-  utlysingsdato: string
-  meldefrist: string
+  utlysingsdato: ISODate
+  meldefrist: ISODateTime
 }
 
 export interface ForhandsutlysingUtsatt extends Callback {
   type: 'forhandsutlysingutsatt'
-  ordreMottatt: string
+  ordreMottatt: ISODateTime
   utlysingssted: string
-  utlysingsdato: string
-  meldefrist: string
+  utlysingsdato: ISODate
+  meldefrist: ISODateTime
 }
 
 export interface ForhandsutlysingSen extends Callback {
   type: 'forhandsutlysingsen'
-  ordreMottatt: string
+  ordreMottatt: ISODateTime
   utlysingssted: string
-  utlysingsdato: string
-  meldefrist: string
+  utlysingsdato: ISODate
+  meldefrist: ISODateTime
   antallInteressenter: number
-  varighetForkjopsrett: string
+  varighetForkjopsrett: ISODate
 }
 
 export interface ForhandsutlysingUtlopt extends Callback {
@@ -132,8 +140,8 @@ export interface ForhandsutlysingUtlopt extends Callback {
 
 export interface Styregodkjenning {
   handteresAvForretningsforer: boolean
-  initiertDato?: string
-  meldefrist?: string
+  initiertDato?: ISODate
+  meldwefrist?: ISODateTime
 }
 
 export interface StyregodkjenningFullfort extends Styregodkjenning {
@@ -144,9 +152,9 @@ export interface StyregodkjenningFullfort extends Styregodkjenning {
 export interface SalgsmeldingForkjopsrett {
   typeAvklaring: 'fastpris' | 'forhandsutlysing'
   statusForhandsutlysing: 'ikke_forhandsutlysing' | 'med_interessenter' | 'uten_interessenter' | 'forkjop_ikke_benyttet' | 'ikke_avklart'
-  utlysingsdato: string
+  utlysingsdato: ISODate
   utlysingssted: string
-  meldefrist: string
+  meldefrist: ISODateTime
 }
 
 export interface SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsrett {
@@ -160,7 +168,7 @@ export interface SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsre
  */
 export interface SalgsmeldingMottatt extends Callback {
   type: 'salgsmeldingmottatt'
-  ordreMottatt: string
+  ordreMottatt: ISODateTime
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrett
   styregodkjenningPakrevd: boolean
@@ -174,7 +182,7 @@ export interface SalgsmeldingMottatt extends Callback {
  */
 export interface SalgsmeldingOppdatering extends Callback {
   type: 'salgsmeldingoppdatering'
-  ordreMottatt: string
+  ordreMottatt: ISODateTime
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort
   styregodkjenningPakrevd: boolean
@@ -189,7 +197,7 @@ export interface SalgsmeldingOppdatering extends Callback {
  */
 export interface SalgsmeldingFullfort extends Callback {
   type: 'salgsmeldingfullfort'
-  ordreMottatt: string
+  ordreMottatt: ISODateTime
   harForkjopsrett: boolean
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort
   styregodkjenningPakrevd: boolean
@@ -214,7 +222,7 @@ export interface EndringOverdragelseBehandlet extends Callback {
  */
 export interface EndringKjopereMottatt extends Callback {
   type: 'endringkjoperemottatt'
-  ordreMottatt: string
+  ordreMottatt: ISODateTime
   styregodkjenningPakrevd: boolean
   styregodkjenning?: Styregodkjenning
 }
@@ -225,7 +233,7 @@ export interface EndringKjopereMottatt extends Callback {
  */
 export interface EndringKjopereFullfort extends Callback {
   type: 'endringkjoperefullfort'
-  ordreMottatt: string
+  ordreMottatt: ISODateTime
   styregodkjenningPakrevd: boolean
   styregodkjenning?: StyregodkjenningFullfort
 }
