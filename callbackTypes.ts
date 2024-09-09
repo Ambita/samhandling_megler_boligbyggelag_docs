@@ -141,7 +141,7 @@ export interface ForhandsutlysingUtlopt extends Callback {
 export interface Styregodkjenning {
   handteresAvForretningsforer: boolean
   initiertDato?: ISODate
-  meldwefrist?: ISODateTime
+  meldefrist?: ISODateTime
 }
 
 export interface StyregodkjenningFullfort extends Styregodkjenning {
