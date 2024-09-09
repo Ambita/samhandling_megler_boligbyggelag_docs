@@ -1,7 +1,9 @@
+import {ISODateTime} from "./callbackTypes";
+
 export interface Salg {
   kjopesum: number
-  datoAkseptBud: string
-  datoOverdragelse: string
+  datoAkseptBud: ISODateTime
+  datoOverdragelse: ISODateTime
   forbeholdBud?: boolean
 }
 
@@ -125,7 +127,7 @@ export interface Salgsmelding extends BasicProduct {
 export interface EndringOverdragelse extends BasicProduct {
   type: 'endringoverdragelse',
   salgsmeldingOrdreId: string
-  datoOverdragelse: string
+  datoOverdragelse: ISODateTime
 }
 
 /**
