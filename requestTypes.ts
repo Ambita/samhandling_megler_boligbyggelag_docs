@@ -9,8 +9,13 @@ export interface Salg {
 
 export interface Bolig {
   prom?: number
-  promBeskrivelse?: string
+  srom?: number
   bra?: number
+  braI?: number
+  braE?: number
+  braB?: number
+  braS?: number
+  tba?: number
   bta?: number
   antallRom?: number
   antallSoverom?: number
