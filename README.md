@@ -309,13 +309,13 @@ We will transmit the following request message:
 For the other fields explanations see earlier descriptions
 
 * bolig (housing) - information about the object. Fetched from broker system
-  * prom (primary room area) - The area you live in
-  * bra (total usable area) - The usable area
+  * prom (sum primærrom)
+  * bra (sum bruksareal)
   * braI (sum internt bruksareal)
   * braE (sum eksternt bruksareal)
   * braB (sum innglasset balkong)
   * braS (sum salgbart bruksareal, brukes for næring)
-  * bta (Gross area) - The total area
+  * bta (bruttoareal)
   * tba (sum terrasse- og balkongareal/åpent areal)
   * srom (sum sekundærrom)
 * prisantydning - price suggestion
@@ -610,13 +610,13 @@ An example json request can look like this:
   * datoOverdragelse (transfer date) - The date the object will be transferred
   * forbeholdBud (bid reservation) - Any special considerations for the bid as free text 
 * bolig (housing) - information about the object. Fetched from broker system
-  * prom (primary room area) - The area you live in
-  * bra (total usable area) - The usable area
+  * prom (sum primærrom)
+  * bra (sum bruksareal)
   * braI (sum internt bruksareal)
   * braE (sum eksternt bruksareal)
   * braB (sum innglasset balkong)
   * braS (sum salgbart bruksareal, brukes for næring)
-  * bta (Gross area) - The total area
+  * bta (bruttoareal)
   * tba (sum terrasse- og balkongareal/åpent areal)
   * srom (sum sekundærrom)
   * antallRom (number of rooms)
