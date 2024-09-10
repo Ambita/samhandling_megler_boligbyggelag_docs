@@ -294,8 +294,10 @@ We will transmit the following request message:
   },
   "bolig": {
     "prom": 120,
-    "promBeskrivelse": "Bruksareal: 1. etasje: 62 kvm Primærrom: 1. etasje: 62 kvm",
     "bra": 130,
+    "braI": 120,
+    "braE": 5,
+    "braB": 5,
     "bta": 140
   },
   "prisantydning": 1000000
@@ -307,10 +309,15 @@ We will transmit the following request message:
 For the other fields explanations see earlier descriptions
 
 * bolig (housing) - information about the object. Fetched from broker system
-  * prom (primary room area) - The area you live in
-  * promBeskrivelse (description of prom) - A written description of the object
-  * bra (Usable area) - The usable area
-  * bta (Gross area) - The total area
+  * prom (sum primærrom)
+  * bra (sum bruksareal)
+  * braI (sum internt bruksareal)
+  * braE (sum eksternt bruksareal)
+  * braB (sum innglasset balkong)
+  * braS (sum salgbart bruksareal, brukes for næring)
+  * bta (bruttoareal)
+  * tba (sum terrasse- og balkongareal/åpent areal)
+  * srom (sum sekundærrom)
 * prisantydning - price suggestion
 
 ### 2.2.0 Early clarification response (Forhåndsutlysing tidlig)
@@ -555,8 +562,10 @@ An example json request can look like this:
   },
   "bolig": {
     "prom": 60,
-    "promBeskrivelse": "",
     "bra": 70,
+    "braI": 65,
+    "braE": 2,
+    "braB": 3,
     "bta": 50,
     "antallRom": 4,
     "antallSoverom": 2,
@@ -601,10 +610,15 @@ An example json request can look like this:
   * datoOverdragelse (transfer date) - The date the object will be transferred
   * forbeholdBud (bid reservation) - Any special considerations for the bid as free text 
 * bolig (housing) - information about the object. Fetched from broker system
-  * prom (primary room area) - The area you live in
-  * promBeskrivelse (description of prom) - A written description of the object
-  * bra (Usable area) - The usable area
-  * bta (Gross area) - The total area
+  * prom (sum primærrom)
+  * bra (sum bruksareal)
+  * braI (sum internt bruksareal)
+  * braE (sum eksternt bruksareal)
+  * braB (sum innglasset balkong)
+  * braS (sum salgbart bruksareal, brukes for næring)
+  * bta (bruttoareal)
+  * tba (sum terrasse- og balkongareal/åpent areal)
+  * srom (sum sekundærrom)
   * antallRom (number of rooms)
   * antallSoverom (number of bedrooms)
   * energibokstav (energy letter) - How energy efficient the object is (A-G)
