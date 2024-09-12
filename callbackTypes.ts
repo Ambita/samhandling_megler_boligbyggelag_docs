@@ -19,6 +19,7 @@ export enum Feilkode {
   tilknyttetAnnetBoligbyggelag = 6, // behandles av annet boligbyggelag
   forhandIkkeUtloptSjekkStatus = 31, // ny ordre på samme objekt fra samme megler
   forhandIkkeUtloptKontaktForrForer = 32, // ny ordre på samme objekt fra annen megler
+  manuellBehandling = 33, // kreves manuell behandling av forretningsfører
 }
 
 export interface Styreleder {
