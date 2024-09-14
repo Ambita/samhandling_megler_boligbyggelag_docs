@@ -20,6 +20,7 @@ export enum Feilkode {
   forhandIkkeUtloptSjekkStatus = 31, // ny ordre på samme objekt fra samme megler
   forhandIkkeUtloptKontaktForrForer = 32, // ny ordre på samme objekt fra annen megler
   manuellBehandling = 33, // kreves manuell behandling av forretningsfører
+  sakstypeForKlientIkkeFunnet = 34, // sakstype for klient ikke funnet
 }
 
 export interface Styreleder {
