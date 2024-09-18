@@ -21,6 +21,7 @@ export enum Feilkode {
   forhandIkkeUtloptKontaktForrForer = 32, // ny ordre på samme objekt fra annen megler
   manuellBehandling = 33, // kreves manuell behandling av forretningsfører
   sakstypeForKlientIkkeFunnet = 34, // sakstype for klient ikke funnet
+  manuellForhandsutlysingFinnes = 39, // Aktiv manuell forhåndsutlysing finnes. Kontakt forretningsfører!
 }
 
 export interface Styreleder {
