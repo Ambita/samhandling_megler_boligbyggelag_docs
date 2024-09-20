@@ -105,6 +105,7 @@ export interface Forhandsutlysing extends BasicProduct {
   type: 'forhandsutlysing'
   bolig: Bolig
   selgere: Kontakt[]
+  eiere?: Kontakt[]
   omsetningstype?: 'salg' | 'tvangssalg' | 'utleie' | 'verdivurdering' | 'oppgjorsoppdrag'
   finnkode?: string
   prisantydning?: number
