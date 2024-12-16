@@ -90,7 +90,7 @@ export interface Boliginformasjon extends Callback {
   type: 'boliginformasjon'
   forkjopsrett: {
     harForkjopsrett: boolean
-    kanForhandsutlyses: boolean
+    kanForhandsutlyses?: boolean
     intern?: boolean
     bestillingsformat?: BestillingsFormat
     mottakerType?: BestillingsmottakerType
