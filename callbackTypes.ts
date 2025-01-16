@@ -58,7 +58,7 @@ export interface Kontakt {
   kontaktperson?: string
   adresse: Adresse
   epost: string
-  telefon: string
+  telefon?: string
   eierbrok: Eierbrok
 }
 
