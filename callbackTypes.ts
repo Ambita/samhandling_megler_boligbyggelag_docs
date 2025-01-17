@@ -17,6 +17,7 @@ export enum Feilkode {
   eierskifteAlleredeOpprettet = 2,
   forhandsutlysningStottesIkke = 4,
   tilknyttetAnnetBoligbyggelag = 6, // behandles av annet boligbyggelag
+  tilknyttetAnnenForretningsforer = 8, // behandles av annen forretningsfører
   forhandIkkeUtloptSjekkStatus = 31, // ny ordre på samme objekt fra samme megler
   forhandIkkeUtloptKontaktForrForer = 32, // ny ordre på samme objekt fra annen megler
   manuellBehandling = 33, // kreves manuell behandling av forretningsfører
@@ -249,6 +250,17 @@ export interface SluttbrevAkseptert extends Callback {
   type: 'sluttbrevakseptert'
 }
 
-export type CallbackEvent = Boliginformasjon | Feil |
-  ForhandsutlysingTidlig | ForhandsutlysingUtsatt | ForhandsutlysingSen | ForhandsutlysingUtlopt | EndringOverdragelseBehandlet |
-  SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort | EndringKjopereMottatt | EndringKjopereFullfort | SluttbrevAkseptert
+export type CallbackEvent = 
+  | Boliginformasjon
+  | Feil 
+  | ForhandsutlysingTidlig
+  | ForhandsutlysingUtsatt
+  | ForhandsutlysingSen
+  | ForhandsutlysingUtlopt
+  | EndringOverdragelseBehandlet
+  | SalgsmeldingMottatt
+  | SalgsmeldingOppdatering
+  | SalgsmeldingFullfort
+  | EndringKjopereMottatt
+  | EndringKjopereFullfort
+  | SluttbrevAkseptert
