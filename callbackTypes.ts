@@ -57,7 +57,7 @@ export interface Kontakt {
   organisasjonsnavn?: string
   kontaktperson?: string
   adresse: Adresse
-  epost: string
+  epost?: string
   telefon?: string
   eierbrok: Eierbrok
 }
