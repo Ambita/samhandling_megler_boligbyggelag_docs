@@ -2,7 +2,7 @@
 
 Documentation for cooperation between brokers and accountants
 
-Ambita has designed a set of API messages to capture the flow between a broker and an accountant. 
+Ambita has designed a set of API messages to capture the flow between a broker and an accountant.   
 We have split the process into separate steps:
 
 1. Boliginformasjon (Information about the object). Used to inform the broker about which rules that apply to the sale of a given object.
@@ -15,26 +15,29 @@ We have split the process into separate steps:
 
 ### Messages
 
-The message format and process is described in more detail per product. You may take a look at the typescript types for the messages here:
+The message format and process is described in more detail per product.  
+You may take a look at the typescript types for the messages here:
 
 * [Request types](requestTypes.ts)
 * [Response types](callbackTypes.ts)
 
 ### General information about the message flow
 
-Each flow starts with an order from a broker using the Vitec Next platform. This order will trigger a request from our system to the accountant's backend. 
-The accountant will send one or more response messages back to us, and we will transform these into a series of operations on Vitec Next.
-The first version of the system relies heavily on PDF files that we deliver into the project archive. These files will gradually be replaced with API calls that push the structured data into the broker system. 
+Each flow starts with an order from a broker using the Vitec Next platform.  
+This order will trigger a request from our system to the accountant's backend.  
+The accountant will send one or more response messages back to us, and we will transform these into a series of operations on Vitec Next.  
+The first version of the system relies heavily on PDF files that we deliver into the project archive.  
+These files will gradually be replaced with API calls that push the structured data into the broker system.  
 This will be done with little or no effect on the accountant integrations.
 
-The messages are sent as JSON objects over HTTPS, as POST requests to the accountant.
+The messages are sent as JSON objects over HTTPS, as POST requests to the accountant.  
 Responses are sent back to us as POST requests. In other words, the communication is asynchronous.
 
 ### Comments on message flow
 
-The following descriptions define a set of flows between us and the accountant system. The messages are
-described in a way that assumes that the process is fully automated and that the accountant can handle
-operations themselves. Sometimes part of the flow is handled outside the accountant system. 
+The following descriptions define a set of flows between us and the accountant system.  
+The messages are described in a way that assumes that the process is fully automated and that the accountant can handle operations themselves.  
+Sometimes part of the flow is handled outside the accountant system.  
 In these cases, we will inform the broker about this. The broker will then have to handle the operation manually.
 
 To explain this in more detail the process can be viewed as three separate large operations: 
@@ -43,13 +46,16 @@ To explain this in more detail the process can be viewed as three separate large
  * Ownership change
  * Arrears
 
-All messages interact with these three operations. Special handling is required if the accountant system is not used to handle any one of these. 
+All messages interact with these three operations.
+Special handling is required if the accountant system is not used to handle any one of these. 
 
 ## 1. Information about the object / Boliginformasjon
 
-The first thing a broker needs to do is to find out which operations can be done at all, which of them can be 
-done digitally and which of them they need to continue to do manually. This can differ from one sales project 
-to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. 
+The first thing a broker needs to do is to find out which operations can be done at all,  
+which of them can be 
+done digitally and which of them they need to continue to do manually.  
+This can differ from one sales project 
+to the next. This product can be ordered by the broker, and we will forward it to the correct recipient.  
 If the recipient is not part of the system, we will inform the broker about this.
 
 ![Clarification](images/Information.png "Information flowchart")
@@ -131,7 +137,8 @@ On behalf of the broker the following request is made:
 ### 1.2.0 Information response (Boliginformasjon)
 
 The accountant responds with information about the given object, here identified with the cadastre identity 
-3802-71-119-0-21. This response is just an example:
+3802-71-119-0-21.  
+This response is just an example:
 
 ```json
 {
@@ -185,9 +192,11 @@ The accountant responds with information about the given object, here identified
 
 #### Response fields
 
-General comment. For each step in the process, we have a field called "bestillingsformat". 
-This field can be of two types: "Elektronisk" or "Manuelt". "Elektonisk" means that the step 
-can be completed through the integration. "Manuelt" means it must be done manually. 
+General comment. For each step in the process, we have a field called "bestillingsformat".  
+This field can be of two types: "Elektronisk" or "Manuelt".  
+"Elektonisk" means that the step 
+can be completed through the integration.  
+"Manuelt" means it must be done manually. 
 In other words, it must be done the same way as before.
 
 * forkjopsrett (right of first refusal)
@@ -247,7 +256,9 @@ List of client types:
 ## 2. Clarification / Forhåndsutlysing
 
 If the seller wants to clarify the preemption before the sale is concluded they may ask the broker to 
-order this. The response will come in two messages. One early message that explains the process and 
+order this.  
+The response will come in two messages.  
+One early message that explains the process and 
 one late message that comes after the process has been completed, which may take a while.
 
 ![Clarification](images/Clarification.png "Clarification flowchart")
@@ -357,8 +368,9 @@ this message explains the steps that will be taken:
 
 ### 2.2.1 Clarification delayed response (Forhåndsutlysing utsatt) 
 
-In some cases, the broker contacts the accountant to change the announcement period. 
-Right now, this will be done manually. The following response message with updated 
+In some cases, the broker contacts the accountant to change the announcement period.  
+Right now, this will be done manually.  
+The following response message with updated 
 announcement date and deadline are sent to inform the broker about the change:
 
 ```json
@@ -390,7 +402,8 @@ announcement date and deadline are sent to inform the broker about the change:
 ```
 ### 2.2.2 Late clarification response (Forhåndsutlysing sen)
 
-When the process is done the final message is sent, summing up the result. Only two extra fields are added here; 
+When the process is done the final message is sent, summing up the result.  
+Only two extra fields are added here; 
 number of interested parties and how long the advance clarification lasts.
 
 ```json
@@ -430,10 +443,10 @@ number of interested parties and how long the advance clarification lasts.
 
 ### 2.2.3 Clarification expired response (Forhåndsutlysing utløpt)
 
-A clarification is usually valid for three months. When it expires you need a new clarification.
-If not, the following sales message will result in a fixed price clarification. The accountant
-may inform the broker about this expiration using a specific response message. This basic
-message does not contain any product specific data fields. It will result in a message to the broker.
+A clarification is usually valid for three months. When it expires you need a new clarification.  
+If not, the following sales message will result in a fixed price clarification.  
+The accountant may inform the broker about this expiration using a specific response message.  
+This basic message does not contain any product specific data fields. It will result in a message to the broker.
 
 ```json
 {
@@ -461,7 +474,7 @@ message does not contain any product specific data fields. It will result in a m
 
 ## 3. Sales message / Salgsmelding 
 
-When the object has been sold the broker sends a sales message to the accountant. 
+When the object has been sold the broker sends a sales message to the accountant.  
 This request message contains all the necessary information needed for updating data and proceed 
 with clarification and board approval.
 
@@ -627,7 +640,8 @@ An example json request can look like this:
 
 ### 3.2.0 Sales message received response (Salgsmelding mottatt)
 
-After receiving and processing the sales request message a message received an immediate response with 
+After receiving and processing the sales request message,  
+a message received an immediate response with 
 information about what will be done:
 
 ```json
@@ -689,9 +703,11 @@ information about what will be done:
 
 ### 3.2.1 Sales message updated response (Salgsmelding oppdatert) 
 
-After clarification and change of ownership has been handled by the accountant an intermediate message may be
-sent containing everything except the board approval status. Please note that this message is not considered
-to be the final message. Every sale order is closed with the `salgsmeldingfullfort` message: 
+After clarification and change of ownership has been handled by the accountant,  
+an intermediate message may be sent containing everything except the board approval status.  
+Please note that this message is not considered
+to be the final message.  
+Every sale order is closed with the `salgsmeldingfullfort` message: 
 
 ```json
 {
@@ -859,7 +875,7 @@ Later, when all the processes like clarification and board approval have been co
 
 ## 4. Change of transfer date / Endring overdragelsesdato
 
-The transfer date might change after the initial sales message has been sent from the broker to the accountant.
+The transfer date might change after the initial sales message has been sent from the broker to the accountant.  
 If this happens this message can be used to inform about the change.
 
 ![Clarification](images/Changetransferdate.png "Change of transfer date flowchart")
@@ -961,7 +977,8 @@ New fields:
 
 ## 6. Final letter / Sluttbrev
 
-When the ownership transfer process is complete the broker can send a message to the accountant to inform about this. The accountant can then accept the change.
+When the ownership transfer process is complete the broker can send a message to the accountant to inform about this.  
+The accountant can then accept the change.
 
 ### 6.1.0 Final letter request (Sluttbrev)
 
