@@ -259,6 +259,10 @@ export interface SumGjeldSvar extends Callback {
   sumGjeld: number
 }
 
+/**
+ * SumFelleskostnader
+ * required - returns the total common costs
+ */
 export interface SumFelleskostnaderSvar extends Callback {
   type: 'sumfelleskostnader'
   sumFelleskostnader: Number
