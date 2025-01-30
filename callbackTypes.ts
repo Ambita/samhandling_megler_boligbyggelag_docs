@@ -250,6 +250,20 @@ export interface SluttbrevAkseptert extends Callback {
   type: 'sluttbrevakseptert'
 }
 
+/**
+ * SumGjeld
+ * required - returns the total debt
+ */
+export interface SumGjeldSvar extends Callback {
+  type: 'sumgjeld'
+  sumGjeld: number
+}
+
+export interface SumFelleskostnaderSvar extends Callback {
+  type: 'sumfelleskostnader'
+  sumFelleskostnader: Number
+}
+
 export type CallbackEvent = 
   | Boliginformasjon
   | Feil 
@@ -264,3 +278,5 @@ export type CallbackEvent =
   | EndringKjopereMottatt
   | EndringKjopereFullfort
   | SluttbrevAkseptert
+  | SumGjeldSvar
+  | SumFelleskostnaderSvar

@@ -165,3 +165,19 @@ export interface Sluttbrev extends BasicProduct {
 export interface Restanse extends BasicProduct {
   type: 'restanse'
 }
+
+/**
+ * SumGjeld
+ * Order and handle total debt
+ */
+export interface SumGjeld extends BasicProduct {
+  type: 'sumgjeld'
+}
+
+/**
+ * SumFelleskostnader
+ * Order and handle total common costs
+ */
+export interface SumFelleskostnader extends BasicProduct {
+  type: 'sumfelleskostnader'
+}
