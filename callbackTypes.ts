@@ -265,12 +265,12 @@ export interface SumGjeldSvar extends Callback {
  */
 export interface SumFelleskostnaderSvar extends Callback {
   type: 'sumfelleskostnader'
-  sumFelleskostnader: Number
+  sumFelleskostnader: number
 }
 
-export type CallbackEvent = 
+export type CallbackEvent =
   | Boliginformasjon
-  | Feil 
+  | Feil
   | ForhandsutlysingTidlig
   | ForhandsutlysingUtsatt
   | ForhandsutlysingSen
