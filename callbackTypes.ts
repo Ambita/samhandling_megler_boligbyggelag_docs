@@ -18,6 +18,8 @@ export enum Feilkode {
   forhandsutlysningStottesIkke = 4,
   tilknyttetAnnetBoligbyggelag = 6, // behandles av annet boligbyggelag
   tilknyttetAnnenForretningsforer = 8, // behandles av annen forretningsfører
+  eiendomIkkeFunnet = 11, // finner ikke eiendom basert på vedlagt id
+  salgsmeldingOrdreIkkeFunnet = 12, // Kan ikke gjøre endring på en salgsmelding som ikke er opprettet
   forhandIkkeUtloptSjekkStatus = 31, // ny ordre på samme objekt fra samme megler
   forhandIkkeUtloptKontaktForrForer = 32, // ny ordre på samme objekt fra annen megler
   manuellBehandling = 33, // kreves manuell behandling av forretningsfører
