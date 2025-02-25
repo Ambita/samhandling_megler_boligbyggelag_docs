@@ -82,6 +82,7 @@ export interface Kontakt {
 // Common request type :
 export interface BasicProduct {
   ordreId: string
+  estateId?: string
   oppdragsnummer?: string
   registerenhet: Registerenhet
   bestiller: Kontaktinfo

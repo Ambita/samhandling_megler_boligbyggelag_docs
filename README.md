@@ -68,6 +68,8 @@ On behalf of the broker the following request is made:
 {
   "type": "boliginformasjon",
   "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
+  "estateId": "8edbaf12-7e21-4cf7-8d72-74277d004c32",
+  "oppdragsnummer": "8-0148/23",
   "registerenhet": {
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
@@ -271,6 +273,8 @@ We will transmit the following request message:
 {
   "type": "forhandsutlysing",
   "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
+  "estateId": "8edbaf12-7e21-4cf7-8d72-74277d004c32",
+  "oppdragsnummer": "8-0148/23",
   "registerenhet": {
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
@@ -502,6 +506,7 @@ An example json request can look like this:
 {
   "type": "salgsmelding",
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "estateId": "8edbaf12-7e21-4cf7-8d72-74277d004c32",
   "oppdragsnummer": "8-0148/23",
   "registerenhet": {
     "type": "matrikkel",
@@ -886,6 +891,7 @@ If this happens this message can be used to inform about the change.
 {
   "type": "endringoverdragelse",
   "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
+  "estateId": "8edbaf12-7e21-4cf7-8d72-74277d004c32",
   "oppdragsnummer": "8-0148/23",
   "registerenhet": {
     "type": "matrikkel",
@@ -986,6 +992,7 @@ The accountant can then accept the change.
 {
   "type": "sluttbrev",
   "ordreId": "30db5678-345f-4dh4-92e5-09d2dh82dase",
+  "oppdragsnummer": "8-0148/23",
   "oppdragsnummer": "8-0148/23",
   "registerenhet": {
     "type": "matrikkel",
