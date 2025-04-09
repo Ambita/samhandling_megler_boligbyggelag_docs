@@ -14,6 +14,7 @@ export enum BestillingsFormat {
 export type BestillingsmottakerType = 'forretningsforer' | 'lag'
 
 export enum Feilkode {
+  forhandsutlysingAlleredeOpprettet = 1,
   eierskifteAlleredeOpprettet = 2,
   forhandsutlysningStottesIkke = 4,
   tilknyttetAnnetBoligbyggelag = 6, // behandles av annet boligbyggelag
