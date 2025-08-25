@@ -10,9 +10,18 @@ This repository contains API documentation and type definitions for cooperation 
 
 ```
 .
-├── README.md                    # Comprehensive API documentation with examples
+├── README.md                    # Main documentation with general info and table of contents
 ├── requestTypes.ts              # TypeScript interfaces for request messages  
 ├── callbackTypes.ts             # TypeScript interfaces for response/callback messages
+├── docs/                        # Detailed documentation for each message type
+│   ├── boliginformasjon.md      # Property information requests
+│   ├── forhandsutlysing.md      # Advance clarification of preemption rights
+│   ├── salgsmelding.md          # Sales notifications and ownership transfers
+│   ├── endring-overdragelsesdato.md # Transfer date changes
+│   ├── endring-kjopere.md       # Buyer changes
+│   ├── sluttbrev.md             # Final completion letters
+│   ├── restanse.md              # Arrears handling
+│   └── feilmeldinger.md         # Error messages
 ├── images/                      # Flowchart diagrams (.png and .graphml files)
 │   ├── Information.png          # Boliginformasjon flow
 │   ├── Clarification.png        # Forhåndsutlysing flow  
@@ -134,14 +143,16 @@ This repository maintains **dual definitions**:
 2. Define response interface(s) in `callbackTypes.ts` 
 3. Add union type exports to `CallbackEvent` type
 4. Update TypeSpec definitions in `typespec/main.tsp`
-5. Add comprehensive examples to `README.md`
-6. Create flow diagram if complex workflow
+5. Create new documentation file in `docs/[message-type].md`
+6. Add comprehensive examples and field descriptions to the new docs file
+7. Update the table of contents in `README.md`
+8. Create flow diagram in `images/` if complex workflow
 
 ### Updating Existing Messages
 1. Modify TypeScript interfaces
 2. Update corresponding TypeSpec models
 3. Verify backward compatibility
-4. Update examples in README.md
+4. Update examples in the relevant `docs/[message-type].md` file
 5. Test with TypeSpec compiler
 
 ### PDF Generation Preferences
@@ -149,11 +160,17 @@ When working on PDF generation features, use **Inter** as the main font and **PT
 
 ## Message Examples Location
 
-Detailed JSON examples for all message types are documented in `README.md`:
-- Request examples with all required/optional fields
-- Response examples showing typical callback flows  
-- Error response examples with error codes
-- State transition examples for complex flows
+Detailed JSON examples for all message types are documented in separate files in the `docs/` directory:
+- **[Boliginformasjon](docs/boliginformasjon.md)** - Property information request/response examples
+- **[Forhåndsutlysing](docs/forhandsutlysing.md)** - Clarification request/response examples with flow states
+- **[Salgsmelding](docs/salgsmelding.md)** - Sales notification with complete workflow examples
+- **[Endring overdragelsesdato](docs/endring-overdragelsesdato.md)** - Transfer date change examples
+- **[Endring kjøpere](docs/endring-kjopere.md)** - Buyer change examples
+- **[Sluttbrev](docs/sluttbrev.md)** - Final completion letter examples
+- **[Restanse](docs/restanse.md)** - Arrears handling (minimal, under development)
+- **[Feilmeldinger](docs/feilmeldinger.md)** - Error response examples with error codes
+
+Each file contains complete request/response examples, field descriptions, and workflow explanations specific to that message type.
 
 ## Development Guidelines
 
