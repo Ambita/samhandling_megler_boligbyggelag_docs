@@ -5,6 +5,8 @@ properties:
   type:
     type: string
     const: salgsmeldingoppdatering
+  ordreMottatt:
+    $ref: "#/$defs/ISODateTime"
   harForkjopsrett:
     type: boolean
   forkjopsrett:
@@ -21,6 +23,7 @@ properties:
     type: boolean
 required:
   - type
+  - ordreMottatt
   - harForkjopsrett
   - styregodkjenningPakrevd
   - kjopere
@@ -31,6 +34,9 @@ description: |-
   SalgsmeldingOppdatering
   optional - can be sent before board approval process completed
 $defs:
+  ISODateTime:
+    type: string
+    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$
   SalgsmeldingForkjopsrettFullfort:
     type: object
     properties:
@@ -80,10 +86,6 @@ $defs:
         $ref: "#/$defs/Eierbrok"
     required:
       - id
-      - adresse
-      - epost
-      - telefon
-      - eierbrok
   BasicResponse:
     type: object
     properties:
@@ -122,7 +124,20 @@ $defs:
       ordreId:
         type: string
       forretningsforer:
-        $ref: "#/$defs/Forretningsforer"
+        type: object
+        properties:
+          navn:
+            type: string
+          adresse:
+            $ref: "#/$defs/Adresse"
+          epost:
+            type: string
+          epostRestanse:
+            type: string
+        required:
+          - navn
+          - adresse
+          - epost
       klient:
         $ref: "#/$defs/Klient"
       levert:
@@ -132,7 +147,7 @@ $defs:
       eierform:
         anyOf:
           - type: string
-            const: Aksjonär
+            const: Aksjonår
           - type: string
             const: Andelseier
           - type: string
@@ -179,9 +194,6 @@ $defs:
   ISODate:
     type: string
     pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
-  ISODateTime:
-    type: string
-    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$
   Adresse:
     type: object
     properties:
@@ -205,20 +217,6 @@ $defs:
     required:
       - teller
       - nevner
-  Forretningsforer:
-    type: object
-    properties:
-      navn:
-        type: string
-      adresse:
-        $ref: "#/$defs/Adresse"
-      epost:
-        type: string
-      epostRestanse:
-        type: string
-    required:
-      - navn
-      - adresse
   Klient:
     type: object
     properties:

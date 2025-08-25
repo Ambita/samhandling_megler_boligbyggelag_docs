@@ -13,7 +13,7 @@ required:
   - type
   - kjopere
 allOf:
-  - $ref: "#/$defs/BasicRequest"
+  - $ref: "#/$defs/BasicProduct"
 description: |-
   EndringKjopere
   Notify about change of buyers/owners
@@ -41,11 +41,7 @@ $defs:
         $ref: "#/$defs/Eierbrok"
     required:
       - id
-      - adresse
-      - epost
-      - telefon
-      - eierbrok
-  BasicRequest:
+  BasicProduct:
     type: object
     properties:
       ordreId:
@@ -135,7 +131,6 @@ $defs:
       - avdelingsnr
       - navn
       - adresse
-      - telefon
   RegisterenhetType:
     type: string
     enum:

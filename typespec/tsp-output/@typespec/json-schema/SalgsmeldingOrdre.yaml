@@ -42,7 +42,7 @@ required:
   - salg
   - bolig
 allOf:
-  - $ref: "#/$defs/BasicRequest"
+  - $ref: "#/$defs/BasicProduct"
 description: |-
   Salgsmelding
   Trigger the change of ownership
@@ -70,10 +70,6 @@ $defs:
         $ref: "#/$defs/Eierbrok"
     required:
       - id
-      - adresse
-      - epost
-      - telefon
-      - eierbrok
   Salg:
     type: object
     properties:
@@ -130,7 +126,7 @@ $defs:
         $ref: "#/$defs/Adresse"
       leilighetsnummer:
         type: string
-  BasicRequest:
+  BasicProduct:
     type: object
     properties:
       ordreId:
@@ -223,7 +219,6 @@ $defs:
       - avdelingsnr
       - navn
       - adresse
-      - telefon
   RegisterenhetType:
     type: string
     enum:

@@ -23,7 +23,7 @@ required:
   - type
   - datoOverdragelse
 allOf:
-  - $ref: "#/$defs/BasicRequest"
+  - $ref: "#/$defs/BasicProduct"
 description: |-
   Sluttbrev
   Sent when the ownership transfer is completed
@@ -51,11 +51,7 @@ $defs:
         $ref: "#/$defs/Eierbrok"
     required:
       - id
-      - adresse
-      - epost
-      - telefon
-      - eierbrok
-  BasicRequest:
+  BasicProduct:
     type: object
     properties:
       ordreId:
@@ -145,7 +141,6 @@ $defs:
       - avdelingsnr
       - navn
       - adresse
-      - telefon
   RegisterenhetType:
     type: string
     enum:

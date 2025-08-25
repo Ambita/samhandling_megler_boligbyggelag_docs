@@ -79,7 +79,20 @@ $defs:
       ordreId:
         type: string
       forretningsforer:
-        $ref: "#/$defs/Forretningsforer"
+        type: object
+        properties:
+          navn:
+            type: string
+          adresse:
+            $ref: "#/$defs/Adresse"
+          epost:
+            type: string
+          epostRestanse:
+            type: string
+        required:
+          - navn
+          - adresse
+          - epost
       klient:
         $ref: "#/$defs/Klient"
       levert:
@@ -89,7 +102,7 @@ $defs:
       eierform:
         anyOf:
           - type: string
-            const: Aksjonär
+            const: Aksjonår
           - type: string
             const: Andelseier
           - type: string
@@ -100,20 +113,19 @@ $defs:
       - type
       - ordreId
       - forretningsforer
-  Forretningsforer:
+  Adresse:
     type: object
     properties:
-      navn:
+      gateadresse:
         type: string
-      adresse:
-        $ref: "#/$defs/Adresse"
-      epost:
+      postnummer:
         type: string
-      epostRestanse:
+      poststed:
         type: string
     required:
-      - navn
-      - adresse
+      - gateadresse
+      - postnummer
+      - poststed
   Klient:
     type: object
     properties:
@@ -133,19 +145,6 @@ $defs:
       - klienttype
       - organisasjonsnavn
       - organisasjonsnummer
-  Adresse:
-    type: object
-    properties:
-      gateadresse:
-        type: string
-      postnummer:
-        type: string
-      poststed:
-        type: string
-    required:
-      - gateadresse
-      - postnummer
-      - poststed
   Styreleder:
     type: object
     properties:

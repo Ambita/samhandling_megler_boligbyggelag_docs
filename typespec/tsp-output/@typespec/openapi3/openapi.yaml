@@ -149,7 +149,7 @@ components:
           type: string
         poststed:
           type: string
-    BasicRequest:
+    BasicProduct:
       type: object
       required:
         - ordreId
@@ -201,7 +201,20 @@ components:
         ordreId:
           type: string
         forretningsforer:
-          $ref: '#/components/schemas/Forretningsforer'
+          type: object
+          properties:
+            navn:
+              type: string
+            adresse:
+              $ref: '#/components/schemas/Adresse'
+            epost:
+              type: string
+            epostRestanse:
+              type: string
+          required:
+            - navn
+            - adresse
+            - epost
         klient:
           $ref: '#/components/schemas/Klient'
         levert:
@@ -211,7 +224,7 @@ components:
         eierform:
           type: string
           enum:
-            - Aksjonär
+            - Aksjonår
             - Andelseier
             - Sameier
             - Seksjonseier
@@ -276,7 +289,7 @@ components:
           enum:
             - boliginformasjon
       allOf:
-        - $ref: '#/components/schemas/BasicRequest'
+        - $ref: '#/components/schemas/BasicProduct'
       description: |-
         Boliginfo
         Order information about a property
@@ -375,12 +388,15 @@ components:
       type: object
       required:
         - type
+        - ordreMottatt
         - styregodkjenningPakrevd
       properties:
         type:
           type: string
           enum:
             - endringkjoperefullfort
+        ordreMottatt:
+          $ref: '#/components/schemas/ISODateTime'
         styregodkjenningPakrevd:
           type: boolean
         styregodkjenning:
@@ -394,12 +410,15 @@ components:
       type: object
       required:
         - type
+        - ordreMottatt
         - styregodkjenningPakrevd
       properties:
         type:
           type: string
           enum:
             - endringkjoperemottatt
+        ordreMottatt:
+          $ref: '#/components/schemas/ISODateTime'
         styregodkjenningPakrevd:
           type: boolean
         styregodkjenning:
@@ -424,7 +443,7 @@ components:
           items:
             $ref: '#/components/schemas/Kontakt'
       allOf:
-        - $ref: '#/components/schemas/BasicRequest'
+        - $ref: '#/components/schemas/BasicProduct'
       description: |-
         EndringKjopere
         Notify about change of buyers/owners
@@ -463,7 +482,7 @@ components:
         datoOverdragelse:
           $ref: '#/components/schemas/ISODateTime'
       allOf:
-        - $ref: '#/components/schemas/BasicRequest'
+        - $ref: '#/components/schemas/BasicProduct'
       description: |-
         EndringOverdragelse
         Notify about change of transfer date
@@ -523,6 +542,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Kontakt'
+        eiere:
+          type: array
+          items:
+            $ref: '#/components/schemas/Kontakt'
         omsetningstype:
           type: string
           enum:
@@ -536,7 +559,7 @@ components:
         prisantydning:
           type: integer
       allOf:
-        - $ref: '#/components/schemas/BasicRequest'
+        - $ref: '#/components/schemas/BasicProduct'
       description: |-
         Forhandsutlysing
         Order a clarification
@@ -681,10 +704,6 @@ components:
       type: object
       required:
         - id
-        - adresse
-        - epost
-        - telefon
-        - eierbrok
       properties:
         id:
           type: string
@@ -726,7 +745,6 @@ components:
         - avdelingsnr
         - navn
         - adresse
-        - telefon
       properties:
         orgnr:
           type: string
@@ -765,7 +783,7 @@ components:
           enum:
             - restanse
       allOf:
-        - $ref: '#/components/schemas/BasicRequest'
+        - $ref: '#/components/schemas/BasicProduct'
       description: |-
         Restanse
         Order and handle arrears - not yet designed
@@ -830,6 +848,7 @@ components:
       type: object
       required:
         - type
+        - ordreMottatt
         - harForkjopsrett
         - styregodkjenningPakrevd
         - kjopere
@@ -839,6 +858,8 @@ components:
           type: string
           enum:
             - salgsmeldingfullfort
+        ordreMottatt:
+          $ref: '#/components/schemas/ISODateTime'
         harForkjopsrett:
           type: boolean
         forkjopsrett:
@@ -862,6 +883,7 @@ components:
       type: object
       required:
         - type
+        - ordreMottatt
         - harForkjopsrett
         - styregodkjenningPakrevd
         - tilknyttetLag
@@ -870,6 +892,8 @@ components:
           type: string
           enum:
             - salgsmeldingmottatt
+        ordreMottatt:
+          $ref: '#/components/schemas/ISODateTime'
         harForkjopsrett:
           type: boolean
         forkjopsrett:
@@ -889,6 +913,7 @@ components:
       type: object
       required:
         - type
+        - ordreMottatt
         - harForkjopsrett
         - styregodkjenningPakrevd
         - kjopere
@@ -898,6 +923,8 @@ components:
           type: string
           enum:
             - salgsmeldingoppdatering
+        ordreMottatt:
+          $ref: '#/components/schemas/ISODateTime'
         harForkjopsrett:
           type: boolean
         forkjopsrett:
@@ -957,7 +984,7 @@ components:
         bolig:
           $ref: '#/components/schemas/Bolig'
       allOf:
-        - $ref: '#/components/schemas/BasicRequest'
+        - $ref: '#/components/schemas/BasicProduct'
       description: |-
         Salgsmelding
         Trigger the change of ownership
@@ -1000,7 +1027,7 @@ components:
         styregodkjenningAvklart:
           type: boolean
       allOf:
-        - $ref: '#/components/schemas/BasicRequest'
+        - $ref: '#/components/schemas/BasicProduct'
       description: |-
         Sluttbrev
         Sent when the ownership transfer is completed
@@ -1051,7 +1078,7 @@ components:
           enum:
             - sumfelleskostnader
       allOf:
-        - $ref: '#/components/schemas/BasicRequest'
+        - $ref: '#/components/schemas/BasicProduct'
       description: |-
         SumFelleskostnader
         Order and handle total common costs
@@ -1082,7 +1109,7 @@ components:
           enum:
             - sumgjeld
       allOf:
-        - $ref: '#/components/schemas/BasicRequest'
+        - $ref: '#/components/schemas/BasicProduct'
       description: |-
         SumGjeld
         Order and handle total debt

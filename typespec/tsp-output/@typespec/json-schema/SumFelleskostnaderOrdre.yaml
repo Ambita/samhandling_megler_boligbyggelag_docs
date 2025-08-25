@@ -8,12 +8,12 @@ properties:
 required:
   - type
 allOf:
-  - $ref: "#/$defs/BasicRequest"
+  - $ref: "#/$defs/BasicProduct"
 description: |-
   SumFelleskostnader
   Order and handle total common costs
 $defs:
-  BasicRequest:
+  BasicProduct:
     type: object
     properties:
       ordreId:
@@ -80,7 +80,6 @@ $defs:
       - avdelingsnr
       - navn
       - adresse
-      - telefon
   RegisterenhetType:
     type: string
     enum:

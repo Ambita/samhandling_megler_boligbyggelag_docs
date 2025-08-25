@@ -1,40 +1,18 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: EndringKjopereMottatt.yaml
+$id: ForhandsutlysingUtlopt.yaml
 type: object
 properties:
   type:
     type: string
-    const: endringkjoperemottatt
-  ordreMottatt:
-    $ref: "#/$defs/ISODateTime"
-  styregodkjenningPakrevd:
-    type: boolean
-  styregodkjenning:
-    $ref: "#/$defs/Styregodkjenning"
+    const: forhandsutlysingutlopt
 required:
   - type
-  - ordreMottatt
-  - styregodkjenningPakrevd
 allOf:
   - $ref: "#/$defs/BasicResponse"
 description: |-
-  EierskifteMottatt
-  optional - to be used if updates trigger new board approval
+  ForhandsutlysingUtlopt
+  required - used to report announcement expired
 $defs:
-  ISODateTime:
-    type: string
-    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$
-  Styregodkjenning:
-    type: object
-    properties:
-      handteresAvForretningsforer:
-        type: boolean
-      initiertDato:
-        $ref: "#/$defs/ISODate"
-      meldefrist:
-        $ref: "#/$defs/ISODateTime"
-    required:
-      - handteresAvForretningsforer
   BasicResponse:
     type: object
     properties:
@@ -107,9 +85,6 @@ $defs:
       - type
       - ordreId
       - forretningsforer
-  ISODate:
-    type: string
-    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
   Adresse:
     type: object
     properties:
@@ -142,6 +117,9 @@ $defs:
       - klienttype
       - organisasjonsnavn
       - organisasjonsnummer
+  ISODateTime:
+    type: string
+    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$
   Styreleder:
     type: object
     properties:

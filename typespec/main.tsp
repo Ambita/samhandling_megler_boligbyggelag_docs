@@ -95,13 +95,13 @@ model Meglerkontor {
   avdelingsnr: string;
   navn: string;
   adresse: Adresse;
-  telefon: string;
+  telefon?: string;
 }
 
 /**
  * Common request type for all product types
  */
-model BasicRequest {
+model BasicProduct {
   ordreId: string;
   estateId?: string;
   oppdragsnummer?: string;
@@ -116,7 +116,7 @@ model BasicRequest {
  * Order information about a property
  */
 @jsonSchema
-model BoliginformasjonOrdre extends BasicRequest {
+model BoliginformasjonOrdre extends BasicProduct {
   type: "boliginformasjon";
 }
 
@@ -125,10 +125,11 @@ model BoliginformasjonOrdre extends BasicRequest {
  * Order a clarification
  */
 @jsonSchema
-model ForhandsutlysingOrdre extends BasicRequest {
+model ForhandsutlysingOrdre extends BasicProduct {
   type: "forhandsutlysing";
   bolig: Bolig;
   selgere: Kontakt[];
+  eiere?: Kontakt[];
   omsetningstype?: "salg" | "tvangssalg" | "utleie" | "verdivurdering" | "oppgjorsoppdrag";
   finnkode?: string;
   prisantydning?: integer;
@@ -139,7 +140,7 @@ model ForhandsutlysingOrdre extends BasicRequest {
  * Trigger the change of ownership
  */
 @jsonSchema
-model SalgsmeldingOrdre extends BasicRequest {
+model SalgsmeldingOrdre extends BasicProduct {
   type: "salgsmelding";
   kjopere: Kontakt[];
   selgere: Kontakt[];
@@ -155,7 +156,7 @@ model SalgsmeldingOrdre extends BasicRequest {
  * Notify about change of transfer date
  */
 @jsonSchema
-model EndringOverdragelseOrdre extends BasicRequest {
+model EndringOverdragelseOrdre extends BasicProduct {
   type: "endringoverdragelse";
   salgsmeldingOrdreId: string;
   datoOverdragelse: ISODateTime;
@@ -166,7 +167,7 @@ model EndringOverdragelseOrdre extends BasicRequest {
  * Notify about change of buyers/owners
  */
 @jsonSchema
-model EndringKjopereOrdre extends BasicRequest {
+model EndringKjopereOrdre extends BasicProduct {
   type: "endringkjopere";
   kjopere: Kontakt[];
 }
@@ -176,7 +177,7 @@ model EndringKjopereOrdre extends BasicRequest {
  * Sent when the ownership transfer is completed
  */
 @jsonSchema
-model SluttbrevOrdre extends BasicRequest {
+model SluttbrevOrdre extends BasicProduct {
   type: "sluttbrev";
   tinglysteEiere?: Kontakt[];
   registerforteEiere?: Kontakt[];
@@ -190,7 +191,7 @@ model SluttbrevOrdre extends BasicRequest {
  * Order and handle arrears - not yet designed
  */
 @jsonSchema
-model RestanseOrdre extends BasicRequest {
+model RestanseOrdre extends BasicProduct {
   type: "restanse";
 }
 
@@ -199,7 +200,7 @@ model RestanseOrdre extends BasicRequest {
  * Order and handle total debt
  */
 @jsonSchema
-model SumGjeldOrdre extends BasicRequest {
+model SumGjeldOrdre extends BasicProduct {
   type: "sumgjeld";
 }
 
@@ -208,7 +209,7 @@ model SumGjeldOrdre extends BasicRequest {
  * Order and handle total common costs
  */
 @jsonSchema
-model SumFelleskostnaderOrdre extends BasicRequest {
+model SumFelleskostnaderOrdre extends BasicProduct {
   type: "sumfelleskostnader";
 }
 
@@ -258,20 +259,25 @@ model Kontakt {
   etternavn?: string;
   organisasjonsnavn?: string;
   kontaktperson?: string;
-  adresse: Adresse;
-  epost: string;
-  telefon: string;
-  eierbrok: Eierbrok; 
+  adresse?: Adresse;
+  epost?: string;
+  telefon?: string;
+  eierbrok?: Eierbrok; 
 }
 
 model BasicResponse {
   type: CallbackTypes;
   ordreId: string;
-  forretningsforer: Forretningsforer;
+  forretningsforer: {
+    navn: string;
+    adresse: Adresse;
+    epost: string;
+    epostRestanse?: string;
+  };
   klient?: Klient;
   levert?: ISODateTime;
   referanse?: string;
-  eierform?: "Aksjonär" | "Andelseier" | "Sameier" | "Seksjonseier";
+  eierform?: "Aksjonår" | "Andelseier" | "Sameier" | "Seksjonseier";
 }
 
 /**
@@ -321,6 +327,7 @@ model BoliginformasjonResponse extends BasicResponse {
  * ForhandsutlysingTidlig
  * required - used to report announcement data
  */
+@jsonSchema
 model ForhandsutlysingTidlig extends BasicResponse {
   type: "forhandsutlysingtidlig";
   ordreMottatt: ISODateTime;
@@ -333,6 +340,7 @@ model ForhandsutlysingTidlig extends BasicResponse {
  * ForhandsutlysingUtsatt
  * required - used to report announcement postponed
  */
+@jsonSchema
 model ForhandsutlysingUtsatt extends BasicResponse {
   type: "forhandsutlysingutsatt";
   ordreMottatt: ISODateTime;
@@ -345,6 +353,7 @@ model ForhandsutlysingUtsatt extends BasicResponse {
  * ForhandsutlysingSen
  * required - used to report announcement completed
  */
+@jsonSchema
 model ForhandsutlysingSen extends BasicResponse {
   type: "forhandsutlysingsen";
   ordreMottatt: ISODateTime;
@@ -359,6 +368,7 @@ model ForhandsutlysingSen extends BasicResponse {
  * ForhandsutlysingUtlopt
  * required - used to report announcement expired
  */
+@jsonSchema
 model ForhandsutlysingUtlopt extends BasicResponse {
   type: "forhandsutlysingutlopt";
 }
@@ -394,6 +404,7 @@ model SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsrett {
 @jsonSchema
 model SalgsmeldingMottatt extends BasicResponse {
   type: "salgsmeldingmottatt";
+  ordreMottatt: ISODateTime;
   harForkjopsrett: boolean;
   forkjopsrett?: SalgsmeldingForkjopsrett;
   styregodkjenningPakrevd: boolean;
@@ -408,6 +419,7 @@ model SalgsmeldingMottatt extends BasicResponse {
 @jsonSchema
 model SalgsmeldingOppdatering extends BasicResponse {
   type: "salgsmeldingoppdatering";
+  ordreMottatt: ISODateTime;
   harForkjopsrett: boolean;
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort;
   styregodkjenningPakrevd: boolean;
@@ -423,6 +435,7 @@ model SalgsmeldingOppdatering extends BasicResponse {
 @jsonSchema
 model SalgsmeldingFullfort extends BasicResponse {
   type: "salgsmeldingfullfort";
+  ordreMottatt: ISODateTime;
   harForkjopsrett: boolean;
   forkjopsrett?: SalgsmeldingForkjopsrettFullfort;
   styregodkjenningPakrevd: boolean;
@@ -449,6 +462,7 @@ model EndringOverdragelseBehandlet extends BasicResponse {
 @jsonSchema
 model EndringKjopereMottatt extends BasicResponse {
   type: "endringkjoperemottatt";
+  ordreMottatt: ISODateTime;
   styregodkjenningPakrevd: boolean;
   styregodkjenning?: Styregodkjenning;
 }
@@ -460,6 +474,7 @@ model EndringKjopereMottatt extends BasicResponse {
 @jsonSchema
 model EndringKjopereFullfort extends BasicResponse {
   type: "endringkjoperefullfort";
+  ordreMottatt: ISODateTime;
   styregodkjenningPakrevd: boolean;
   styregodkjenning?: StyregodkjenningFullfort;
 }

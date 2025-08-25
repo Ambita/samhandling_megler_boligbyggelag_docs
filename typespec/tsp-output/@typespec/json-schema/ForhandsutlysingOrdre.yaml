@@ -11,6 +11,10 @@ properties:
     type: array
     items:
       $ref: "#/$defs/Kontakt"
+  eiere:
+    type: array
+    items:
+      $ref: "#/$defs/Kontakt"
   omsetningstype:
     anyOf:
       - type: string
@@ -32,7 +36,7 @@ required:
   - bolig
   - selgere
 allOf:
-  - $ref: "#/$defs/BasicRequest"
+  - $ref: "#/$defs/BasicProduct"
 description: |-
   Forhandsutlysing
   Order a clarification
@@ -101,11 +105,7 @@ $defs:
         $ref: "#/$defs/Eierbrok"
     required:
       - id
-      - adresse
-      - epost
-      - telefon
-      - eierbrok
-  BasicRequest:
+  BasicProduct:
     type: object
     properties:
       ordreId:
@@ -195,7 +195,6 @@ $defs:
       - avdelingsnr
       - navn
       - adresse
-      - telefon
   RegisterenhetType:
     type: string
     enum:
