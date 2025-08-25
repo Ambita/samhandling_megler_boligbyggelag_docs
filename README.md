@@ -49,3 +49,96 @@ To explain this in more detail the process can be viewed as three separate large
  * **Arrears**
 
 All messages interact with these three operations. Special handling is required if the accountant system is not used to handle any one of these.
+
+## TypeSpec Schema and Client Generation
+
+This repository includes a [TypeSpec](https://typespec.io/) schema that provides an alternative way to work with the API definitions. TypeSpec compiles to OpenAPI 3.0 specifications and enables automatic generation of client libraries in multiple programming languages.
+
+### Schema Definitions
+
+The API is defined in two formats:
+
+- **TypeScript interfaces** (`requestTypes.ts`, `callbackTypes.ts`) - Primary source of truth
+- **TypeSpec schema** (`typespec/main.tsp`) - Alternative definition that generates OpenAPI specs
+
+### Generated Client Libraries
+
+From the TypeSpec schema, we automatically generate production-ready client libraries for:
+
+#### TypeScript/JavaScript Client
+- **Package**: `@samhandling/client`
+- **Location**: `typespec/generated/typescript/`
+- **Features**: Full TypeScript types, fetch-based HTTP client, ES6+ support
+- **Build files**: `package.json`, `tsconfig.json`
+
+#### Java Client
+- **Package**: `no.samhandling:samhandling-client`
+- **Location**: `typespec/generated/java/`
+- **Features**: Maven/Gradle compatible, Java 8+ support, native HTTP client
+- **Build files**: `pom.xml`, `build.gradle`, complete project structure
+
+#### C# (.NET) Client
+- **Package**: `Samhandling.Client`
+- **Location**: `typespec/generated/csharp/`
+- **Features**: .NET 8.0 compatible, async/await support, nullable reference types
+- **Build files**: `.csproj`, `.sln`, NuGet package ready
+
+### Getting Started with Client Generation
+
+#### Prerequisites
+```bash
+cd typespec/
+npm install
+```
+
+#### Generate All Clients
+```bash
+cd typespec/
+npm run build
+```
+
+This command:
+1. Compiles TypeSpec to OpenAPI 3.0 specification
+2. Generates JSON Schema definitions
+3. Creates client libraries for TypeScript, Java, and C#
+
+#### Clean Build Environment
+```bash
+cd typespec/
+npm run clean
+```
+
+### Using the Generated Clients
+
+Each generated client includes:
+- Complete API client with all endpoints
+- Type definitions for all request/response models
+- Configuration options for base URL, authentication, etc.
+- Documentation and README files
+- Unit test templates
+- Build configuration for the target platform
+
+### Development Workflow
+
+1. **Update API definitions**: Edit TypeScript interfaces first (`requestTypes.ts`, `callbackTypes.ts`)
+2. **Mirror changes in TypeSpec**: Update `typespec/main.tsp` to match
+3. **Generate clients**: Run `npm run build` in the `typespec/` directory
+4. **Use clients**: Import and use the generated libraries in your projects
+
+### Configuration
+
+Client generation is configured through:
+- **TypeScript**: `typespec/scripts/typescript-config.json`
+- **Java**: `typespec/scripts/java-config.json`
+- **C#**: `typespec/scripts/csharp-config.json`
+
+These files control naming conventions, package details, and framework-specific options.
+
+### Build Tools
+
+The client generation uses:
+- **TypeSpec Compiler** v1.3.0 for schema compilation
+- **OpenAPI Generator CLI** v2.23.1 for client generation
+- Versions are pinned in `package.json` for reproducible builds
+
+For more detailed information about the TypeSpec setup and development workflow, see [WARP.md](WARP.md).
