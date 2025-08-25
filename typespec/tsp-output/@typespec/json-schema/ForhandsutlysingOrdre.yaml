@@ -1,0 +1,205 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: ForhandsutlysingOrdre.yaml
+type: object
+properties:
+  type:
+    type: string
+    const: forhandsutlysing
+  bolig:
+    $ref: "#/$defs/Bolig"
+  selgere:
+    type: array
+    items:
+      $ref: "#/$defs/Kontakt"
+  omsetningstype:
+    anyOf:
+      - type: string
+        const: salg
+      - type: string
+        const: tvangssalg
+      - type: string
+        const: utleie
+      - type: string
+        const: verdivurdering
+      - type: string
+        const: oppgjorsoppdrag
+  finnkode:
+    type: string
+  prisantydning:
+    type: integer
+required:
+  - type
+  - bolig
+  - selgere
+allOf:
+  - $ref: "#/$defs/BasicRequest"
+description: |-
+  Forhandsutlysing
+  Order a clarification
+$defs:
+  Bolig:
+    type: object
+    properties:
+      prom:
+        type: integer
+      srom:
+        type: integer
+      bra:
+        type: integer
+      braI:
+        type: integer
+      braE:
+        type: integer
+      braB:
+        type: integer
+      braS:
+        type: integer
+      tba:
+        type: integer
+      bta:
+        type: integer
+      antallRom:
+        type: integer
+      antallSoverom:
+        type: integer
+      energibokstav:
+        type: string
+      energifargekode:
+        type: string
+      heis:
+        type: boolean
+      veranda:
+        type: boolean
+      parkering:
+        type: string
+      oppvarming:
+        type: string
+      adresse:
+        $ref: "#/$defs/Adresse"
+      leilighetsnummer:
+        type: string
+  Kontakt:
+    type: object
+    properties:
+      id:
+        type: string
+      fornavn:
+        type: string
+      etternavn:
+        type: string
+      organisasjonsnavn:
+        type: string
+      kontaktperson:
+        type: string
+      adresse:
+        $ref: "#/$defs/Adresse"
+      epost:
+        type: string
+      telefon:
+        type: string
+      eierbrok:
+        $ref: "#/$defs/Eierbrok"
+    required:
+      - id
+      - adresse
+      - epost
+      - telefon
+      - eierbrok
+  BasicRequest:
+    type: object
+    properties:
+      ordreId:
+        type: string
+      estateId:
+        type: string
+      oppdragsnummer:
+        type: string
+      registerenhet:
+        $ref: "#/$defs/Registerenhet"
+      bestiller:
+        $ref: "#/$defs/Kontaktinfo"
+      meglerkontor:
+        $ref: "#/$defs/Meglerkontor"
+      kontaktperson:
+        $ref: "#/$defs/Kontaktinfo"
+    required:
+      - ordreId
+      - registerenhet
+      - bestiller
+      - meglerkontor
+      - kontaktperson
+    description: Common request type for all product types
+  Adresse:
+    type: object
+    properties:
+      gateadresse:
+        type: string
+      postnummer:
+        type: string
+      poststed:
+        type: string
+    required:
+      - gateadresse
+      - postnummer
+      - poststed
+  Eierbrok:
+    type: object
+    properties:
+      teller:
+        type: integer
+      nevner:
+        type: integer
+    required:
+      - teller
+      - nevner
+  Registerenhet:
+    type: object
+    properties:
+      type:
+        $ref: "#/$defs/RegisterenhetType"
+      ident:
+        type: string
+    required:
+      - type
+      - ident
+  Kontaktinfo:
+    type: object
+    properties:
+      id:
+        type: string
+      navn:
+        type: string
+      epost:
+        type: string
+      telefon:
+        type: string
+    required:
+      - id
+      - navn
+      - epost
+  Meglerkontor:
+    type: object
+    properties:
+      orgnr:
+        type: string
+      avdelingsnr:
+        type: string
+      navn:
+        type: string
+      adresse:
+        $ref: "#/$defs/Adresse"
+      telefon:
+        type: string
+    required:
+      - orgnr
+      - avdelingsnr
+      - navn
+      - adresse
+      - telefon
+  RegisterenhetType:
+    type: string
+    enum:
+      - matrikkel
+      - borettsandel
+      - aksjeandel
+      - obligasjonsandel

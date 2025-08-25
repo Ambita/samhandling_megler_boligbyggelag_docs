@@ -124,6 +124,7 @@ model BoliginformasjonOrdre extends BasicRequest {
  * Forhandsutlysing
  * Order a clarification
  */
+@jsonSchema
 model ForhandsutlysingOrdre extends BasicRequest {
   type: "forhandsutlysing";
   bolig: Bolig;
@@ -153,6 +154,7 @@ model SalgsmeldingOrdre extends BasicRequest {
  * EndringOverdragelse
  * Notify about change of transfer date
  */
+@jsonSchema
 model EndringOverdragelseOrdre extends BasicRequest {
   type: "endringoverdragelse";
   salgsmeldingOrdreId: string;
@@ -163,6 +165,7 @@ model EndringOverdragelseOrdre extends BasicRequest {
  * EndringKjopere
  * Notify about change of buyers/owners
  */
+@jsonSchema
 model EndringKjopereOrdre extends BasicRequest {
   type: "endringkjopere";
   kjopere: Kontakt[];
@@ -172,6 +175,7 @@ model EndringKjopereOrdre extends BasicRequest {
  * Sluttbrev
  * Sent when the ownership transfer is completed
  */
+@jsonSchema
 model SluttbrevOrdre extends BasicRequest {
   type: "sluttbrev";
   tinglysteEiere?: Kontakt[];
@@ -185,6 +189,7 @@ model SluttbrevOrdre extends BasicRequest {
  * Restanse
  * Order and handle arrears - not yet designed
  */
+@jsonSchema
 model RestanseOrdre extends BasicRequest {
   type: "restanse";
 }
@@ -193,6 +198,7 @@ model RestanseOrdre extends BasicRequest {
  * SumGjeld
  * Order and handle total debt
  */
+@jsonSchema
 model SumGjeldOrdre extends BasicRequest {
   type: "sumgjeld";
 }
@@ -201,6 +207,7 @@ model SumGjeldOrdre extends BasicRequest {
  * SumFelleskostnader
  * Order and handle total common costs
  */
+@jsonSchema
 model SumFelleskostnaderOrdre extends BasicRequest {
   type: "sumfelleskostnader";
 }
@@ -271,6 +278,7 @@ model BasicResponse {
  * Feil
  * optional - used to report errors
   */
+@jsonSchema
 model Feil extends BasicResponse {
   type: "feil";
   feilmelding: string;
@@ -283,6 +291,7 @@ model Feil extends BasicResponse {
  * Boliginformasjon
  * required - used to report information on requested property
   */
+@jsonSchema
 model BoliginformasjonResponse extends BasicResponse {
   type: "boliginformasjon";
   forkjopsrett: {
@@ -382,6 +391,7 @@ model SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsrett {
  * SalgsmeldingMottatt
  * optional - clarifies process, can be omitted if no process is needed
  */
+@jsonSchema
 model SalgsmeldingMottatt extends BasicResponse {
   type: "salgsmeldingmottatt";
   harForkjopsrett: boolean;
@@ -395,6 +405,7 @@ model SalgsmeldingMottatt extends BasicResponse {
  * SalgsmeldingOppdatering
  * optional - can be sent before board approval process completed
  */
+@jsonSchema
 model SalgsmeldingOppdatering extends BasicResponse {
   type: "salgsmeldingoppdatering";
   harForkjopsrett: boolean;
@@ -409,6 +420,7 @@ model SalgsmeldingOppdatering extends BasicResponse {
  * SalgsmeldingFullfort
  * required - expected at the end of the process - marks sale process completed
  */
+@jsonSchema
 model SalgsmeldingFullfort extends BasicResponse {
   type: "salgsmeldingfullfort";
   harForkjopsrett: boolean;
@@ -423,6 +435,7 @@ model SalgsmeldingFullfort extends BasicResponse {
  * EndringOverdragelse
  * required - Respond if the requested transfer date was accepted
  */
+@jsonSchema
 model EndringOverdragelseBehandlet extends BasicResponse {
   type: "endringoverdragelse";
   datoEndret: boolean;
@@ -433,6 +446,7 @@ model EndringOverdragelseBehandlet extends BasicResponse {
  * EierskifteMottatt
  * optional - to be used if updates trigger new board approval
  */
+@jsonSchema
 model EndringKjopereMottatt extends BasicResponse {
   type: "endringkjoperemottatt";
   styregodkjenningPakrevd: boolean;
@@ -443,6 +457,7 @@ model EndringKjopereMottatt extends BasicResponse {
  * EierskifteFullfort
  * required - confirms process completed
  */
+@jsonSchema
 model EndringKjopereFullfort extends BasicResponse {
   type: "endringkjoperefullfort";
   styregodkjenningPakrevd: boolean;
@@ -453,6 +468,7 @@ model EndringKjopereFullfort extends BasicResponse {
  * SluttbrevAkseptert
  * required - confirms process completed
  */
+@jsonSchema
 model SluttbrevAkseptert extends BasicResponse {
   type: "sluttbrevakseptert";
 }
@@ -461,6 +477,7 @@ model SluttbrevAkseptert extends BasicResponse {
  * SumGjeldSvar
  * required - returns the total debt
  */
+@jsonSchema
 model SumGjeldSvar extends BasicResponse {
   type: "sumgjeld";
   sumGjeld: integer;
@@ -470,6 +487,7 @@ model SumGjeldSvar extends BasicResponse {
  * SumFelleskostnaderSvar
  * required - returns the total common costs
  */
+@jsonSchema
 model SumFelleskostnaderSvar extends BasicResponse {
   type: "sumfelleskostnader";
   sumFelleskostnader: integer;

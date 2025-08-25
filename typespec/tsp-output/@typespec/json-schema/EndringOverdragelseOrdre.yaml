@@ -1,0 +1,112 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: EndringOverdragelseOrdre.yaml
+type: object
+properties:
+  type:
+    type: string
+    const: endringoverdragelse
+  salgsmeldingOrdreId:
+    type: string
+  datoOverdragelse:
+    $ref: "#/$defs/ISODateTime"
+required:
+  - type
+  - salgsmeldingOrdreId
+  - datoOverdragelse
+allOf:
+  - $ref: "#/$defs/BasicRequest"
+description: |-
+  EndringOverdragelse
+  Notify about change of transfer date
+$defs:
+  ISODateTime:
+    type: string
+    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$
+  BasicRequest:
+    type: object
+    properties:
+      ordreId:
+        type: string
+      estateId:
+        type: string
+      oppdragsnummer:
+        type: string
+      registerenhet:
+        $ref: "#/$defs/Registerenhet"
+      bestiller:
+        $ref: "#/$defs/Kontaktinfo"
+      meglerkontor:
+        $ref: "#/$defs/Meglerkontor"
+      kontaktperson:
+        $ref: "#/$defs/Kontaktinfo"
+    required:
+      - ordreId
+      - registerenhet
+      - bestiller
+      - meglerkontor
+      - kontaktperson
+    description: Common request type for all product types
+  Registerenhet:
+    type: object
+    properties:
+      type:
+        $ref: "#/$defs/RegisterenhetType"
+      ident:
+        type: string
+    required:
+      - type
+      - ident
+  Kontaktinfo:
+    type: object
+    properties:
+      id:
+        type: string
+      navn:
+        type: string
+      epost:
+        type: string
+      telefon:
+        type: string
+    required:
+      - id
+      - navn
+      - epost
+  Meglerkontor:
+    type: object
+    properties:
+      orgnr:
+        type: string
+      avdelingsnr:
+        type: string
+      navn:
+        type: string
+      adresse:
+        $ref: "#/$defs/Adresse"
+      telefon:
+        type: string
+    required:
+      - orgnr
+      - avdelingsnr
+      - navn
+      - adresse
+      - telefon
+  RegisterenhetType:
+    type: string
+    enum:
+      - matrikkel
+      - borettsandel
+      - aksjeandel
+      - obligasjonsandel
+  Adresse:
+    type: object
+    properties:
+      gateadresse:
+        type: string
+      postnummer:
+        type: string
+      poststed:
+        type: string
+    required:
+      - gateadresse
+      - postnummer
+      - poststed

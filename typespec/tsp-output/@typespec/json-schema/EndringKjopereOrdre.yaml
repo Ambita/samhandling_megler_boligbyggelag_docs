@@ -1,0 +1,145 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: EndringKjopereOrdre.yaml
+type: object
+properties:
+  type:
+    type: string
+    const: endringkjopere
+  kjopere:
+    type: array
+    items:
+      $ref: "#/$defs/Kontakt"
+required:
+  - type
+  - kjopere
+allOf:
+  - $ref: "#/$defs/BasicRequest"
+description: |-
+  EndringKjopere
+  Notify about change of buyers/owners
+$defs:
+  Kontakt:
+    type: object
+    properties:
+      id:
+        type: string
+      fornavn:
+        type: string
+      etternavn:
+        type: string
+      organisasjonsnavn:
+        type: string
+      kontaktperson:
+        type: string
+      adresse:
+        $ref: "#/$defs/Adresse"
+      epost:
+        type: string
+      telefon:
+        type: string
+      eierbrok:
+        $ref: "#/$defs/Eierbrok"
+    required:
+      - id
+      - adresse
+      - epost
+      - telefon
+      - eierbrok
+  BasicRequest:
+    type: object
+    properties:
+      ordreId:
+        type: string
+      estateId:
+        type: string
+      oppdragsnummer:
+        type: string
+      registerenhet:
+        $ref: "#/$defs/Registerenhet"
+      bestiller:
+        $ref: "#/$defs/Kontaktinfo"
+      meglerkontor:
+        $ref: "#/$defs/Meglerkontor"
+      kontaktperson:
+        $ref: "#/$defs/Kontaktinfo"
+    required:
+      - ordreId
+      - registerenhet
+      - bestiller
+      - meglerkontor
+      - kontaktperson
+    description: Common request type for all product types
+  Adresse:
+    type: object
+    properties:
+      gateadresse:
+        type: string
+      postnummer:
+        type: string
+      poststed:
+        type: string
+    required:
+      - gateadresse
+      - postnummer
+      - poststed
+  Eierbrok:
+    type: object
+    properties:
+      teller:
+        type: integer
+      nevner:
+        type: integer
+    required:
+      - teller
+      - nevner
+  Registerenhet:
+    type: object
+    properties:
+      type:
+        $ref: "#/$defs/RegisterenhetType"
+      ident:
+        type: string
+    required:
+      - type
+      - ident
+  Kontaktinfo:
+    type: object
+    properties:
+      id:
+        type: string
+      navn:
+        type: string
+      epost:
+        type: string
+      telefon:
+        type: string
+    required:
+      - id
+      - navn
+      - epost
+  Meglerkontor:
+    type: object
+    properties:
+      orgnr:
+        type: string
+      avdelingsnr:
+        type: string
+      navn:
+        type: string
+      adresse:
+        $ref: "#/$defs/Adresse"
+      telefon:
+        type: string
+    required:
+      - orgnr
+      - avdelingsnr
+      - navn
+      - adresse
+      - telefon
+  RegisterenhetType:
+    type: string
+    enum:
+      - matrikkel
+      - borettsandel
+      - aksjeandel
+      - obligasjonsandel

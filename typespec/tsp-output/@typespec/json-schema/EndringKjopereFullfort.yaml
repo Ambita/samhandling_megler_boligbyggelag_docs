@@ -1,0 +1,172 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: EndringKjopereFullfort.yaml
+type: object
+properties:
+  type:
+    type: string
+    const: endringkjoperefullfort
+  styregodkjenningPakrevd:
+    type: boolean
+  styregodkjenning:
+    $ref: "#/$defs/StyregodkjenningFullfort"
+required:
+  - type
+  - styregodkjenningPakrevd
+allOf:
+  - $ref: "#/$defs/BasicResponse"
+description: |-
+  EierskifteFullfort
+  required - confirms process completed
+$defs:
+  StyregodkjenningFullfort:
+    type: object
+    properties:
+      statusStyregodkjenning:
+        anyOf:
+          - type: string
+            const: godkjent_av_styret
+          - type: string
+            const: godkjent_av_bbl
+          - type: string
+            const: avvist_av_styret
+          - type: string
+            const: avvist_av_bbl
+          - type: string
+            const: frist_utlopt
+      andreHensyn:
+        type: string
+    allOf:
+      - $ref: "#/$defs/Styregodkjenning"
+  BasicResponse:
+    type: object
+    properties:
+      type:
+        anyOf:
+          - type: string
+            const: boliginformasjon
+          - type: string
+            const: forhandsutlysingtidlig
+          - type: string
+            const: forhandsutlysingutsatt
+          - type: string
+            const: forhandsutlysingsen
+          - type: string
+            const: forhandsutlysingutlopt
+          - type: string
+            const: salgsmeldingmottatt
+          - type: string
+            const: salgsmeldingoppdatering
+          - type: string
+            const: salgsmeldingfullfort
+          - type: string
+            const: endringoverdragelse
+          - type: string
+            const: endringkjoperemottatt
+          - type: string
+            const: endringkjoperefullfort
+          - type: string
+            const: sluttbrevakseptert
+          - type: string
+            const: sumgjeld
+          - type: string
+            const: sumfelleskostnader
+          - type: string
+            const: feil
+      ordreId:
+        type: string
+      forretningsforer:
+        $ref: "#/$defs/Forretningsforer"
+      klient:
+        $ref: "#/$defs/Klient"
+      levert:
+        $ref: "#/$defs/ISODateTime"
+      referanse:
+        type: string
+      eierform:
+        anyOf:
+          - type: string
+            const: Aksjonär
+          - type: string
+            const: Andelseier
+          - type: string
+            const: Sameier
+          - type: string
+            const: Seksjonseier
+    required:
+      - type
+      - ordreId
+      - forretningsforer
+  Styregodkjenning:
+    type: object
+    properties:
+      handteresAvForretningsforer:
+        type: boolean
+      initiertDato:
+        $ref: "#/$defs/ISODate"
+      meldefrist:
+        $ref: "#/$defs/ISODateTime"
+    required:
+      - handteresAvForretningsforer
+  Forretningsforer:
+    type: object
+    properties:
+      navn:
+        type: string
+      adresse:
+        $ref: "#/$defs/Adresse"
+      epost:
+        type: string
+      epostRestanse:
+        type: string
+    required:
+      - navn
+      - adresse
+  Klient:
+    type: object
+    properties:
+      klienttype:
+        type: string
+      organisasjonsnavn:
+        type: string
+      organisasjonsnummer:
+        type: string
+      epost:
+        type: string
+      nettside:
+        type: string
+      styreleder:
+        $ref: "#/$defs/Styreleder"
+    required:
+      - klienttype
+      - organisasjonsnavn
+      - organisasjonsnummer
+  ISODateTime:
+    type: string
+    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$
+  ISODate:
+    type: string
+    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+  Adresse:
+    type: object
+    properties:
+      gateadresse:
+        type: string
+      postnummer:
+        type: string
+      poststed:
+        type: string
+    required:
+      - gateadresse
+      - postnummer
+      - poststed
+  Styreleder:
+    type: object
+    properties:
+      navn:
+        type: string
+      epost:
+        type: string
+      telefonnr:
+        type: string
+    required:
+      - navn

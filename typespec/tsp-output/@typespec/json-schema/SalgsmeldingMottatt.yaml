@@ -1,0 +1,194 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: SalgsmeldingMottatt.yaml
+type: object
+properties:
+  type:
+    type: string
+    const: salgsmeldingmottatt
+  harForkjopsrett:
+    type: boolean
+  forkjopsrett:
+    $ref: "#/$defs/SalgsmeldingForkjopsrett"
+  styregodkjenningPakrevd:
+    type: boolean
+  styregodkjenning:
+    $ref: "#/$defs/Styregodkjenning"
+  tilknyttetLag:
+    type: boolean
+required:
+  - type
+  - harForkjopsrett
+  - styregodkjenningPakrevd
+  - tilknyttetLag
+allOf:
+  - $ref: "#/$defs/BasicResponse"
+description: |-
+  SalgsmeldingMottatt
+  optional - clarifies process, can be omitted if no process is needed
+$defs:
+  SalgsmeldingForkjopsrett:
+    type: object
+    properties:
+      typeAvklaring:
+        anyOf:
+          - type: string
+            const: fastpris
+          - type: string
+            const: forhandsutlysing
+      statusForhandsutlysing:
+        anyOf:
+          - type: string
+            const: ikke_forhandsutlysing
+          - type: string
+            const: med_interessenter
+          - type: string
+            const: uten_interessenter
+          - type: string
+            const: forkjop_ikke_benyttet
+          - type: string
+            const: ikke_avklart
+      utlysingsdato:
+        $ref: "#/$defs/ISODate"
+      utlysingssted:
+        type: string
+      meldefrist:
+        $ref: "#/$defs/ISODateTime"
+    required:
+      - typeAvklaring
+      - statusForhandsutlysing
+      - utlysingsdato
+      - utlysingssted
+      - meldefrist
+  Styregodkjenning:
+    type: object
+    properties:
+      handteresAvForretningsforer:
+        type: boolean
+      initiertDato:
+        $ref: "#/$defs/ISODate"
+      meldefrist:
+        $ref: "#/$defs/ISODateTime"
+    required:
+      - handteresAvForretningsforer
+  BasicResponse:
+    type: object
+    properties:
+      type:
+        anyOf:
+          - type: string
+            const: boliginformasjon
+          - type: string
+            const: forhandsutlysingtidlig
+          - type: string
+            const: forhandsutlysingutsatt
+          - type: string
+            const: forhandsutlysingsen
+          - type: string
+            const: forhandsutlysingutlopt
+          - type: string
+            const: salgsmeldingmottatt
+          - type: string
+            const: salgsmeldingoppdatering
+          - type: string
+            const: salgsmeldingfullfort
+          - type: string
+            const: endringoverdragelse
+          - type: string
+            const: endringkjoperemottatt
+          - type: string
+            const: endringkjoperefullfort
+          - type: string
+            const: sluttbrevakseptert
+          - type: string
+            const: sumgjeld
+          - type: string
+            const: sumfelleskostnader
+          - type: string
+            const: feil
+      ordreId:
+        type: string
+      forretningsforer:
+        $ref: "#/$defs/Forretningsforer"
+      klient:
+        $ref: "#/$defs/Klient"
+      levert:
+        $ref: "#/$defs/ISODateTime"
+      referanse:
+        type: string
+      eierform:
+        anyOf:
+          - type: string
+            const: Aksjonär
+          - type: string
+            const: Andelseier
+          - type: string
+            const: Sameier
+          - type: string
+            const: Seksjonseier
+    required:
+      - type
+      - ordreId
+      - forretningsforer
+  ISODate:
+    type: string
+    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+  ISODateTime:
+    type: string
+    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$
+  Forretningsforer:
+    type: object
+    properties:
+      navn:
+        type: string
+      adresse:
+        $ref: "#/$defs/Adresse"
+      epost:
+        type: string
+      epostRestanse:
+        type: string
+    required:
+      - navn
+      - adresse
+  Klient:
+    type: object
+    properties:
+      klienttype:
+        type: string
+      organisasjonsnavn:
+        type: string
+      organisasjonsnummer:
+        type: string
+      epost:
+        type: string
+      nettside:
+        type: string
+      styreleder:
+        $ref: "#/$defs/Styreleder"
+    required:
+      - klienttype
+      - organisasjonsnavn
+      - organisasjonsnummer
+  Adresse:
+    type: object
+    properties:
+      gateadresse:
+        type: string
+      postnummer:
+        type: string
+      poststed:
+        type: string
+    required:
+      - gateadresse
+      - postnummer
+      - poststed
+  Styreleder:
+    type: object
+    properties:
+      navn:
+        type: string
+      epost:
+        type: string
+      telefonnr:
+        type: string
+    required:
+      - navn
