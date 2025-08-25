@@ -1,0 +1,18 @@
+{
+  "dateLibrary": "java8",
+  "java8": true,
+  "modelPropertyNaming": "camelCase",
+  "enumPropertyNaming": "UPPERCASE",
+  "ensureUniqueParams": true,
+  "sortParamsByRequiredFlag": true,
+  "prependFormOrBodyParameters": true,
+  "legacyDiscriminatorBehavior": false,
+  "disallowAdditionalPropertiesIfNotPresent": true,
+  "invokerPackage": "no.samhandling.client.invoker",
+  "modelPackage": "no.samhandling.client.model",
+  "apiPackage": "no.samhandling.client.api",
+  "hideGenerationTimestamp": true,
+  "useBeanValidation": true,
+  "performBeanValidation": true,
+  "useOptional": true
+}

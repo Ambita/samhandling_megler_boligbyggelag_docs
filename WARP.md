@@ -145,6 +145,83 @@ This repository maintains **dual definitions**:
 3. **Test compilation**: `cd typespec && npx tsp compile .`
 4. **Commit both versions together** to maintain sync
 
+## Code Generation
+
+The TypeSpec setup now includes automatic generation of client libraries for multiple programming languages from the OpenAPI 3.0 specification.
+
+### Available Client Libraries
+
+#### TypeScript/JavaScript Client
+- **Location**: `typespec/generated/typescript/`
+- **Package**: `@samhandling/client` 
+- **Features**: Full TypeScript types, fetch-based HTTP client, ES6+ support
+- **Usage**: Import and use with modern JavaScript/TypeScript projects
+
+#### Java Client  
+- **Location**: `typespec/generated/java/`
+- **Package**: `no.samhandling:samhandling-client`
+- **Features**: Maven/Gradle compatible, Java 8+ support, native HTTP client
+- **Build files**: `pom.xml`, `build.gradle`, complete project structure
+
+#### C# (.NET) Client
+- **Location**: `typespec/generated/csharp/`
+- **Package**: `Samhandling.Client`
+- **Features**: .NET 8.0 compatible, async/await support, nullable reference types
+- **Build files**: `.csproj`, `.sln`, NuGet package ready
+
+### Development Commands
+
+#### Prerequisites
+```bash
+cd typespec/
+npm install
+```
+
+#### Generate Everything (TypeSpec + All Clients)
+```bash
+cd typespec/
+npm run build
+```
+This compiles TypeSpec to OpenAPI 3.0 and JSON Schema, then generates all client libraries.
+
+#### Clean Build Environment
+```bash
+cd typespec/
+npm run clean
+```
+Removes all generated files (`tsp-output/` and `generated/`) and reinstalls dependencies.
+
+#### Manual Client Generation
+To regenerate only the client libraries (after TypeSpec compilation):
+```bash
+cd typespec/
+npm run postcompile:tsp
+```
+
+### Generated Client Structure
+
+Each generated client includes:
+- **Complete API client** with all endpoints
+- **Type definitions/models** for all request/response objects
+- **Configuration options** for base URL, authentication, etc.
+- **Documentation** (README, API docs)
+- **Build configuration** (package.json, pom.xml, .csproj)
+- **Unit test templates**
+
+### Code Generation Configuration
+
+The generation process uses **OpenAPI Generator CLI v2.23.1** with language-specific configurations:
+
+- **TypeScript**: `scripts/typescript-config.json`
+- **Java**: `scripts/java-config.json` 
+- **C#**: `scripts/csharp-config.json`
+
+These files control naming conventions, package details, and framework-specific options.
+
+### Reproducible Builds
+
+The OpenAPI Generator CLI version is pinned in `package.json` to ensure consistent generation across different machines and CI environments.
+
 ## Common Development Tasks
 
 ### Adding a New Message Type

@@ -1,0 +1,43 @@
+
+
+# Feil
+
+Feil optional - used to report errors
+
+## Properties
+
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**type** | [**TypeEnum**](#TypeEnum) |  |  |
+|**feilmelding** | **String** |  |  |
+|**feilkode** | **Feilkode** |  |  [optional] |
+|**tidspunkt** | **String** |  |  |
+|**kansellert** | **Boolean** |  |  [optional] |
+|**ordreId** | **String** |  |  |
+|**forretningsforer** | [**BasicResponseForretningsforer**](BasicResponseForretningsforer.md) |  |  |
+|**klient** | [**Klient**](Klient.md) |  |  [optional] |
+|**levert** | **String** |  |  [optional] |
+|**referanse** | **String** |  |  [optional] |
+|**eierform** | [**EierformEnum**](#EierformEnum) |  |  [optional] |
+
+
+
+## Enum: TypeEnum
+
+| Name | Value |
+|---- | -----|
+| FEIL | &quot;feil&quot; |
+
+
+
+## Enum: EierformEnum
+
+| Name | Value |
+|---- | -----|
+| AKSJON_R | &quot;Aksjonår&quot; |
+| ANDELSEIER | &quot;Andelseier&quot; |
+| SAMEIER | &quot;Sameier&quot; |
+| SEKSJONSEIER | &quot;Seksjonseier&quot; |
+
+
+

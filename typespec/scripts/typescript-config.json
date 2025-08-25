@@ -1,0 +1,12 @@
+{
+  "modelPropertyNaming": "camelCase",
+  "enumPropertyNaming": "PascalCase",
+  "ensureUniqueParams": true,
+  "sortParamsByRequiredFlag": true,
+  "prependFormOrBodyParameters": true,
+  "legacyDiscriminatorBehavior": false,
+  "disallowAdditionalPropertiesIfNotPresent": true,
+  "enumNameSuffix": "",
+  "removeEnumValuePrefix": false,
+  "stringEnums": true
+}

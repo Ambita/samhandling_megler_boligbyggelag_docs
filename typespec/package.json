@@ -2,12 +2,21 @@
   "name": "samhandling-typespec",
   "version": "0.1.0",
   "type": "module",
+  "scripts": {
+    "compile:tsp": "tsp compile .",
+    "postcompile:tsp": "node ./scripts/generate-clients.mjs",
+    "build": "npm run compile:tsp",
+    "clean": "rm -rf tsp-output generated && npm install"
+  },
   "dependencies": {
     "@typespec/compiler": "^1.3.0",
     "@typespec/http": "^1.3.0",
     "@typespec/json-schema": "^1.3.0",
     "@typespec/openapi3": "^1.3.0",
     "@typespec/rest": "^0.73.0"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.23.1"
   },
   "private": true
 }

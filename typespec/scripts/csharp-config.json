@@ -1,0 +1,17 @@
+{
+  "modelPropertyNaming": "PascalCase",
+  "enumPropertyNaming": "PascalCase", 
+  "ensureUniqueParams": true,
+  "sortParamsByRequiredFlag": true,
+  "prependFormOrBodyParameters": true,
+  "legacyDiscriminatorBehavior": false,
+  "disallowAdditionalPropertiesIfNotPresent": true,
+  "hideGenerationTimestamp": true,
+  "useCollection": true,
+  "returnICollection": false,
+  "generatePropertyChanged": false,
+  "nonPublicApi": false,
+  "validatable": true,
+  "useCompareNetObjects": true,
+  "generateClientInterfaces": true
+}

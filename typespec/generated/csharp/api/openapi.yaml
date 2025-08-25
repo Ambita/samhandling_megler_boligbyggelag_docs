@@ -1,0 +1,1528 @@
+openapi: 3.0.0
+info:
+  title: (title)
+  version: 0.0.0
+servers:
+- url: /
+paths:
+  /boliginformasjon:
+    post:
+      operationId: Boliginformasjon_order
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BoliginformasjonOrdre"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+  /callback:
+    post:
+      operationId: Callback_receive
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CallbackEvent"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+  /endringkjopere:
+    post:
+      operationId: EndringKjopere_order
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndringKjopereOrdre"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+  /endringoverdragelse:
+    post:
+      operationId: EndringOverdragelse_order
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndringOverdragelseOrdre"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+  /forhandsutlysing:
+    post:
+      operationId: Forhandsutlysing_order
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForhandsutlysingOrdre"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+  /restanse:
+    post:
+      operationId: Restanse_order
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RestanseOrdre"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+  /salgsmelding:
+    post:
+      operationId: Salgsmelding_order
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SalgsmeldingOrdre"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+  /sluttbrev:
+    post:
+      operationId: Sluttbrev_order
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SluttbrevOrdre"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+  /sumfelleskostnader:
+    post:
+      operationId: SumFelleskostnader_order
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SumFelleskostnaderOrdre"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+  /sumgjeld:
+    post:
+      operationId: SumGjeld_order
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SumGjeldOrdre"
+        required: true
+      responses:
+        "200":
+          description: The request has succeeded.
+components:
+  schemas:
+    Adresse:
+      example:
+        gateadresse: gateadresse
+        postnummer: postnummer
+        poststed: poststed
+      properties:
+        gateadresse:
+          type: string
+        postnummer:
+          type: string
+        poststed:
+          type: string
+      required:
+      - gateadresse
+      - postnummer
+      - poststed
+      type: object
+    BasicProduct:
+      description: Common request type for all product types
+      properties:
+        ordreId:
+          type: string
+        estateId:
+          type: string
+        oppdragsnummer:
+          type: string
+        registerenhet:
+          $ref: "#/components/schemas/Registerenhet"
+        bestiller:
+          $ref: "#/components/schemas/Kontaktinfo"
+        meglerkontor:
+          $ref: "#/components/schemas/Meglerkontor"
+        kontaktperson:
+          $ref: "#/components/schemas/Kontaktinfo"
+      required:
+      - bestiller
+      - kontaktperson
+      - meglerkontor
+      - ordreId
+      - registerenhet
+      type: object
+    BasicResponse:
+      properties:
+        type:
+          enum:
+          - boliginformasjon
+          - forhandsutlysingtidlig
+          - forhandsutlysingutsatt
+          - forhandsutlysingsen
+          - forhandsutlysingutlopt
+          - salgsmeldingmottatt
+          - salgsmeldingoppdatering
+          - salgsmeldingfullfort
+          - endringoverdragelse
+          - endringkjoperemottatt
+          - endringkjoperefullfort
+          - sluttbrevakseptert
+          - sumgjeld
+          - sumfelleskostnader
+          - feil
+          type: string
+        ordreId:
+          type: string
+        forretningsforer:
+          $ref: "#/components/schemas/BasicResponse_forretningsforer"
+        klient:
+          $ref: "#/components/schemas/Klient"
+        levert:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        referanse:
+          type: string
+        eierform:
+          enum:
+          - Aksjonår
+          - Andelseier
+          - Sameier
+          - Seksjonseier
+          type: string
+      required:
+      - forretningsforer
+      - ordreId
+      - type
+      type: object
+    BestillingsFormat:
+      enum:
+      - Manuelt
+      - Elektronisk
+      type: string
+    BestillingsmottakerType:
+      enum:
+      - forretningsforer
+      - lag
+      type: string
+    Bolig:
+      example:
+        antallSoverom: 4
+        veranda: true
+        oppvarming: oppvarming
+        srom: 6
+        braS: 7
+        energifargekode: energifargekode
+        bta: 3
+        parkering: parkering
+        bra: 1
+        tba: 9
+        prom: 0
+        braI: 5
+        heis: true
+        leilighetsnummer: leilighetsnummer
+        adresse:
+          gateadresse: gateadresse
+          postnummer: postnummer
+          poststed: poststed
+        braE: 5
+        antallRom: 2
+        energibokstav: energibokstav
+        braB: 2
+      properties:
+        prom:
+          type: integer
+        srom:
+          type: integer
+        bra:
+          type: integer
+        braI:
+          type: integer
+        braE:
+          type: integer
+        braB:
+          type: integer
+        braS:
+          type: integer
+        tba:
+          type: integer
+        bta:
+          type: integer
+        antallRom:
+          type: integer
+        antallSoverom:
+          type: integer
+        energibokstav:
+          type: string
+        energifargekode:
+          type: string
+        heis:
+          type: boolean
+        veranda:
+          type: boolean
+        parkering:
+          type: string
+        oppvarming:
+          type: string
+        adresse:
+          $ref: "#/components/schemas/Adresse"
+        leilighetsnummer:
+          type: string
+      type: object
+    BoliginformasjonOrdre:
+      allOf:
+      - $ref: "#/components/schemas/BasicProduct"
+      description: |-
+        Boliginfo
+        Order information about a property
+      example:
+        type: boliginformasjon
+      properties:
+        type:
+          enum:
+          - boliginformasjon
+          type: string
+      required:
+      - type
+      type: object
+    BoliginformasjonResponse:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        Boliginformasjon
+        required - used to report information on requested property
+      example:
+        forkjopsrett: "{}"
+        styregodkjenning: "{}"
+        salgsmelding: "{}"
+        restanse: "{}"
+        type: boliginformasjon
+        andreHensyn: andreHensyn
+      properties:
+        type:
+          enum:
+          - boliginformasjon
+          type: string
+        forkjopsrett:
+          properties:
+            harForkjopsrett:
+              type: boolean
+            kanForhandsutlyses:
+              type: boolean
+            intern:
+              type: boolean
+            bestillingsformat:
+              $ref: "#/components/schemas/BestillingsFormat"
+            mottakerType:
+              $ref: "#/components/schemas/BestillingsmottakerType"
+            gebyr:
+              type: integer
+          required:
+          - harForkjopsrett
+          type: object
+        styregodkjenning:
+          properties:
+            pakrevd:
+              type: boolean
+            bestillingsformat:
+              $ref: "#/components/schemas/BestillingsFormat"
+            mottakerType:
+              $ref: "#/components/schemas/BestillingsmottakerType"
+          required:
+          - pakrevd
+          type: object
+        salgsmelding:
+          properties:
+            bestillingsformat:
+              $ref: "#/components/schemas/BestillingsFormat"
+            gebyr:
+              type: integer
+          required:
+          - bestillingsformat
+          type: object
+        restanse:
+          properties:
+            bestillingsformat:
+              $ref: "#/components/schemas/BestillingsFormat"
+          required:
+          - bestillingsformat
+          type: object
+        andreHensyn:
+          type: string
+      required:
+      - forkjopsrett
+      - restanse
+      - salgsmelding
+      - styregodkjenning
+      - type
+      type: object
+    CallbackEvent:
+      anyOf:
+      - $ref: "#/components/schemas/BoliginformasjonResponse"
+      - $ref: "#/components/schemas/Feil"
+      - $ref: "#/components/schemas/ForhandsutlysingTidlig"
+      - $ref: "#/components/schemas/ForhandsutlysingUtsatt"
+      - $ref: "#/components/schemas/ForhandsutlysingSen"
+      - $ref: "#/components/schemas/ForhandsutlysingUtlopt"
+      - $ref: "#/components/schemas/EndringOverdragelseBehandlet"
+      - $ref: "#/components/schemas/SalgsmeldingMottatt"
+      - $ref: "#/components/schemas/SalgsmeldingOppdatering"
+      - $ref: "#/components/schemas/SalgsmeldingFullfort"
+      - $ref: "#/components/schemas/EndringKjopereMottatt"
+      - $ref: "#/components/schemas/EndringKjopereFullfort"
+      - $ref: "#/components/schemas/SluttbrevAkseptert"
+      - $ref: "#/components/schemas/SumGjeldSvar"
+      - $ref: "#/components/schemas/SumFelleskostnaderSvar"
+    Eierbrok:
+      example:
+        nevner: 6
+        teller: 0
+      properties:
+        teller:
+          type: integer
+        nevner:
+          type: integer
+      required:
+      - nevner
+      - teller
+      type: object
+    EndringKjopereFullfort:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        EierskifteFullfort
+        required - confirms process completed
+      properties:
+        type:
+          enum:
+          - endringkjoperefullfort
+          type: string
+        ordreMottatt:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        styregodkjenningPakrevd:
+          type: boolean
+        styregodkjenning:
+          $ref: "#/components/schemas/StyregodkjenningFullfort"
+      required:
+      - ordreMottatt
+      - styregodkjenningPakrevd
+      - type
+      type: object
+    EndringKjopereMottatt:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        EierskifteMottatt
+        optional - to be used if updates trigger new board approval
+      properties:
+        type:
+          enum:
+          - endringkjoperemottatt
+          type: string
+        ordreMottatt:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        styregodkjenningPakrevd:
+          type: boolean
+        styregodkjenning:
+          $ref: "#/components/schemas/Styregodkjenning"
+      required:
+      - ordreMottatt
+      - styregodkjenningPakrevd
+      - type
+      type: object
+    EndringKjopereOrdre:
+      allOf:
+      - $ref: "#/components/schemas/BasicProduct"
+      description: |-
+        EndringKjopere
+        Notify about change of buyers/owners
+      example:
+        kjopere:
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        type: endringkjopere
+      properties:
+        type:
+          enum:
+          - endringkjopere
+          type: string
+        kjopere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+      required:
+      - kjopere
+      - type
+      type: object
+    EndringOverdragelseBehandlet:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        EndringOverdragelse
+        required - Respond if the requested transfer date was accepted
+      properties:
+        type:
+          enum:
+          - endringoverdragelse
+          type: string
+        datoEndret:
+          type: boolean
+        avvisningsarsak:
+          type: string
+      required:
+      - datoEndret
+      - type
+      type: object
+    EndringOverdragelseOrdre:
+      allOf:
+      - $ref: "#/components/schemas/BasicProduct"
+      description: |-
+        EndringOverdragelse
+        Notify about change of transfer date
+      example:
+        datoOverdragelse: datoOverdragelse
+        salgsmeldingOrdreId: salgsmeldingOrdreId
+        type: endringoverdragelse
+      properties:
+        type:
+          enum:
+          - endringoverdragelse
+          type: string
+        salgsmeldingOrdreId:
+          type: string
+        datoOverdragelse:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+      required:
+      - datoOverdragelse
+      - salgsmeldingOrdreId
+      - type
+      type: object
+    Feil:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        Feil
+        optional - used to report errors
+      properties:
+        type:
+          enum:
+          - feil
+          type: string
+        feilmelding:
+          type: string
+        feilkode:
+          $ref: "#/components/schemas/Feilkode"
+        tidspunkt:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        kansellert:
+          type: boolean
+      required:
+      - feilmelding
+      - tidspunkt
+      - type
+      type: object
+    Feilkode:
+      enum:
+      - 1
+      - 2
+      - 4
+      - 6
+      - 8
+      - 11
+      - 12
+      - 31
+      - 32
+      - 33
+      - 34
+      - 39
+      type: number
+    ForhandsutlysingOrdre:
+      allOf:
+      - $ref: "#/components/schemas/BasicProduct"
+      description: |-
+        Forhandsutlysing
+        Order a clarification
+      example:
+        prisantydning: 7
+        selgere:
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        finnkode: finnkode
+        bolig:
+          antallSoverom: 4
+          veranda: true
+          oppvarming: oppvarming
+          srom: 6
+          braS: 7
+          energifargekode: energifargekode
+          bta: 3
+          parkering: parkering
+          bra: 1
+          tba: 9
+          prom: 0
+          braI: 5
+          heis: true
+          leilighetsnummer: leilighetsnummer
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          braE: 5
+          antallRom: 2
+          energibokstav: energibokstav
+          braB: 2
+        eiere:
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        omsetningstype: salg
+        type: forhandsutlysing
+      properties:
+        type:
+          enum:
+          - forhandsutlysing
+          type: string
+        bolig:
+          $ref: "#/components/schemas/Bolig"
+        selgere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+        eiere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+        omsetningstype:
+          enum:
+          - salg
+          - tvangssalg
+          - utleie
+          - verdivurdering
+          - oppgjorsoppdrag
+          type: string
+        finnkode:
+          type: string
+        prisantydning:
+          type: integer
+      required:
+      - bolig
+      - selgere
+      - type
+      type: object
+    ForhandsutlysingSen:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        ForhandsutlysingSen
+        required - used to report announcement completed
+      properties:
+        type:
+          enum:
+          - forhandsutlysingsen
+          type: string
+        ordreMottatt:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        utlysingssted:
+          type: string
+        utlysingsdato:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+        meldefrist:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        antallInteressenter:
+          type: integer
+        varighetForkjopsrett:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+      required:
+      - antallInteressenter
+      - meldefrist
+      - ordreMottatt
+      - type
+      - utlysingsdato
+      - utlysingssted
+      - varighetForkjopsrett
+      type: object
+    ForhandsutlysingTidlig:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        ForhandsutlysingTidlig
+        required - used to report announcement data
+      properties:
+        type:
+          enum:
+          - forhandsutlysingtidlig
+          type: string
+        ordreMottatt:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        utlysingssted:
+          type: string
+        utlysingsdato:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+        meldefrist:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+      required:
+      - meldefrist
+      - ordreMottatt
+      - type
+      - utlysingsdato
+      - utlysingssted
+      type: object
+    ForhandsutlysingUtlopt:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        ForhandsutlysingUtlopt
+        required - used to report announcement expired
+      properties:
+        type:
+          enum:
+          - forhandsutlysingutlopt
+          type: string
+      required:
+      - type
+      type: object
+    ForhandsutlysingUtsatt:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        ForhandsutlysingUtsatt
+        required - used to report announcement postponed
+      properties:
+        type:
+          enum:
+          - forhandsutlysingutsatt
+          type: string
+        ordreMottatt:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        utlysingssted:
+          type: string
+        utlysingsdato:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+        meldefrist:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+      required:
+      - meldefrist
+      - ordreMottatt
+      - type
+      - utlysingsdato
+      - utlysingssted
+      type: object
+    Forretningsforer:
+      properties:
+        navn:
+          type: string
+        adresse:
+          $ref: "#/components/schemas/Adresse"
+        epost:
+          type: string
+        epostRestanse:
+          type: string
+      required:
+      - adresse
+      - navn
+      type: object
+    ISODate:
+      pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+      type: string
+    ISODateTime:
+      pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+      type: string
+    Klient:
+      properties:
+        klienttype:
+          type: string
+        organisasjonsnavn:
+          type: string
+        organisasjonsnummer:
+          type: string
+        epost:
+          type: string
+        nettside:
+          type: string
+        styreleder:
+          $ref: "#/components/schemas/Styreleder"
+      required:
+      - klienttype
+      - organisasjonsnavn
+      - organisasjonsnummer
+      type: object
+    Kontakt:
+      example:
+        organisasjonsnavn: organisasjonsnavn
+        etternavn: etternavn
+        epost: epost
+        telefon: telefon
+        adresse:
+          gateadresse: gateadresse
+          postnummer: postnummer
+          poststed: poststed
+        id: id
+        fornavn: fornavn
+        kontaktperson: kontaktperson
+        eierbrok:
+          nevner: 6
+          teller: 0
+      properties:
+        id:
+          type: string
+        fornavn:
+          type: string
+        etternavn:
+          type: string
+        organisasjonsnavn:
+          type: string
+        kontaktperson:
+          type: string
+        adresse:
+          $ref: "#/components/schemas/Adresse"
+        epost:
+          type: string
+        telefon:
+          type: string
+        eierbrok:
+          $ref: "#/components/schemas/Eierbrok"
+      required:
+      - id
+      type: object
+    Kontaktinfo:
+      properties:
+        id:
+          type: string
+        navn:
+          type: string
+        epost:
+          type: string
+        telefon:
+          type: string
+      required:
+      - epost
+      - id
+      - navn
+      type: object
+    Meglerkontor:
+      properties:
+        orgnr:
+          type: string
+        avdelingsnr:
+          type: string
+        navn:
+          type: string
+        adresse:
+          $ref: "#/components/schemas/Adresse"
+        telefon:
+          type: string
+      required:
+      - adresse
+      - avdelingsnr
+      - navn
+      - orgnr
+      type: object
+    Registerenhet:
+      properties:
+        type:
+          $ref: "#/components/schemas/RegisterenhetType"
+        ident:
+          type: string
+      required:
+      - ident
+      - type
+      type: object
+    RegisterenhetType:
+      enum:
+      - matrikkel
+      - borettsandel
+      - aksjeandel
+      - obligasjonsandel
+      type: string
+    RestanseOrdre:
+      allOf:
+      - $ref: "#/components/schemas/BasicProduct"
+      description: |-
+        Restanse
+        Order and handle arrears - not yet designed
+      example:
+        type: restanse
+      properties:
+        type:
+          enum:
+          - restanse
+          type: string
+      required:
+      - type
+      type: object
+    Salg:
+      example:
+        kjopesum: 0
+        datoOverdragelse: datoOverdragelse
+        datoAkseptBud: datoAkseptBud
+        forbeholdBud: true
+      properties:
+        kjopesum:
+          type: integer
+        datoAkseptBud:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        datoOverdragelse:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        forbeholdBud:
+          type: boolean
+      required:
+      - datoAkseptBud
+      - datoOverdragelse
+      - kjopesum
+      type: object
+    SalgsmeldingForkjopsrett:
+      properties:
+        typeAvklaring:
+          enum:
+          - fastpris
+          - forhandsutlysing
+          type: string
+        statusForhandsutlysing:
+          enum:
+          - ikke_forhandsutlysing
+          - med_interessenter
+          - uten_interessenter
+          - forkjop_ikke_benyttet
+          - ikke_avklart
+          type: string
+        utlysingsdato:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+        utlysingssted:
+          type: string
+        meldefrist:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+      required:
+      - meldefrist
+      - statusForhandsutlysing
+      - typeAvklaring
+      - utlysingsdato
+      - utlysingssted
+      type: object
+    SalgsmeldingForkjopsrettFullfort:
+      allOf:
+      - $ref: "#/components/schemas/SalgsmeldingForkjopsrett"
+      properties:
+        statusForkjopsrett:
+          enum:
+          - ikke_benyttet
+          - benyttet
+          type: string
+        andreHensyn:
+          type: string
+      required:
+      - statusForkjopsrett
+      type: object
+    SalgsmeldingFullfort:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        SalgsmeldingFullfort
+        required - expected at the end of the process - marks sale process completed
+      properties:
+        type:
+          enum:
+          - salgsmeldingfullfort
+          type: string
+        ordreMottatt:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        harForkjopsrett:
+          type: boolean
+        forkjopsrett:
+          $ref: "#/components/schemas/SalgsmeldingForkjopsrettFullfort"
+        styregodkjenningPakrevd:
+          type: boolean
+        styregodkjenning:
+          $ref: "#/components/schemas/StyregodkjenningFullfort"
+        kjopere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+        tilknyttetLag:
+          type: boolean
+      required:
+      - harForkjopsrett
+      - kjopere
+      - ordreMottatt
+      - styregodkjenningPakrevd
+      - tilknyttetLag
+      - type
+      type: object
+    SalgsmeldingMottatt:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        SalgsmeldingMottatt
+        optional - clarifies process, can be omitted if no process is needed
+      properties:
+        type:
+          enum:
+          - salgsmeldingmottatt
+          type: string
+        ordreMottatt:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        harForkjopsrett:
+          type: boolean
+        forkjopsrett:
+          $ref: "#/components/schemas/SalgsmeldingForkjopsrett"
+        styregodkjenningPakrevd:
+          type: boolean
+        styregodkjenning:
+          $ref: "#/components/schemas/Styregodkjenning"
+        tilknyttetLag:
+          type: boolean
+      required:
+      - harForkjopsrett
+      - ordreMottatt
+      - styregodkjenningPakrevd
+      - tilknyttetLag
+      - type
+      type: object
+    SalgsmeldingOppdatering:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        SalgsmeldingOppdatering
+        optional - can be sent before board approval process completed
+      properties:
+        type:
+          enum:
+          - salgsmeldingoppdatering
+          type: string
+        ordreMottatt:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+        harForkjopsrett:
+          type: boolean
+        forkjopsrett:
+          $ref: "#/components/schemas/SalgsmeldingForkjopsrettFullfort"
+        styregodkjenningPakrevd:
+          type: boolean
+        styregodkjenning:
+          $ref: "#/components/schemas/Styregodkjenning"
+        kjopere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+        tilknyttetLag:
+          type: boolean
+      required:
+      - harForkjopsrett
+      - kjopere
+      - ordreMottatt
+      - styregodkjenningPakrevd
+      - tilknyttetLag
+      - type
+      type: object
+    SalgsmeldingOrdre:
+      allOf:
+      - $ref: "#/components/schemas/BasicProduct"
+      description: |-
+        Salgsmelding
+        Trigger the change of ownership
+      example:
+        selgere:
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        finnkode: finnkode
+        eiere:
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        bolig:
+          antallSoverom: 4
+          veranda: true
+          oppvarming: oppvarming
+          srom: 6
+          braS: 7
+          energifargekode: energifargekode
+          bta: 3
+          parkering: parkering
+          bra: 1
+          tba: 9
+          prom: 0
+          braI: 5
+          heis: true
+          leilighetsnummer: leilighetsnummer
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          braE: 5
+          antallRom: 2
+          energibokstav: energibokstav
+          braB: 2
+        kjopere:
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        omsetningstype: salg
+        type: salgsmelding
+        salg:
+          kjopesum: 0
+          datoOverdragelse: datoOverdragelse
+          datoAkseptBud: datoAkseptBud
+          forbeholdBud: true
+      properties:
+        type:
+          enum:
+          - salgsmelding
+          type: string
+        kjopere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+        selgere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+        eiere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+        omsetningstype:
+          enum:
+          - salg
+          - tvangssalg
+          - utleie
+          - verdivurdering
+          - oppgjorsoppdrag
+          type: string
+        finnkode:
+          type: string
+        salg:
+          $ref: "#/components/schemas/Salg"
+        bolig:
+          $ref: "#/components/schemas/Bolig"
+      required:
+      - bolig
+      - kjopere
+      - salg
+      - selgere
+      - type
+      type: object
+    SluttbrevAkseptert:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        SluttbrevAkseptert
+        required - confirms process completed
+      properties:
+        type:
+          enum:
+          - sluttbrevakseptert
+          type: string
+      required:
+      - type
+      type: object
+    SluttbrevOrdre:
+      allOf:
+      - $ref: "#/components/schemas/BasicProduct"
+      description: |-
+        Sluttbrev
+        Sent when the ownership transfer is completed
+      example:
+        tinglysteEiere:
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        datoOverdragelse: datoOverdragelse
+        forkjopsrettAvklart: true
+        styregodkjenningAvklart: true
+        registerforteEiere:
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        - organisasjonsnavn: organisasjonsnavn
+          etternavn: etternavn
+          epost: epost
+          telefon: telefon
+          adresse:
+            gateadresse: gateadresse
+            postnummer: postnummer
+            poststed: poststed
+          id: id
+          fornavn: fornavn
+          kontaktperson: kontaktperson
+          eierbrok:
+            nevner: 6
+            teller: 0
+        type: sluttbrev
+      properties:
+        type:
+          enum:
+          - sluttbrev
+          type: string
+        tinglysteEiere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+        registerforteEiere:
+          items:
+            $ref: "#/components/schemas/Kontakt"
+          type: array
+        datoOverdragelse:
+          type: string
+        forkjopsrettAvklart:
+          type: boolean
+        styregodkjenningAvklart:
+          type: boolean
+      required:
+      - datoOverdragelse
+      - type
+      type: object
+    Styregodkjenning:
+      properties:
+        handteresAvForretningsforer:
+          type: boolean
+        initiertDato:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+        meldefrist:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$"
+          type: string
+      required:
+      - handteresAvForretningsforer
+      type: object
+    StyregodkjenningFullfort:
+      allOf:
+      - $ref: "#/components/schemas/Styregodkjenning"
+      properties:
+        statusStyregodkjenning:
+          enum:
+          - godkjent_av_styret
+          - godkjent_av_bbl
+          - avvist_av_styret
+          - avvist_av_bbl
+          - frist_utlopt
+          type: string
+        andreHensyn:
+          type: string
+      type: object
+    Styreleder:
+      properties:
+        navn:
+          type: string
+        epost:
+          type: string
+        telefonnr:
+          type: string
+      required:
+      - navn
+      type: object
+    SumFelleskostnaderOrdre:
+      allOf:
+      - $ref: "#/components/schemas/BasicProduct"
+      description: |-
+        SumFelleskostnader
+        Order and handle total common costs
+      example:
+        type: sumfelleskostnader
+      properties:
+        type:
+          enum:
+          - sumfelleskostnader
+          type: string
+      required:
+      - type
+      type: object
+    SumFelleskostnaderSvar:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        SumFelleskostnaderSvar
+        required - returns the total common costs
+      properties:
+        type:
+          enum:
+          - sumfelleskostnader
+          type: string
+        sumFelleskostnader:
+          type: integer
+      required:
+      - sumFelleskostnader
+      - type
+      type: object
+    SumGjeldOrdre:
+      allOf:
+      - $ref: "#/components/schemas/BasicProduct"
+      description: |-
+        SumGjeld
+        Order and handle total debt
+      example:
+        type: sumgjeld
+      properties:
+        type:
+          enum:
+          - sumgjeld
+          type: string
+      required:
+      - type
+      type: object
+    SumGjeldSvar:
+      allOf:
+      - $ref: "#/components/schemas/BasicResponse"
+      description: |-
+        SumGjeldSvar
+        required - returns the total debt
+      properties:
+        type:
+          enum:
+          - sumgjeld
+          type: string
+        sumGjeld:
+          type: integer
+      required:
+      - sumGjeld
+      - type
+      type: object
+    BasicResponse_forretningsforer:
+      properties:
+        navn:
+          type: string
+        adresse:
+          $ref: "#/components/schemas/Adresse"
+        epost:
+          type: string
+        epostRestanse:
+          type: string
+      required:
+      - adresse
+      - epost
+      - navn
+      type: object
+
