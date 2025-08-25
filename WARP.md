@@ -54,11 +54,13 @@ cd typespec/
 # Install dependencies
 npm install
 
-# Compile TypeSpec to OpenAPI 3.0 (now working!)
+# Compile TypeSpec to OpenAPI 3.0 and JSON Schema (now working!)
 npx tsp compile .
 
 # Output goes to tsp-output/ directory
-# Generated files: tsp-output/@typespec/openapi3/openapi.yaml
+# Generated files: 
+#   - tsp-output/@typespec/openapi3/openapi.yaml
+#   - tsp-output/@typespec/json-schema/*.yaml (for models with @jsonSchema decorator)
 ```
 
 **Status**: ✅ **TypeSpec compilation now works successfully!** 

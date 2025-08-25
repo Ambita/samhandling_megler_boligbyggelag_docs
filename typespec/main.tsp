@@ -1,8 +1,10 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/openapi3";
+import "@typespec/json-schema";
 
 using TypeSpec.Http;
+using TypeSpec.JsonSchema;
 
 // SCALARS
 @pattern("^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "Must be a date on SQL format (YYYY-MM-DD)")
@@ -113,6 +115,7 @@ model BasicRequest {
  * Boliginfo
  * Order information about a property
  */
+@jsonSchema
 model BoliginformasjonOrdre extends BasicRequest {
   type: "boliginformasjon";
 }
@@ -134,6 +137,7 @@ model ForhandsutlysingOrdre extends BasicRequest {
  * Salgsmelding
  * Trigger the change of ownership
  */
+@jsonSchema
 model SalgsmeldingOrdre extends BasicRequest {
   type: "salgsmelding";
   kjopere: Kontakt[];
