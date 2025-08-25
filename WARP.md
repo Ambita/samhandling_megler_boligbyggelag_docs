@@ -54,14 +54,21 @@ cd typespec/
 # Install dependencies
 npm install
 
-# Compile TypeSpec to OpenAPI 3.0 (currently has compilation issues)
+# Compile TypeSpec to OpenAPI 3.0 (now working!)
 npx tsp compile .
 
-# The output would normally go to tsp-output/ directory
-# Generated files: openapi.yaml, openapi.json
+# Output goes to tsp-output/ directory
+# Generated files: tsp-output/@typespec/openapi3/openapi.yaml
 ```
 
-**Note**: The TypeSpec compilation currently fails due to enum schema issues. This may need to be resolved by updating TypeSpec versions or fixing the schema definitions.
+**Status**: ✅ **TypeSpec compilation now works successfully!** 
+
+The previous enum schema issues have been resolved by:
+- Converting `alias` literal unions to proper `enum` definitions
+- Adding proper TypeScript-compatible scalar types for dates
+- Implementing all missing request and response models
+- Fixing field type mismatches between TypeScript and TypeSpec
+- Adding all missing API endpoints: `/sluttbrev`, `/sumgjeld`, `/sumfelleskostnader`
 
 ## Architecture Overview
 
@@ -127,7 +134,7 @@ This repository maintains **dual definitions**:
 ### TypeSpec Files (`typespec/main.tsp`)
 - Alternative schema definition language
 - Generates OpenAPI 3.0 specifications
-- Currently has compilation issues that need resolution
+- **Now compiles successfully** and generates valid OpenAPI 3.0 specs
 - Should be updated **after** TypeScript changes to maintain consistency
 
 ### Workflow for Changes
@@ -183,13 +190,13 @@ Each file contains complete request/response examples, field descriptions, and w
 
 ## Troubleshooting
 
-### TypeSpec Compilation Issues
-The current TypeSpec setup has compilation errors. To resolve:
+### TypeSpec Development
+The TypeSpec setup is now working correctly. If you encounter issues:
 
-1. Check TypeSpec version compatibility
-2. Review enum definitions in `main.tsp`  
-3. Consider updating to newer TypeSpec version
-4. Validate against TypeSpec documentation for enum schemas
+1. Ensure all dependencies are installed: `cd typespec && npm install`
+2. Run compilation to check for errors: `npx tsp compile .`
+3. Check that the generated OpenAPI file exists: `tsp-output/@typespec/openapi3/openapi.yaml`
+4. When making changes, update TypeScript files first, then mirror in TypeSpec
 
 ### Missing Dependencies
 ```bash
@@ -198,3 +205,13 @@ npm install
 ```
 
 This installs the TypeSpec compiler and OpenAPI 3.0 emitter tools.
+
+### Regenerating OpenAPI Specification
+After making changes to TypeSpec definitions:
+
+```bash
+cd typespec/
+npx tsp compile .
+```
+
+The generated OpenAPI 3.0 specification will be available at `tsp-output/@typespec/openapi3/openapi.yaml`.

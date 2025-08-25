@@ -4,29 +4,65 @@ import "@typespec/openapi3";
 
 using TypeSpec.Http;
 
-// REQUEST DATA
-alias requests = "boliginformasjon" | "forhandsutlysing" | "salgsmelding" 
-| "endringoverdragelse" | "endringkjopere" | "restanse";
-
-alias registerenhettype = "matrikkel" | "borettsandel" | "aksjeandel" | "obligasjonsandel";
-
+// SCALARS
 @pattern("^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "Must be a date on SQL format (YYYY-MM-DD)")
-scalar date extends string;
+scalar ISODate extends string;
 
-@pattern("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{2}:[0-9]{2}$", "Must be a date on ISO 8601 format (YYYY-MM-DDTHH:MM:SS+HH:MM)")
-scalar datetimeoffset extends string;
+@pattern("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$", "Must be a date on ISO 8601 format with timezone")
+scalar ISODateTime extends string;
+
+// ENUMS
+enum RegisterenhetType {
+  matrikkel,
+  borettsandel,
+  aksjeandel,
+  obligasjonsandel
+}
+
+enum BestillingsFormat {
+  Manuelt: "Manuelt",
+  Elektronisk: "Elektronisk"
+}
+
+enum BestillingsmottakerType {
+  forretningsforer: "forretningsforer",
+  lag: "lag"
+}
+
+enum Feilkode {
+  forhandsutlysingAlleredeOpprettet: 1,
+  eierskifteAlleredeOpprettet: 2,
+  forhandsutlysningStottesIkke: 4,
+  tilknyttetAnnetBoligbyggelag: 6,
+  tilknyttetAnnenForretningsforer: 8,
+  eiendomIkkeFunnet: 11,
+  salgsmeldingOrdreIkkeFunnet: 12,
+  forhandIkkeUtloptSjekkStatus: 31,
+  forhandIkkeUtloptKontaktForrForer: 32,
+  manuellBehandling: 33,
+  sakstypeForKlientIkkeFunnet: 34,
+  salgsmeldingKanIkkeLeveresDigital: 39
+}
+
+// REQUEST DATA
+alias RequestTypes = "boliginformasjon" | "forhandsutlysing" | "salgsmelding" | "endringoverdragelse" | "endringkjopere" | "restanse" | "sluttbrev" | "sumgjeld" | "sumfelleskostnader";
 
 model Salg {
   kjopesum: integer;
-  datoAkseptBud: date;
-  datoOverdragelse: date;
+  datoAkseptBud: ISODateTime;
+  datoOverdragelse: ISODateTime;
   forbeholdBud?: boolean;
 }
 
 model Bolig {
   prom?: integer;
-  promBeskrivelse?: string;
+  srom?: integer;
   bra?: integer;
+  braI?: integer;
+  braE?: integer;
+  braB?: integer;
+  braS?: integer;
+  tba?: integer;
   bta?: integer;
   antallRom?: integer;
   antallSoverom?: integer;
@@ -41,7 +77,7 @@ model Bolig {
 }
 
 model Registerenhet {
-  type: registerenhettype;
+  type: RegisterenhetType;
   ident: string;
 }
 
@@ -65,6 +101,7 @@ model Meglerkontor {
  */
 model BasicRequest {
   ordreId: string;
+  estateId?: string;
   oppdragsnummer?: string;
   registerenhet: Registerenhet;
   bestiller: Kontaktinfo;
@@ -115,7 +152,7 @@ model SalgsmeldingOrdre extends BasicRequest {
 model EndringOverdragelseOrdre extends BasicRequest {
   type: "endringoverdragelse";
   salgsmeldingOrdreId: string;
-  datoOverdragelse: date;
+  datoOverdragelse: ISODateTime;
 }
 
 /**
@@ -128,25 +165,48 @@ model EndringKjopereOrdre extends BasicRequest {
 }
 
 /**
+ * Sluttbrev
+ * Sent when the ownership transfer is completed
+ */
+model SluttbrevOrdre extends BasicRequest {
+  type: "sluttbrev";
+  tinglysteEiere?: Kontakt[];
+  registerforteEiere?: Kontakt[];
+  datoOverdragelse: string;
+  forkjopsrettAvklart?: boolean;
+  styregodkjenningAvklart?: boolean;
+}
+
+/**
  * Restanse
  * Order and handle arrears - not yet designed
  */
 model RestanseOrdre extends BasicRequest {
-  type: "restanse"
+  type: "restanse";
+}
+
+/**
+ * SumGjeld
+ * Order and handle total debt
+ */
+model SumGjeldOrdre extends BasicRequest {
+  type: "sumgjeld";
+}
+
+/**
+ * SumFelleskostnader
+ * Order and handle total common costs
+ */
+model SumFelleskostnaderOrdre extends BasicRequest {
+  type: "sumfelleskostnader";
 }
 
 // RESPONSE DATA
-alias callbacks = "boliginformasjon" | "forhandsutlysingtidlig" | "forhandsutlysingutsatt" 
+alias CallbackTypes = "boliginformasjon" | "forhandsutlysingtidlig" | "forhandsutlysingutsatt" 
   | "forhandsutlysingsen" | "forhandsutlysingutlopt" | "salgsmeldingmottatt" 
   | "salgsmeldingoppdatering" | "salgsmeldingfullfort" | "endringoverdragelse"
-  | "endringkjoperemottatt" | "endringkjoperefullfort" | "feil";
-
-alias bestillingsformat = "Manuelt" | "Elektronisk";
-
-alias bestillingsmottakerType = "forretningsforer" | "lag";
-
-alias feilkode = "eierskifteAlleredeOpprettet" | "forhandsutlysningStottesIkke"
-  | "tilknyttetAnnetBoligbyggelag" | "forhandIkkeUtloptSjekkStatus" | "forhandIkkeUtloptKontaktForrForer";
+  | "endringkjoperemottatt" | "endringkjoperefullfort" | "sluttbrevakseptert"
+  | "sumgjeld" | "sumfelleskostnader" | "feil";
 
 model Adresse {
   gateadresse: string;
@@ -194,14 +254,13 @@ model Kontakt {
 }
 
 model BasicResponse {
-  type: callbacks;
+  type: CallbackTypes;
   ordreId: string;
   forretningsforer: Forretningsforer;
   klient?: Klient;
-  levert?: string;
+  levert?: ISODateTime;
   referanse?: string;
-  eierform?: "Aksjonær" | "Andelseier" | "Sameier" | "Seksjonseier";
-  ordreMottatt?: datetimeoffset;
+  eierform?: "Aksjonär" | "Andelseier" | "Sameier" | "Seksjonseier";
 }
 
 /**
@@ -211,8 +270,8 @@ model BasicResponse {
 model Feil extends BasicResponse {
   type: "feil";
   feilmelding: string;
-  feilkode?: feilkode;
-  tidspunkt: string;
+  feilkode?: Feilkode;
+  tidspunkt: ISODateTime;
   kansellert?: boolean;
 }
 
@@ -224,23 +283,23 @@ model BoliginformasjonResponse extends BasicResponse {
   type: "boliginformasjon";
   forkjopsrett: {
     harForkjopsrett: boolean;
-    kanForhandsutlyses: boolean;
+    kanForhandsutlyses?: boolean;
     intern?: boolean;
-    bestillingsformat?: bestillingsformat;
-    mottakerType?: bestillingsmottakerType;
+    bestillingsformat?: BestillingsFormat;
+    mottakerType?: BestillingsmottakerType;
     gebyr?: integer;
   },
   styregodkjenning: {
     pakrevd: boolean;
-    bestillingsformat?: bestillingsformat;
-    mottakerType?: bestillingsmottakerType;
+    bestillingsformat?: BestillingsFormat;
+    mottakerType?: BestillingsmottakerType;
   },
   salgsmelding: {
-    bestillingsformat: bestillingsformat;
+    bestillingsformat: BestillingsFormat;
     gebyr?: integer;
   },
   restanse: {
-    bestillingsformat: bestillingsformat;
+    bestillingsformat: BestillingsFormat;
   },
   andreHensyn?: string
 }
@@ -251,9 +310,10 @@ model BoliginformasjonResponse extends BasicResponse {
  */
 model ForhandsutlysingTidlig extends BasicResponse {
   type: "forhandsutlysingtidlig";
+  ordreMottatt: ISODateTime;
   utlysingssted: string;
-  utlysingsdato: datetimeoffset;
-  meldefrist: datetimeoffset;
+  utlysingsdato: ISODate;
+  meldefrist: ISODateTime;
 }
 
 /**
@@ -262,9 +322,10 @@ model ForhandsutlysingTidlig extends BasicResponse {
  */
 model ForhandsutlysingUtsatt extends BasicResponse {
   type: "forhandsutlysingutsatt";
+  ordreMottatt: ISODateTime;
   utlysingssted: string;
-  utlysingsdato: datetimeoffset;
-  meldefrist: datetimeoffset;
+  utlysingsdato: ISODate;
+  meldefrist: ISODateTime;
 }
 
 /**
@@ -272,12 +333,13 @@ model ForhandsutlysingUtsatt extends BasicResponse {
  * required - used to report announcement completed
  */
 model ForhandsutlysingSen extends BasicResponse {
-  type: "forhandsutlysingutsatt";
+  type: "forhandsutlysingsen";
+  ordreMottatt: ISODateTime;
   utlysingssted: string;
-  utlysingsdato: datetimeoffset;
-  meldefrist: datetimeoffset;
+  utlysingsdato: ISODate;
+  meldefrist: ISODateTime;
   antallInteressenter: integer;
-  varighetForkjopsrett: datetimeoffset;
+  varighetForkjopsrett: ISODate;
 }
 
 /**
@@ -290,8 +352,8 @@ model ForhandsutlysingUtlopt extends BasicResponse {
 
 model Styregodkjenning {
   handteresAvForretningsforer: boolean;
-  initiertDato?: datetimeoffset;
-  meldefrist?: datetimeoffset;
+  initiertDato?: ISODate;
+  meldefrist?: ISODateTime;
 }
 
 model StyregodkjenningFullfort extends Styregodkjenning {
@@ -301,10 +363,10 @@ model StyregodkjenningFullfort extends Styregodkjenning {
 
 model SalgsmeldingForkjopsrett {
   typeAvklaring: "fastpris" | "forhandsutlysing";
-  statusForhandsutlysing: "ikke_forhandsutlysing" | "med_interessenter" | "uten_interessenter" | "forkjop_ikke_benyttet";
-  utlysingsdato: datetimeoffset;
+  statusForhandsutlysing: "ikke_forhandsutlysing" | "med_interessenter" | "uten_interessenter" | "forkjop_ikke_benyttet" | "ikke_avklart";
+  utlysingsdato: ISODate;
   utlysingssted: string;
-  meldefrist: datetimeoffset;
+  meldefrist: ISODateTime;
 }
 
 model SalgsmeldingForkjopsrettFullfort extends SalgsmeldingForkjopsrett {
@@ -383,9 +445,49 @@ model EndringKjopereFullfort extends BasicResponse {
   styregodkjenning?: StyregodkjenningFullfort;
 }
 
-alias CallbackEvent = Boliginformasjon | Feil |
-  ForhandsutlysingTidlig | ForhandsutlysingUtsatt | ForhandsutlysingSen | ForhandsutlysingUtlopt | EndringOverdragelseBehandlet |
-  SalgsmeldingMottatt | SalgsmeldingOppdatering | SalgsmeldingFullfort | EndringKjopereMottatt | EndringKjopereFullfort;
+/**
+ * SluttbrevAkseptert
+ * required - confirms process completed
+ */
+model SluttbrevAkseptert extends BasicResponse {
+  type: "sluttbrevakseptert";
+}
+
+/**
+ * SumGjeldSvar
+ * required - returns the total debt
+ */
+model SumGjeldSvar extends BasicResponse {
+  type: "sumgjeld";
+  sumGjeld: integer;
+}
+
+/**
+ * SumFelleskostnaderSvar
+ * required - returns the total common costs
+ */
+model SumFelleskostnaderSvar extends BasicResponse {
+  type: "sumfelleskostnader";
+  sumFelleskostnader: integer;
+}
+
+union CallbackEvent {
+  BoliginformasjonResponse,
+  Feil,
+  ForhandsutlysingTidlig,
+  ForhandsutlysingUtsatt,
+  ForhandsutlysingSen,
+  ForhandsutlysingUtlopt,
+  EndringOverdragelseBehandlet,
+  SalgsmeldingMottatt,
+  SalgsmeldingOppdatering,
+  SalgsmeldingFullfort,
+  EndringKjopereMottatt,
+  EndringKjopereFullfort,
+  SluttbrevAkseptert,
+  SumGjeldSvar,
+  SumFelleskostnaderSvar
+}
 
 model GenericResponse {
 }
@@ -419,6 +521,21 @@ interface EndringKjopere {
 @route("/restanse")
 interface Restanse {
   order(@body req: RestanseOrdre): GenericResponse;
+}
+
+@route("/sluttbrev")
+interface Sluttbrev {
+  order(@body req: SluttbrevOrdre): GenericResponse;
+}
+
+@route("/sumgjeld")
+interface SumGjeld {
+  order(@body req: SumGjeldOrdre): GenericResponse;
+}
+
+@route("/sumfelleskostnader")
+interface SumFelleskostnader {
+  order(@body req: SumFelleskostnaderOrdre): GenericResponse;
 }
 
 // PATHS FOR CALLBACKS
