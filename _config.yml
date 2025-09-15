@@ -13,10 +13,8 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
 
-# Navigation - simplified header
-header_pages:
-  - index.md
-  - README.md
+# Navigation - no header pages, using sidebar navigation
+# header_pages: []
 
 # Collections for better organization
 collections:

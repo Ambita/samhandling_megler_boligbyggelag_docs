@@ -139,3 +139,27 @@
 .wrapper {
   max-width: 1200px;
 }
+
+// Clean header styling
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-header {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.site-nav {
+  .page-link {
+    color: #424242;
+    line-height: 1.5;
+    font-weight: 500;
+    
+    &:hover {
+      color: #2a7ae4;
+      text-decoration: none;
+    }
+  }
+}

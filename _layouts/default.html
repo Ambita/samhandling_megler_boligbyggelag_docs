@@ -17,28 +17,28 @@
               <div class="nav-section">
                 <h4>Main Process Flow</h4>
                 <ul>
-                  <li><a href="{{ '/docs/boliginformasjon' | relative_url }}">Boliginformasjon</a></li>
-                  <li><a href="{{ '/docs/forhandsutlysing' | relative_url }}">Forhåndsutlysing</a></li>
-                  <li><a href="{{ '/docs/salgsmelding' | relative_url }}">Salgsmelding</a></li>
-                  <li><a href="{{ '/docs/endring-overdragelsesdato' | relative_url }}">Endring overdragelsesdato</a></li>
-                  <li><a href="{{ '/docs/endring-kjopere' | relative_url }}">Endring kjøpere</a></li>
-                  <li><a href="{{ '/docs/sluttbrev' | relative_url }}">Sluttbrev</a></li>
-                  <li><a href="{{ '/docs/restanse' | relative_url }}">Restanse</a></li>
+                  <li><a href="{{ '/docs/boliginformasjon' | relative_url }}"{% if page.url contains 'boliginformasjon' %} class="current"{% endif %}>Boliginformasjon</a></li>
+                  <li><a href="{{ '/docs/forhandsutlysing' | relative_url }}"{% if page.url contains 'forhandsutlysing' %} class="current"{% endif %}>Forhåndsutlysing</a></li>
+                  <li><a href="{{ '/docs/salgsmelding' | relative_url }}"{% if page.url contains 'salgsmelding' %} class="current"{% endif %}>Salgsmelding</a></li>
+                  <li><a href="{{ '/docs/endring-overdragelsesdato' | relative_url }}"{% if page.url contains 'endring-overdragelsesdato' %} class="current"{% endif %}>Endring overdragelsesdato</a></li>
+                  <li><a href="{{ '/docs/endring-kjopere' | relative_url }}"{% if page.url contains 'endring-kjopere' %} class="current"{% endif %}>Endring kjøpere</a></li>
+                  <li><a href="{{ '/docs/sluttbrev' | relative_url }}"{% if page.url contains 'sluttbrev' %} class="current"{% endif %}>Sluttbrev</a></li>
+                  <li><a href="{{ '/docs/restanse' | relative_url }}"{% if page.url contains 'restanse' %} class="current"{% endif %}>Restanse</a></li>
                 </ul>
               </div>
 
               <div class="nav-section">
                 <h4>Standalone Messages</h4>
                 <ul>
-                  <li><a href="{{ '/docs/sumgjeld' | relative_url }}">SumGjeld</a></li>
-                  <li><a href="{{ '/docs/sumfelleskostnader' | relative_url }}">SumFelleskostnader</a></li>
+                  <li><a href="{{ '/docs/sumgjeld' | relative_url }}"{% if page.url contains 'sumgjeld' %} class="current"{% endif %}>SumGjeld</a></li>
+                  <li><a href="{{ '/docs/sumfelleskostnader' | relative_url }}"{% if page.url contains 'sumfelleskostnader' %} class="current"{% endif %}>SumFelleskostnader</a></li>
                 </ul>
               </div>
 
               <div class="nav-section">
                 <h4>System Messages</h4>
                 <ul>
-                  <li><a href="{{ '/docs/feilmeldinger' | relative_url }}">Feilmeldinger</a></li>
+                  <li><a href="{{ '/docs/feilmeldinger' | relative_url }}"{% if page.url contains 'feilmeldinger' %} class="current"{% endif %}>Feilmeldinger</a></li>
                 </ul>
               </div>
             </nav>
