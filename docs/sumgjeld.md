@@ -1,3 +1,8 @@
+---
+title: "SumGjeld - Total Debt"
+layout: default
+---
+
 # Total Debt / SumGjeld
 
 SumGjeld is a standalone product that allows brokers to request the total debt amount for a specific property. This is a simplified alternative to the full Boliginformasjon product when only debt information is needed.

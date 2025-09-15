@@ -1,3 +1,8 @@
+---
+title: "SumFelleskostnader - Total Common Costs"
+layout: default
+---
+
 # Total Common Costs / SumFelleskostnader
 
 SumFelleskostnader is a standalone product that allows brokers to request the total common costs amount for a specific property. This is a simplified alternative to the full Boliginformasjon product when only common costs information is needed.

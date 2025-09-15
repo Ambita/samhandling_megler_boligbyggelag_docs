@@ -1,3 +1,8 @@
+---
+title: Home
+layout: default
+---
+
 # Samhandling Megler Boligbyggelag
 
 Documentation for cooperation between brokers and accountants

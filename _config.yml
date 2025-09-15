@@ -1,0 +1,39 @@
+title: "Samhandling Megler Boligbyggelag"
+description: "API Documentation for cooperation between brokers and accountants"
+baseurl: "/samhandling_megler_boligbyggelag_docs" # Replace with your actual repo name
+url: "https://ambita.github.io" # Replace with your GitHub username/org
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Navigation
+header_pages:
+  - README.md
+  - docs/boliginformasjon.md
+  - docs/forhandsutlysing.md
+  - docs/salgsmelding.md
+  - docs/sumgjeld.md
+  - docs/sumfelleskostnader.md
+  - docs/sluttbrev.md
+  - docs/restanse.md
+
+# Collections for better organization
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Exclude files from processing
+exclude:
+  - typespec/
+  - .idea/
+  - node_modules/
+  - "*.ts"
+  - "*.d.ts"
