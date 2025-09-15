@@ -13,16 +13,10 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
 
-# Navigation
+# Navigation - simplified header
 header_pages:
+  - index.md
   - README.md
-  - docs/boliginformasjon.md
-  - docs/forhandsutlysing.md
-  - docs/salgsmelding.md
-  - docs/sumgjeld.md
-  - docs/sumfelleskostnader.md
-  - docs/sluttbrev.md
-  - docs/restanse.md
 
 # Collections for better organization
 collections:

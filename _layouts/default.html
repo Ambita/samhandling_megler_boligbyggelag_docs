@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+
+  <body>
+
+    {%- include header.html -%}
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="content-wrapper">
+          <aside class="sidebar">
+            <nav class="site-nav-sidebar">
+              <h3>Documentation</h3>
+              
+              <div class="nav-section">
+                <h4>Main Process Flow</h4>
+                <ul>
+                  <li><a href="{{ '/docs/boliginformasjon' | relative_url }}">Boliginformasjon</a></li>
+                  <li><a href="{{ '/docs/forhandsutlysing' | relative_url }}">Forhåndsutlysing</a></li>
+                  <li><a href="{{ '/docs/salgsmelding' | relative_url }}">Salgsmelding</a></li>
+                  <li><a href="{{ '/docs/endring-overdragelsesdato' | relative_url }}">Endring overdragelsesdato</a></li>
+                  <li><a href="{{ '/docs/endring-kjopere' | relative_url }}">Endring kjøpere</a></li>
+                  <li><a href="{{ '/docs/sluttbrev' | relative_url }}">Sluttbrev</a></li>
+                  <li><a href="{{ '/docs/restanse' | relative_url }}">Restanse</a></li>
+                </ul>
+              </div>
+
+              <div class="nav-section">
+                <h4>Standalone Messages</h4>
+                <ul>
+                  <li><a href="{{ '/docs/sumgjeld' | relative_url }}">SumGjeld</a></li>
+                  <li><a href="{{ '/docs/sumfelleskostnader' | relative_url }}">SumFelleskostnader</a></li>
+                </ul>
+              </div>
+
+              <div class="nav-section">
+                <h4>System Messages</h4>
+                <ul>
+                  <li><a href="{{ '/docs/feilmeldinger' | relative_url }}">Feilmeldinger</a></li>
+                </ul>
+              </div>
+            </nav>
+          </aside>
+
+          <article class="main-content">
+            {{ content }}
+          </article>
+        </div>
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+
+  </body>
+
+</html>

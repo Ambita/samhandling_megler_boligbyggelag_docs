@@ -1,0 +1,141 @@
+// Custom styles for sidebar navigation
+.content-wrapper {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.sidebar {
+  flex: 0 0 250px;
+  min-width: 250px;
+  
+  @media screen and (max-width: 768px) {
+    flex: none;
+    width: 100%;
+    order: 2;
+    margin-top: 2rem;
+    border-top: 1px solid #e8e8e8;
+    padding-top: 1rem;
+  }
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0; // Important for proper flexbox behavior
+}
+
+.site-nav-sidebar {
+  background: #f8f9fa;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 1rem;
+  position: sticky;
+  top: 2rem;
+  
+  h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    color: #333;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 0.5rem;
+  }
+  
+  h4 {
+    margin: 1rem 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+  
+  ul {
+    list-style: none;
+    margin: 0 0 1.5rem 0;
+    padding: 0;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  a {
+    display: block;
+    padding: 0.4rem 0.8rem;
+    color: #555;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: #e9ecef;
+      color: #2a7ae4;
+      text-decoration: none;
+    }
+    
+    // Highlight current page
+    &.current {
+      background-color: #2a7ae4;
+      color: white;
+      font-weight: 500;
+    }
+  }
+}
+
+// Mobile navigation toggle
+@media screen and (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    order: 1;
+  }
+  
+  .main-content {
+    order: 2;
+  }
+  
+  .site-nav-sidebar {
+    position: static;
+  }
+}
+
+// Improve readability of main content with sidebar
+.main-content {
+  .highlighter-rouge {
+    margin: 1rem 0;
+  }
+  
+  pre {
+    overflow-x: auto;
+  }
+  
+  // Ensure tables are responsive
+  table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+    
+    @media screen and (min-width: 768px) {
+      display: table;
+      white-space: normal;
+    }
+  }
+}
+
+// Adjust wrapper width for better layout
+.wrapper {
+  max-width: 1200px;
+}
