@@ -106,6 +106,12 @@
               <h3>Documentation</h3>
               
               <div class="nav-section">
+                <ul>
+                  <li><a href="{{ '/README' | relative_url }}"{% if page.url contains 'README' %} class="current"{% endif %}>📋 Overview</a></li>
+                </ul>
+              </div>
+              
+              <div class="nav-section">
                 <h4>Main Process Flow</h4>
                 <ul>
                   <li><a href="{{ '/docs/boliginformasjon' | relative_url }}"{% if page.url contains 'boliginformasjon' %} class="current"{% endif %}>Boliginformasjon</a></li>
