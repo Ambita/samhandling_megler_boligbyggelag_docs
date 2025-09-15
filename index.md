@@ -193,21 +193,23 @@ layout: home
   display: inline-block;
   padding: 0.75rem 1.5rem;
   background: var(--ambita-purple-500);
-  color: var(--ambita-white);
+  color: var(--ambita-purple-100) !important;
   text-decoration: none;
   border-radius: var(--border-radius-s);
   font-family: var(--font-family-title);
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.2s ease;
   border: 1px solid var(--ambita-purple-500);
+  text-shadow: 0 1px 2px rgba(13, 10, 39, 0.3);
 }
 
 .btn:hover {
   background: var(--ambita-purple-400);
   border-color: var(--ambita-purple-400);
-  color: var(--ambita-white);
+  color: var(--ambita-white) !important;
   text-decoration: none;
   transform: translateY(-1px);
+  text-shadow: none;
 }
 
 @media (max-width: 768px) {
