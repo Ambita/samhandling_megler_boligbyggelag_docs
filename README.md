@@ -11,11 +11,14 @@ Ambita has designed a set of API messages to capture the flow between a broker a
 5. **Endring kjøpere** (Change of buyers). The broker requests a change of buyers (new owners)
 6. **Sluttbrev** (Final letter). The accountant accepts that the process is completed.
 7. **Restanse** (Arrears). The broker requests what payment needs to be fulfilled.
+8. **SumGjeld** (Total debt). A standalone request to get the total debt amount for a property.
+9. **SumFelleskostnader** (Total common costs). A standalone request to get the total common costs amount for a property.
 
 ## Documentation
 
 ### Message Types
 
+#### Main Process Flow Messages
 * **[Boliginformasjon](docs/boliginformasjon.md)** - Property information requests
 * **[Forhåndsutlysing](docs/forhandsutlysing.md)** - Advance clarification of preemption rights
 * **[Salgsmelding](docs/salgsmelding.md)** - Sales notifications and ownership transfers
@@ -23,6 +26,12 @@ Ambita has designed a set of API messages to capture the flow between a broker a
 * **[Endring kjøpere](docs/endring-kjopere.md)** - Buyer changes
 * **[Sluttbrev](docs/sluttbrev.md)** - Final completion letters
 * **[Restanse](docs/restanse.md)** - Arrears handling
+
+#### Standalone Information Messages
+* **[SumGjeld](docs/sumgjeld.md)** - Total debt requests
+* **[SumFelleskostnader](docs/sumfelleskostnader.md)** - Total common costs requests
+
+#### System Messages
 * **[Feilmeldinger](docs/feilmeldinger.md)** - Error messages
 
 ### Type Definitions
@@ -31,6 +40,14 @@ The message format and process is described in more detail per product. You may 
 
 * [Request types](requestTypes.ts)
 * [Response types](callbackTypes.ts)
+
+### Standalone Information Messages
+
+In addition to the main process flow messages, there are two standalone message types that can be ordered independently at any time:
+
+* **SumGjeld** and **SumFelleskostnader** are simplified alternatives to Boliginformasjon when you only need specific financial information
+* These messages do not interfere with other product messages and can be used alongside the main process flow
+* They share the same basic structure as Boliginformasjon but are much simpler, containing only the essential request fields and returning a single numerical value
 
 ## General information about the message flow
 
