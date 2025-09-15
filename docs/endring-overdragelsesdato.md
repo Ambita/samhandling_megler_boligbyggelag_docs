@@ -1,4 +1,9 @@
-# Change of transfer date / Endring overdragelsesdato
+---
+title: "Endring overdragelsesdato - Change Transfer Date"
+layout: default
+---
+
+# Change transfer date / Endring overdragelsesdato
 
 The transfer date might change after the initial sales message has been sent from the broker to the accountant. If this happens this message can be used to inform about the change.
 

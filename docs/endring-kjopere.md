@@ -1,3 +1,8 @@
+---
+title: "Endring kjøpere - Change of Buyers"
+layout: default
+---
+
 # Change of buyers / Endring kjøpere
 
 This product is in development - more info and examples coming soon!

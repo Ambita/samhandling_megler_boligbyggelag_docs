@@ -1,3 +1,8 @@
+---
+title: "Boliginformasjon - Property Information"
+layout: default
+---
+
 # Information about the object / Boliginformasjon
 
 The first thing a broker needs to do is to find out which operations can be done at all, which of them can be done digitally and which of them they need to continue to do manually. This can differ from one sales project to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. If the recipient is not part of the system, we will inform the broker about this.

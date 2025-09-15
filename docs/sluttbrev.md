@@ -1,3 +1,8 @@
+---
+title: "Sluttbrev - Final Letter"
+layout: default
+---
+
 # Final letter / Sluttbrev
 
 When the ownership transfer process is complete the broker can send a message to the accountant to inform about this. The accountant can then accept the change.

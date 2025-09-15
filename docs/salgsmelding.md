@@ -1,3 +1,8 @@
+---
+title: "Salgsmelding - Sales Message"
+layout: default
+---
+
 # Sales message / Salgsmelding
 
 When the object has been sold the broker sends a sales message to the accountant. This request message contains all the necessary information needed for updating data and proceed with clarification and board approval.

@@ -1,3 +1,8 @@
+---
+title: "Feilmeldinger - Error Messages"
+layout: default
+---
+
 # Errors / Feilmeldinger
 
 Errors might happen. If we get into a situation where the responding system needs to send an error the following message may be used:

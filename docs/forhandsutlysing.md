@@ -1,3 +1,8 @@
+---
+title: "Forhåndsutlysing - Advance Clarification"
+layout: default
+---
+
 # Clarification / Forhåndsutlysing
 
 If the seller wants to clarify the preemption before the sale is concluded they may ask the broker to order this. The response will come in two messages. One early message that explains the process and one late message that comes after the process has been completed, which may take a while.
