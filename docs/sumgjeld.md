@@ -4,8 +4,6 @@ SumGjeld is a standalone product that allows brokers to request the total debt a
 
 This message type can be ordered at any time and does not interfere with other product messages. It shares similarities with the Boliginformasjon product but is much simpler and focused solely on debt information.
 
-![SumGjeld](../images/SumGjeld.png "SumGjeld flowchart")
-
 ## Total debt request (SumGjeld)
 
 On behalf of the broker the following request is made:

@@ -4,8 +4,6 @@ SumFelleskostnader is a standalone product that allows brokers to request the to
 
 This message type can be ordered at any time and does not interfere with other product messages. It shares similarities with the Boliginformasjon product but is much simpler and focused solely on common costs information.
 
-![SumFelleskostnader](../images/SumFelleskostnader.png "SumFelleskostnader flowchart")
-
 ## Total common costs request (SumFelleskostnader)
 
 On behalf of the broker the following request is made:
