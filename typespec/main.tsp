@@ -43,6 +43,7 @@ enum Feilkode {
   forhandIkkeUtloptKontaktForrForer: 32,
   manuellBehandling: 33,
   sakstypeForKlientIkkeFunnet: 34,
+  endringOverdragelseIKunngjoringsperioden: 35,
   salgsmeldingKanIkkeLeveresDigital: 39
 }
 
