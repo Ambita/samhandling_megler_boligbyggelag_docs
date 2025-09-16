@@ -113,7 +113,7 @@ An example json request can look like this:
     "kjopesum": 2990000,
     "datoAkseptBud": "2022-06-30T12:00:00+02:00",
     "datoOverdragelse": "2022-09-01T12:00:00+02:00",
-    "forbeholdBud": "Innbo og parkeringsplass medfølger"
+    "forbeholdBud": true
   },
   "bolig": {
     "prom": 60,
@@ -132,7 +132,7 @@ An example json request can look like this:
     "oppvarming": "",
     "adresse": {
       "gateadresse": "Strandgaten 3",
-      "postnummer": 5000,
+      "postnummer": "5000",
       "poststed": "Bergen"
     },
     "leilighetsnummer": "H0101"
@@ -165,7 +165,7 @@ For common request fields see [boliginformasjon](boliginformasjon.md#request-fie
   * kjopesum (purchase price) - What the object was sold for
   * datoAkseptBud (bid accepted date) - The date the bid was accepted
   * datoOverdragelse (transfer date) - The date the object will be transferred
-  * forbeholdBud (bid reservation) - Any special considerations for the bid as free text 
+  * forbeholdBud (bid reservation) - Set to true if there are reservations tied to the accepted bid 
 * bolig (housing) - information about the object. Fetched from broker system
   * prom (sum primærrom)
   * bra (sum bruksareal)
@@ -217,14 +217,14 @@ After receiving and processing the sales request message, a message received an 
   "forkjopsrett": {
     "typeAvklaring": "fastpris",
     "statusForhandsutlysing": "ikke_forhandsutlysing",
-    "utlysingsdato": "2022-07-02T12:00:00+02:00",
+    "utlysingsdato": "2022-07-02",
     "utlysingssted": "https://untl.no",
     "meldefrist": "2022-07-12T12:00:00+02:00"
   },
   "styregodkjenningPakrevd": true,
   "styregodkjenning": {
     "handteresAvForretningsforer": true,
-    "initiertDato": "2022-07-12T12:00:00+02:00",
+    "initiertDato": "2022-07-12",
     "meldefrist": "2022-07-22T12:00:00+02:00"
   },
   "tilknyttetLag": true
@@ -277,11 +277,14 @@ After clarification and change of ownership has been handled by the accountant, 
   },
   "styregodkjenningPakrevd": true,
   "harForkjopsrett": true,
+  "tilknyttetLag": true,
   "forkjopsrett": {
     "statusForkjopsrett": "benyttet",
     "typeAvklaring": "fastpris",
     "statusForhandsutlysing": "med_interessenter",
-    "utlysingsdato": "2022-01-07T12:00:00+02:00",
+    "utlysingsdato": "2022-01-07",
+    "utlysingssted": "https://untl.no",
+    "meldefrist": "2022-01-17T12:00:00+02:00",
     "andreHensyn": "Tekst om andre hensyn kommer her"
   },
   "kjopere": [
@@ -355,11 +358,14 @@ Later, when all the processes like clarification and board approval have been co
     "andreHensyn": "Tekst om andre hensyn kommer her"
   },
   "harForkjopsrett": true,
+  "tilknyttetLag": true,
   "forkjopsrett": {
     "statusForkjopsrett": "benyttet",
     "typeAvklaring": "fastpris",
     "statusForhandsutlysing": "med_interessenter",
-    "utlysingsdato": "2022-01-07T12:00:00+02:00",
+    "utlysingsdato": "2022-01-07",
+    "utlysingssted": "https://untl.no",
+    "meldefrist": "2022-01-17T12:00:00+02:00",
     "andreHensyn": "Tekst om andre hensyn kommer her"
   },
   "kjopere": [

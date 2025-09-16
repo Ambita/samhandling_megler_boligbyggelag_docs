@@ -14,7 +14,6 @@ When the ownership transfer process is complete the broker can send a message to
   "type": "sluttbrev",
   "ordreId": "30db5678-345f-4dh4-92e5-09d2dh82dase",
   "oppdragsnummer": "8-0148/23",
-  "oppdragsnummer": "8-0148/23",
   "registerenhet": {
     "type": "matrikkel",
     "ident": "3802-71-119-0-21"
@@ -93,15 +92,23 @@ For common request fields see [boliginformasjon](boliginformasjon.md#request-fie
 * forkjopsrettAvklart - true if right of first refusal has been clarified
 * styregodkjenningAvklart - true if board approval has been clarified
 
-## Final letter processed (Sluttbrev behandlet)
+## Final letter accepted (Sluttbrev akseptert)
 
 The response here is a confirmation that the final letter has been processed.
 
 ```json
 {
   "ordreId": "30db5678-345f-4dh4-92e5-09d2dh82dase",
-  "type": "sluttbrevbehandlet",
-  "ordreMottatt": "2022-07-08T14:48:03.7753374Z",
+  "type": "sluttbrevakseptert",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
   "klient": {
     "klienttype": "Borettslag tilknyttet",
     "organisasjonsnavn": "Skauen Borettslag",

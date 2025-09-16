@@ -65,6 +65,24 @@ We will transmit the following request message:
     "epost": "aol@domene.no",
     "telefon": "12548630"
   },
+  "selgere": [
+    {
+      "id": "54321",
+      "fornavn": "Kari",
+      "etternavn": "Hansen",
+      "epost": "kari@selger.no",
+      "telefon": "98765432",
+      "adresse": {
+        "gateadresse": "Selgerveien 7",
+        "postnummer": "0450",
+        "poststed": "OSLO"
+      },
+      "eierbrok": {
+        "teller": 1,
+        "nevner": 1
+      }
+    }
+  ],
   "bolig": {
     "prom": 120,
     "bra": 130,
@@ -91,6 +109,7 @@ For the other fields explanations see [common request fields](boliginformasjon.m
   * bta (bruttoareal)
   * tba (sum terrasse- og balkongareal/åpent areal)
   * srom (sum sekundærrom)
+* selgere (sellers) - list of owners pulled from the broker system. Uses the same structure as buyers in the sales message
 * prisantydning - price suggestion
 
 ## Early clarification response (Forhåndsutlysing tidlig)
@@ -100,7 +119,7 @@ After some processing the following early response message is returned, this mes
 ```json
 {
   "utlysingssted": "Sendt styre, utlysing i laget",
-  "utlysingsdato": "2022-06-22T02:00:00+02:00",
+  "utlysingsdato": "2022-06-22",
   "meldefrist": "2022-06-30T12:00:00+02:00",
   "type": "forhandsutlysingtidlig",
   "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
@@ -139,7 +158,7 @@ In some cases, the broker contacts the accountant to change the announcement per
 ```json
 {
   "utlysingssted": "Sendt styre, utlysing i laget",
-  "utlysingsdato": "2022-06-24T02:00:00+02:00",
+  "utlysingsdato": "2022-06-24",
   "meldefrist": "2022-07-02T12:00:00+02:00",
   "type": "forhandsutlysingutsatt",
   "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",
@@ -171,9 +190,9 @@ When the process is done the final message is sent, summing up the result. Only 
 ```json
 {
   "antallInteressenter": 2,
-  "varighetForkjopsrett": "2022-09-20T12:10:53+02:00",
+  "varighetForkjopsrett": "2022-09-20",
   "utlysingssted": "Sendt styre, utlysing i laget",
-  "utlysingsdato": "2022-06-22T02:00:00+02:00",
+  "utlysingsdato": "2022-06-22",
   "meldefrist": "2022-06-30T12:00:00+02:00",
   "type": "forhandsutlysingsen",
   "ordreId": "67289ec4-871d-4011-8bc9-c0e9de6e5a90",

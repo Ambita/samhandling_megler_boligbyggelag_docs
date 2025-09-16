@@ -12,7 +12,7 @@ Errors might happen. If we get into a situation where the responding system need
   "tidspunkt": "2022-07-08T14:48:03.7753374Z",
   "kansellert": true,
   "feilmelding": "Forrige forhåndsutlysing-request har ikke utløpt ennå.",
-  "feilkode": 3,
+  "feilkode": 33,
   "type": "feil",
   "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
   "forretningsforer": {
