@@ -64,15 +64,49 @@
       color: var(--ambita-purple-600);
       font-weight: 500;
     }
-    
+
     .site-nav .page-link:hover {
       color: var(--ambita-purple-500);
       text-decoration: none;
     }
-    
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .layout-width-toggle {
+      border: 1px solid var(--ambita-purple-300);
+      background: var(--ambita-white);
+      color: var(--ambita-purple-500);
+      border-radius: var(--border-radius-m);
+      padding: 6px 14px;
+      font-family: var(--font-family-body);
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .layout-width-toggle:hover {
+      background-color: var(--ambita-purple-200);
+      color: var(--ambita-purple-600);
+      border-color: var(--ambita-purple-400);
+    }
+
+    .layout-width-toggle:focus {
+      outline: 2px solid var(--ambita-purple-500);
+      outline-offset: 2px;
+    }
+
     /* Layout Width */
     .wrapper {
       max-width: 1400px !important;
+    }
+
+    body.full-width .wrapper {
+      max-width: none !important;
+      width: 100%;
     }
   </style>
 

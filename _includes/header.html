@@ -2,9 +2,62 @@
   <div class="wrapper">
     <div class="header-content">
       <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
-      <nav class="site-nav">
-        <a class="page-link" href="{{ "/" | relative_url }}">Home</a>
-      </nav>
+      <div class="header-actions">
+        <nav class="site-nav">
+          <a class="page-link" href="{{ "/" | relative_url }}">Home</a>
+        </nav>
+        <button
+          id="layout-width-toggle"
+          class="layout-width-toggle"
+          type="button"
+          aria-pressed="false"
+          data-label-normal="Full width"
+          data-label-full="Normal width"
+        >
+          Full width
+        </button>
+      </div>
     </div>
   </div>
 </header>
+<script>
+  (function () {
+    var toggle = document.getElementById('layout-width-toggle');
+    if (!toggle) {
+      return;
+    }
+
+    var storageKey = 'layout-width-preference';
+    var body = document.body;
+    var labelNormal = toggle.getAttribute('data-label-normal') || 'Full width';
+    var labelFull = toggle.getAttribute('data-label-full') || 'Normal width';
+
+    function applyPreference(state) {
+      var useFullWidth = state === 'full';
+      body.classList.toggle('full-width', useFullWidth);
+      toggle.setAttribute('aria-pressed', useFullWidth ? 'true' : 'false');
+      toggle.textContent = useFullWidth ? labelFull : labelNormal;
+    }
+
+    var savedPreference = null;
+    try {
+      savedPreference = window.localStorage.getItem(storageKey);
+    } catch (error) {
+      savedPreference = null;
+    }
+
+    applyPreference(savedPreference === 'full' ? 'full' : 'normal');
+
+    toggle.addEventListener('click', function () {
+      var isFullWidth = body.classList.contains('full-width');
+      var nextState = isFullWidth ? 'normal' : 'full';
+      applyPreference(nextState);
+
+      try {
+        window.localStorage.setItem(storageKey, nextState);
+      } catch (error) {
+        // Ignore storage errors (e.g. private browsing)
+      }
+    });
+  })();
+</script>
