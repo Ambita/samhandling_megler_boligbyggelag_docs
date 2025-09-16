@@ -111,7 +111,16 @@
 
     body.full-width .wrapper {
       max-width: none !important;
-      width: 100%;
+      width: calc(100% - 2rem); /* Leave space for button and padding */
+      padding-right: 1rem;
+      padding-left: 1rem;
+    }
+    
+    /* Ensure header wrapper also respects viewport bounds */
+    body.full-width .site-header .wrapper {
+      width: calc(100% - 2rem);
+      padding-right: 1rem;
+      padding-left: 1rem;
     }
   </style>
 
