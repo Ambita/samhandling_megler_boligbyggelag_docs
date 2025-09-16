@@ -25,6 +25,7 @@ export enum Feilkode {
   forhandIkkeUtloptKontaktForrForer = 32, // ny ordre på samme objekt fra annen megler
   manuellBehandling = 33, // kreves manuell behandling av forretningsfører
   sakstypeForKlientIkkeFunnet = 34, // sakstype for klient ikke funnet
+  endringOverdragelseIKunngjoringsperioden = 35, // Endring av overdragelse i kunngjøringsperioden er ikke tillatt
   salgsmeldingKanIkkeLeveresDigital = 39, // Aktiv manuell forhåndsutlysing finnes. Kontakt forretningsfører!
 }
 
