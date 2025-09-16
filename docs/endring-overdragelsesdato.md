@@ -7,7 +7,20 @@ layout: default
 
 The transfer date might change after the initial sales message has been sent from the broker to the accountant. If this happens this message can be used to inform about the change.
 
-![Change of transfer date](../images/Changetransferdate.png "Change of transfer date flowchart")
+<div class="mermaid">
+flowchart LR
+  ambita([AMBITA]) --> changeReq["4.1.0\nChange transfer date request"]
+  changeReq --> accountant([ACCOUNTANT])
+  accountant --> changeRes["4.2.0\nChange transfer date response"]
+  changeRes --> ambita
+
+classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef request fill:#00ccff,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef response fill:#33dd33,stroke:#0a0f0f,stroke-width:1px,color:#000;
+class ambita,accountant actor;
+class changeReq request;
+class changeRes response;
+</div>
 
 ## Change of transfer date request (Endring overdragelsesdato)
 

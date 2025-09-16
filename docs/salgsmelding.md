@@ -21,7 +21,24 @@ The following responses can be used once, in order of appearance:
 
 `salgsmeldingfullfort` (required - expected at the end of the process - marks sale process completed)
 
-![Sales message](../images/Salesmessage.png "Sales message flowchart")
+<div class="mermaid">
+flowchart LR
+  ambita([AMBITA]) --> salesReq["3.1.0\nSales message request"]
+  salesReq --> accountant([ACCOUNTANT])
+  accountant -.-> received["3.2.0\nSales message received response"]
+  received -.-> ambita
+  accountant -.-> updated["3.2.1\nSales message updated response"]
+  updated -.-> ambita
+  accountant --> completed["3.2.2\nSales message completed response"]
+  completed --> ambita
+
+classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef request fill:#00ccff,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef response fill:#33dd33,stroke:#0a0f0f,stroke-width:1px,color:#000;
+class ambita,accountant actor;
+class salesReq request;
+class received,updated,completed response;
+</div>
 
 ## Sales message request (Salgsmelding)
 

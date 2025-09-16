@@ -7,7 +7,20 @@ layout: default
 
 The first thing a broker needs to do is to find out which operations can be done at all, which of them can be done digitally and which of them they need to continue to do manually. This can differ from one sales project to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. If the recipient is not part of the system, we will inform the broker about this.
 
-![Information](../images/Information.png "Information flowchart")
+<div class="mermaid">
+flowchart LR
+  ambita([AMBITA]) --> infoReq["1.1.0\nInformation request"]
+  infoReq --> accountant([ACCOUNTANT])
+  accountant --> infoRes["1.2.0\nInformation response"]
+  infoRes --> ambita
+
+classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef request fill:#00ccff,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef response fill:#33dd33,stroke:#0a0f0f,stroke-width:1px,color:#000;
+class ambita,accountant actor;
+class infoReq request;
+class infoRes response;
+</div>
 
 ## Information request (Boliginformasjon)
 

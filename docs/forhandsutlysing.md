@@ -7,7 +7,26 @@ layout: default
 
 If the seller wants to clarify the preemption before the sale is concluded they may ask the broker to order this. The response will come in two messages. One early message that explains the process and one late message that comes after the process has been completed, which may take a while.
 
-![Clarification](../images/Clarification.png "Clarification flowchart")
+<div class="mermaid">
+flowchart LR
+  ambita([AMBITA]) --> clarReq["2.1.0\nClarification request"]
+  clarReq --> accountant([ACCOUNTANT])
+  accountant --> early["2.2.0\nEarly clarification response"]
+  early --> ambita
+  accountant -.-> delayed["2.2.1\nClarification delayed response"]
+  delayed -.-> ambita
+  accountant --> late["2.2.2\nLate clarification response"]
+  late --> ambita
+  accountant -.-> expired["2.2.3\nClarification expired response"]
+  expired -.-> ambita
+
+classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef request fill:#00ccff,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef response fill:#33dd33,stroke:#0a0f0f,stroke-width:1px,color:#000;
+class ambita,accountant actor;
+class clarReq request;
+class early,delayed,late,expired response;
+</div>
 
 ## Clarification request (Forhåndsutlysing)
 
