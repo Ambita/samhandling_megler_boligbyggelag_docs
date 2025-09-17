@@ -23,13 +23,13 @@ The following responses can be used once, in order of appearance:
 
 <div class="mermaid">
 flowchart LR
-  ambita([AMBITA]) --> salesReq["3.1.0\nSales message request"]
+  ambita([AMBITA]) --> salesReq["3.1.0<br/>Sales message request"]
   salesReq --> accountant([ACCOUNTANT])
-  accountant -.-> received["3.2.0\nSales message received response"]
+  accountant -.-> received["3.2.0<br/>Sales message received response"]
   received -.-> ambita
-  accountant -.-> updated["3.2.1\nSales message updated response"]
+  accountant -.-> updated["3.2.1<br/>Sales message updated response"]
   updated -.-> ambita
-  accountant --> completed["3.2.2\nSales message completed response"]
+  accountant --> completed["3.2.2<br/>Sales message completed response"]
   completed --> ambita
 
 classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;

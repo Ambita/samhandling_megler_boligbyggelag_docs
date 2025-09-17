@@ -9,9 +9,9 @@ The transfer date might change after the initial sales message has been sent fro
 
 <div class="mermaid">
 flowchart LR
-  ambita([AMBITA]) --> changeReq["4.1.0\nChange transfer date request"]
+  ambita([AMBITA]) --> changeReq["4.1.0<br/>Change transfer date request"]
   changeReq --> accountant([ACCOUNTANT])
-  accountant --> changeRes["4.2.0\nChange transfer date response"]
+  accountant --> changeRes["4.2.0<br/>Change transfer date response"]
   changeRes --> ambita
 
 classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;

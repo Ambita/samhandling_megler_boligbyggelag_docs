@@ -9,9 +9,9 @@ The first thing a broker needs to do is to find out which operations can be done
 
 <div class="mermaid">
 flowchart LR
-  ambita([AMBITA]) --> infoReq["1.1.0\nInformation request"]
+  ambita([AMBITA]) --> infoReq["1.1.0<br/>Information request"]
   infoReq --> accountant([ACCOUNTANT])
-  accountant --> infoRes["1.2.0\nInformation response"]
+  accountant --> infoRes["1.2.0<br/>Information response"]
   infoRes --> ambita
 
 classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;

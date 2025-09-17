@@ -9,15 +9,15 @@ If the seller wants to clarify the preemption before the sale is concluded they 
 
 <div class="mermaid">
 flowchart LR
-  ambita([AMBITA]) --> clarReq["2.1.0\nClarification request"]
+  ambita([AMBITA]) --> clarReq["2.1.0<br/>Clarification request"]
   clarReq --> accountant([ACCOUNTANT])
-  accountant --> early["2.2.0\nEarly clarification response"]
+  accountant --> early["2.2.0<br/>Early clarification response"]
   early --> ambita
-  accountant -.-> delayed["2.2.1\nClarification delayed response"]
+  accountant -.-> delayed["2.2.1<br/>Clarification delayed response"]
   delayed -.-> ambita
-  accountant --> late["2.2.2\nLate clarification response"]
+  accountant --> late["2.2.2<br/>Late clarification response"]
   late --> ambita
-  accountant -.-> expired["2.2.3\nClarification expired response"]
+  accountant -.-> expired["2.2.3<br/>Clarification expired response"]
   expired -.-> ambita
 
 classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
