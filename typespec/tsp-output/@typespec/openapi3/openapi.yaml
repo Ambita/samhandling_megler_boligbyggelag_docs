@@ -524,6 +524,7 @@ components:
         - 32
         - 33
         - 34
+        - 35
         - 39
     ForhandsutlysingOrdre:
       type: object

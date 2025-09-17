@@ -37,6 +37,7 @@ $defs:
       - 32
       - 33
       - 34
+      - 35
       - 39
   ISODateTime:
     type: string
