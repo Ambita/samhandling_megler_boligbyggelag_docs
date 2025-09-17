@@ -4,7 +4,7 @@ layout: home
 ---
 
 <div class="hero-section">
-  <h1>Samhandling Megler Boligbyggelag</h1>
+  <h1>Ambita Samhandling Forretningsfører</h1>
   <p class="hero-description">API Documentation for cooperation between brokers and accountants in the Norwegian real estate market</p>
 </div>
 
