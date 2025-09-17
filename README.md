@@ -3,7 +3,7 @@ title: Home
 layout: default
 ---
 
-# Samhandling Megler Boligbyggelag
+# Ambita Samhandling Forretningsfører
 
 Documentation for cooperation between brokers and accountants
 
