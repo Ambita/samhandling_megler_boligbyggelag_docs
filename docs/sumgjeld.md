@@ -9,6 +9,21 @@ SumGjeld is a standalone product that allows brokers to request the total debt a
 
 This message type can be ordered at any time and does not interfere with other product messages. It shares similarities with the Boliginformasjon product but is much simpler and focused solely on debt information.
 
+<div class="mermaid">
+flowchart LR
+  ambita([AMBITA]) --> debtReq["5.1.0<br/>Total debt request"]
+  debtReq --> accountant([ACCOUNTANT])
+  accountant --> debtRes["5.1.1<br/>Total debt response"]
+  debtRes --> ambita
+
+classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef request fill:#00ccff,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef response fill:#33dd33,stroke:#0a0f0f,stroke-width:1px,color:#000;
+class ambita,accountant actor;
+class debtReq request;
+class debtRes response;
+</div>
+
 ## Total debt request (SumGjeld)
 
 On behalf of the broker the following request is made:

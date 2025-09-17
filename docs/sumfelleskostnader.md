@@ -9,6 +9,21 @@ SumFelleskostnader is a standalone product that allows brokers to request the to
 
 This message type can be ordered at any time and does not interfere with other product messages. It shares similarities with the Boliginformasjon product but is much simpler and focused solely on common costs information.
 
+<div class="mermaid">
+flowchart LR
+  ambita([AMBITA]) --> costsReq["5.2.0<br/>Total common costs request"]
+  costsReq --> accountant([ACCOUNTANT])
+  accountant --> costsRes["5.2.1<br/>Total common costs response"]
+  costsRes --> ambita
+
+classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef request fill:#00ccff,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef response fill:#33dd33,stroke:#0a0f0f,stroke-width:1px,color:#000;
+class ambita,accountant actor;
+class costsReq request;
+class costsRes response;
+</div>
+
 ## Total common costs request (SumFelleskostnader)
 
 On behalf of the broker the following request is made:

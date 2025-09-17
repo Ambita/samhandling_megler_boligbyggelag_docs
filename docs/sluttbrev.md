@@ -7,6 +7,21 @@ layout: default
 
 When the ownership transfer process is complete the broker can send a message to the accountant to inform about this. The accountant can then accept the change.
 
+<div class="mermaid">
+flowchart LR
+  ambita([AMBITA]) --> finalReq["6.1.0<br/>Final letter request"]
+  finalReq --> accountant([ACCOUNTANT])
+  accountant --> finalRes["6.1.1<br/>Final letter accepted"]
+  finalRes --> ambita
+
+classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef request fill:#00ccff,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef response fill:#33dd33,stroke:#0a0f0f,stroke-width:1px,color:#000;
+class ambita,accountant actor;
+class finalReq request;
+class finalRes response;
+</div>
+
 ## Final letter request (Sluttbrev)
 
 ```json
