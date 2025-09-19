@@ -2,76 +2,150 @@
 title: "API Documentation"
 layout: home
 ---
+<div class="language-content lang-en" markdown="1">
+  <div class="hero-section">
+    <h1>Ambita Samhandling Forretningsfører</h1>
+    <p class="hero-description">API Documentation for cooperation between brokers and accountants in the Norwegian real estate market</p>
+  </div>
 
-<div class="hero-section">
-  <h1>Ambita Samhandling Forretningsfører</h1>
-  <p class="hero-description">API Documentation for cooperation between brokers and accountants in the Norwegian real estate market</p>
+  <div class="navigation-cards">
+    <div class="card-section">
+      <h2>Main Process Flow Messages</h2>
+      <div class="card-grid">
+        <div class="nav-card">
+          <h3><a href="docs/boliginformasjon">Boliginformasjon</a></h3>
+          <p>Property information requests</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/forhandsutlysing">Forhåndsutlysing</a></h3>
+          <p>Advance clarification of preemption rights</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/salgsmelding">Salgsmelding</a></h3>
+          <p>Sales notifications and ownership transfers</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/endring-overdragelsesdato">Endring overdragelsesdato</a></h3>
+          <p>Transfer date changes</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/endring-kjopere">Endring kjøpere</a></h3>
+          <p>Buyer changes</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/sluttbrev">Sluttbrev</a></h3>
+          <p>Final completion letters</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/restanse">Restanse</a></h3>
+          <p>Arrears handling</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <h2>Standalone Information Messages</h2>
+      <div class="card-grid">
+        <div class="nav-card">
+          <h3><a href="docs/sumgjeld">SumGjeld</a></h3>
+          <p>Total debt requests</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/sumfelleskostnader">SumFelleskostnader</a></h3>
+          <p>Total common costs requests</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <h2>System Messages</h2>
+      <div class="card-grid">
+        <div class="nav-card">
+          <h3><a href="docs/feilmeldinger">Feilmeldinger</a></h3>
+          <p>Error messages</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="getting-started">
+    <h2>Getting Started</h2>
+    <p>Ambita has designed a set of API messages to capture the flow between a broker and an accountant. These messages enable digital cooperation for property sales, ownership transfers, and financial information requests.</p>
+    <p><a href="README" class="btn btn-primary">Read the full documentation →</a></p>
+  </div>
 </div>
 
-<div class="navigation-cards">
-  <div class="card-section">
-    <h2>Main Process Flow Messages</h2>
-    <div class="card-grid">
-      <div class="nav-card">
-        <h3><a href="docs/boliginformasjon">Boliginformasjon</a></h3>
-        <p>Property information requests</p>
+<div class="language-content lang-no" lang="no" markdown="1">
+  <div class="hero-section">
+    <h1>Ambita Samhandling Forretningsfører</h1>
+    <p class="hero-description">API-dokumentasjon for samhandling mellom meglere og forretningsførere i det norske eiendomsmarkedet</p>
+  </div>
+
+  <div class="navigation-cards">
+    <div class="card-section">
+      <h2>Meldinger i hovedprosessen</h2>
+      <div class="card-grid">
+        <div class="nav-card">
+          <h3><a href="docs/boliginformasjon">Boliginformasjon</a></h3>
+          <p>Bestilling av boliginformasjon</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/forhandsutlysing">Forhåndsutlysing</a></h3>
+          <p>Forhåndsavklaringer om forkjøpsrett</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/salgsmelding">Salgsmelding</a></h3>
+          <p>Varsling om salg og eierskifter</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/endring-overdragelsesdato">Endring overdragelsesdato</a></h3>
+          <p>Oppdatering av overtakelsesdato</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/endring-kjopere">Endring kjøpere</a></h3>
+          <p>Endringer i kjøperinformasjon</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/sluttbrev">Sluttbrev</a></h3>
+          <p>Sluttbrev og ferdigstillelse</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/restanse">Restanse</a></h3>
+          <p>Håndtering av restanser</p>
+        </div>
       </div>
-      <div class="nav-card">
-        <h3><a href="docs/forhandsutlysing">Forhåndsutlysing</a></h3>
-        <p>Advance clarification of preemption rights</p>
+    </div>
+
+    <div class="card-section">
+      <h2>Enkeltstående informasjonsmeldinger</h2>
+      <div class="card-grid">
+        <div class="nav-card">
+          <h3><a href="docs/sumgjeld">SumGjeld</a></h3>
+          <p>Forespørsler om total gjeld</p>
+        </div>
+        <div class="nav-card">
+          <h3><a href="docs/sumfelleskostnader">SumFelleskostnader</a></h3>
+          <p>Forespørsler om totale felleskostnader</p>
+        </div>
       </div>
-      <div class="nav-card">
-        <h3><a href="docs/salgsmelding">Salgsmelding</a></h3>
-        <p>Sales notifications and ownership transfers</p>
-      </div>
-      <div class="nav-card">
-        <h3><a href="docs/endring-overdragelsesdato">Endring overdragelsesdato</a></h3>
-        <p>Transfer date changes</p>
-      </div>
-      <div class="nav-card">
-        <h3><a href="docs/endring-kjopere">Endring kjøpere</a></h3>
-        <p>Buyer changes</p>
-      </div>
-      <div class="nav-card">
-        <h3><a href="docs/sluttbrev">Sluttbrev</a></h3>
-        <p>Final completion letters</p>
-      </div>
-      <div class="nav-card">
-        <h3><a href="docs/restanse">Restanse</a></h3>
-        <p>Arrears handling</p>
+    </div>
+
+    <div class="card-section">
+      <h2>Systemmeldinger</h2>
+      <div class="card-grid">
+        <div class="nav-card">
+          <h3><a href="docs/feilmeldinger">Feilmeldinger</a></h3>
+          <p>Oversikt over feilkoder</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="card-section">
-    <h2>Standalone Information Messages</h2>
-    <div class="card-grid">
-      <div class="nav-card">
-        <h3><a href="docs/sumgjeld">SumGjeld</a></h3>
-        <p>Total debt requests</p>
-      </div>
-      <div class="nav-card">
-        <h3><a href="docs/sumfelleskostnader">SumFelleskostnader</a></h3>
-        <p>Total common costs requests</p>
-      </div>
-    </div>
+  <div class="getting-started">
+    <h2>Kom i gang</h2>
+    <p>Ambita har laget et sett med API-meldinger som beskriver samhandlingen mellom megler og forretningsfører. Meldingssettet legger til rette for digitale prosesser ved boligsalg, eierskifter og innhenting av økonomisk informasjon.</p>
+    <p><a href="README" class="btn btn-primary">Les hele dokumentasjonen →</a></p>
   </div>
-
-  <div class="card-section">
-    <h2>System Messages</h2>
-    <div class="card-grid">
-      <div class="nav-card">
-        <h3><a href="docs/feilmeldinger">Feilmeldinger</a></h3>
-        <p>Error messages</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="getting-started">
-  <h2>Getting Started</h2>
-  <p>Ambita has designed a set of API messages to capture the flow between a broker and an accountant. These messages enable digital cooperation for property sales, ownership transfers, and financial information requests.</p>
-  <p><a href="README" class="btn btn-primary">Read the full documentation →</a></p>
 </div>
 
 <style>

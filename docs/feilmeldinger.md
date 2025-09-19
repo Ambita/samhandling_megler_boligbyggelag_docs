@@ -3,7 +3,9 @@ title: "Feilmeldinger - Error Messages"
 layout: default
 ---
 
-# Errors / Feilmeldinger
+<div class="language-content lang-en" markdown="1">
+
+# Errors
 
 ## Allowable error codes
 
@@ -64,3 +66,71 @@ Errors might happen. If we get into a situation where the responding system need
   "eierform": "Seksjonseier"
 }
 ```
+
+</div>
+
+<div class="language-content lang-no" lang="no" markdown="1">
+
+# Feilmeldinger
+
+## Gyldige feilkoder
+
+Følgende feilkoder er definert i `callbackTypes.ts` og kan brukes i feltet `feilkode`:
+
+| Feilkode | Navn | Beskrivelse | Kontekst |
+|----------|------|-------------|----------|
+| 1 | forhandsutlysingAlleredeOpprettet | Forhåndsutlysing er allerede opprettet | Oppstår når en ny forhåndsutlysing forsøkes opprettet for samme eiendom |
+| 2 | eierskifteAlleredeOpprettet | Eierskifte er allerede opprettet | Oppstår når et eierskifte som allerede finnes forsøkes opprettet på nytt |
+| 4 | forhandsutlysningStottesIkke | Forhåndsutlysing støttes ikke | Eiendommen eller situasjonen støtter ikke forhåndsutlysing |
+| 6 | tilknyttetAnnetBoligbyggelag | Tilknyttet et annet boligbyggelag | Eiendommen forvaltes av et annet boligbyggelag |
+| 8 | tilknyttetAnnenForretningsforer | Tilknyttet en annen forretningsfører | Eiendommen håndteres av en annen forretningsfører |
+| 11 | eiendomIkkeFunnet | Eiendom ikke funnet | Fant ikke eiendommen basert på oppgitt ID |
+| 12 | salgsmeldingOrdreIkkeFunnet | Salgsmelding-ordre ikke funnet | Kan ikke endre en salgsmelding som ikke eksisterer |
+| 31 | forhandIkkeUtloptSjekkStatus | Forhåndsutlysing er ikke utløpt, sjekk status | Ny bestilling fra samme megler mens forrige forhåndsutlysing fortsatt er aktiv |
+| 32 | forhandIkkeUtloptKontaktForrForer | Forhåndsutlysing er ikke utløpt, kontakt forretningsfører | Ny bestilling fra annen megler mens forrige forhåndsutlysing fortsatt er aktiv |
+| 33 | manuellBehandling | Manuell behandling kreves | Saken må håndteres manuelt av forretningsfører |
+| 34 | sakstypeForKlientIkkeFunnet | Sakstype for klient ikke funnet | Relevant sakstype for oppgitt klient finnes ikke |
+| 35 | endringOverdragelseIKunngjoringsperioden | Datoendring ikke tillatt i kunngjøringsperioden | Overdragelsesdato kan ikke endres mens kunngjøring pågår |
+| 39 | salgsmeldingKanIkkeLeveresDigital | Salgsmelding kan ikke leveres digitalt | Det finnes en aktiv manuell forhåndsutlysing. Kontakt forretningsfører! |
+
+## Felter i feilmeldingen
+
+Disse feltene inngår i feilmeldingen:
+
+* feilkode – unik identifikator for feilsituasjonen
+* feilmelding – tekstlig beskrivelse som forklarer feilen
+* kansellert – sann/usann som viser om hele ordren kanselleres
+
+## Eksempel
+
+Feil kan oppstå. Dersom systemet som svarer må sende en feil, kan meldingen se slik ut:
+
+```json
+{
+  "tidspunkt": "2022-07-08T14:48:03.7753374Z",
+  "kansellert": true,
+  "feilmelding": "Forrige forhåndsutlysing-request har ikke utløpt ennå.",
+  "feilkode": 33,
+  "type": "feil",
+  "ordreId": "60dbe743-3edf-44f4-92e5-0922dd82ba6e",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202"
+  },
+  "levert": "2022-07-08T14:48:03.7537667+00:00",
+  "referanse": "622/1",
+  "eierform": "Seksjonseier"
+}
+```
+
+</div>

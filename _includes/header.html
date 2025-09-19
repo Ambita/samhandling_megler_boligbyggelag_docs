@@ -3,6 +3,30 @@
     <div class="header-content">
       <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
       <div class="header-actions">
+        <div
+          class="language-toggle"
+          role="group"
+          aria-label="Language toggle"
+        >
+          <button
+            type="button"
+            class="language-option"
+            data-lang="en"
+            aria-pressed="true"
+          >
+            <span aria-hidden="true">🇬🇧</span>
+            <span class="language-label">EN</span>
+          </button>
+          <button
+            type="button"
+            class="language-option"
+            data-lang="no"
+            aria-pressed="false"
+          >
+            <span aria-hidden="true">🇳🇴</span>
+            <span class="language-label">NO</span>
+          </button>
+        </div>
         <button
           id="layout-width-toggle"
           class="layout-width-toggle"
@@ -55,6 +79,55 @@
       } catch (error) {
         // Ignore storage errors (e.g. private browsing)
       }
+    });
+  })();
+
+  (function () {
+    var options = document.querySelectorAll('.language-option');
+    if (!options.length) {
+      return;
+    }
+
+    var storageKey = 'docs-language-preference';
+
+    function applyLanguage(nextLang) {
+      var language = nextLang === 'no' ? 'no' : 'en';
+      document.body.setAttribute('data-lang', language);
+      document.documentElement.setAttribute('lang', language === 'no' ? 'no' : 'en');
+
+      options.forEach(function (option) {
+        var isActive = option.getAttribute('data-lang') === language;
+        option.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+    }
+
+    var savedPreference = null;
+    try {
+      savedPreference = window.localStorage.getItem(storageKey);
+    } catch (error) {
+      savedPreference = null;
+    }
+
+    var initialLanguage = savedPreference === 'no' ? 'no' : (document.body.getAttribute('data-lang') || 'en');
+    applyLanguage(initialLanguage);
+
+    options.forEach(function (option) {
+      option.addEventListener('click', function () {
+        var selected = option.getAttribute('data-lang');
+        applyLanguage(selected);
+
+        try {
+          window.localStorage.setItem(storageKey, selected);
+        } catch (error) {
+          // Ignore storage errors
+        }
+
+        if (typeof window.renderMermaidForLanguage === 'function') {
+          window.requestAnimationFrame(function () {
+            window.renderMermaidForLanguage(selected);
+          });
+        }
+      });
     });
   })();
 </script>

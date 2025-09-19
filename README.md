@@ -3,6 +3,8 @@ title: Home
 layout: default
 ---
 
+<div class="language-content lang-en" markdown="1">
+
 # Ambita Samhandling Forretningsfører
 
 Documentation for cooperation between brokers and accountants
@@ -263,3 +265,202 @@ The client generation uses:
 - Versions are pinned in `package.json` for reproducible builds
 
 For more detailed information about the TypeSpec setup and development workflow, see [WARP.md](WARP.md).
+
+</div>
+
+<div class="language-content lang-no" lang="no" markdown="1">
+
+# Ambita Samhandling Forretningsfører
+
+Dokumentasjon for samhandling mellom meglere og forretningsførere.
+
+Ambita har definert et sett med API-meldinger som beskriver flyten mellom megler og forretningsfører. Prosessen er delt inn i egne steg:
+
+1. **Boliginformasjon** – avklarer hvilke regler som gjelder for eiendommen.
+2. **Forhåndsutlysing** – selger kan avklare forkjøpsrett før salget fullføres.
+3. **Salgsmelding** – megler varsler forretningsfører om at eiendommen er solgt.
+4. **Endring overdragelsesdato** – megler foreslår ny overtakelsesdato.
+5. **Endring kjøpere** – megler oppdaterer kjøperlisten.
+6. **Sluttbrev** – forretningsfører bekrefter at prosessen er avsluttet.
+7. **Restanse** – megler innhenter oversikt over utestående betalinger.
+8. **SumGjeld** – frittstående forespørsel om total gjeld.
+9. **SumFelleskostnader** – frittstående forespørsel om totale felleskostnader.
+
+## Helhetlig sekvens
+
+Meldingsflyten er organisert i fire faser som følger produktene:
+
+1. **Fase 1 – Boliginformasjon:** avklarer hva som er mulig for eiendommen.
+2. **Fase 2 – Forhåndsutlysing:** valgfri forhåndsavklaring med inntil tre tilbakemeldinger.
+3. **Fase 3 – Salgsmelding:** eierskifte med mulige statusoppdateringer.
+4. **Fase 4 – Etterarbeid:** planlagt sluttoppgjør og restanseoppfølging.
+
+<div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant Broker as Megler<br/>(Vitec Next)
+    participant Ambita as Ambita<br/>Samhandling
+    participant Accountant as Forretningsfører
+
+    rect rgb(243,237,247)
+        Note over Broker,Accountant: Fase 1 – Boliginformasjon
+        Broker->>Ambita: Opprett ordre<br/>Boliginformasjon (type: boliginformasjon)
+        Ambita->>Accountant: Videreformidle Boliginformasjon
+        Accountant-->>Ambita: Callback boliginformasjon<br/>(forkjøpsrett/styregodkjenning)
+        Ambita-->>Broker: Oppdatere prosjektdata<br/>for meglerteamet
+    end
+
+    rect rgb(235,242,255)
+        Note over Broker,Accountant: Fase 2 – Forhåndsutlysing
+        opt Forhåndsutlysing bestilt
+            Broker->>Ambita: Send Forhåndsutlysing<br/>(type: forhandsutlysing)
+            Ambita->>Accountant: Videreformidle Forhåndsutlysing
+            loop Inntil tre forhandsutlysing-callbacker
+                Accountant-->>Ambita: Callback forhandsutlysingtidlig/utsatt/sen
+                Ambita-->>Broker: Vise forkjøpsstatus<br/>i meglerløsningen
+            end
+            opt Forkjøpsrett utløpt
+                Accountant-->>Ambita: Callback forhandsutlysingutlopt
+                Ambita-->>Broker: Signalisere utløpt forkjøpsrett
+            end
+        end
+    end
+
+    rect rgb(240,255,248)
+        Note over Broker,Accountant: Fase 3 – Salgsmelding og endringer
+        Broker->>Ambita: Send Salgsmelding<br/>(type: salgsmelding)
+        Ambita->>Accountant: Videreformidle Salgsmelding
+        Accountant-->>Ambita: Callback salgsmeldingmottatt
+        Ambita-->>Broker: Synk mottakskvittering
+
+        loop Oppdateringer til ferdigstillelse
+            Accountant-->>Ambita: Callback salgsmeldingoppdatering
+            Ambita-->>Broker: Oppdatere styregodkjenning<br/>og forkjøpsstatus
+        end
+        Accountant-->>Ambita: Callback salgsmeldingfullfort
+        Ambita-->>Broker: Markere salgsmelding som fullført
+
+        opt Endring overdragelsesdato
+            Broker->>Ambita: Send Endring overdragelsesdato<br/>(type: endringoverdragelse)
+            Ambita->>Accountant: Videreformidle datoendring
+            Accountant-->>Ambita: Callback endringoverdragelse
+            Ambita-->>Broker: Bekrefte ny overdragelsesdato
+        end
+
+        opt Endring kjøpere
+            Broker->>Ambita: Send Endring kjøpere<br/>(type: endringkjopere)
+            Ambita->>Accountant: Videreformidle kjøperendring
+            Accountant-->>Ambita: Callback endringkjoperemottatt
+            Ambita-->>Broker: Informere om ny styregodkjenning
+            Accountant-->>Ambita: Callback endringkjoperefullfort
+            Ambita-->>Broker: Bekrefte ferdigstilt kjøperendring
+        end
+
+    end
+
+    rect rgb(255,247,235)
+        Note over Broker,Accountant: Fase 4 – Etterarbeid (planlagt)
+        opt Sluttbrev
+            Broker->>Ambita: Send Sluttbrev<br/>(type: sluttbrev)
+            Ambita->>Accountant: Videreformidle Sluttbrev
+            Accountant-->>Ambita: Callback sluttbrevakseptert
+            Ambita-->>Broker: Bekrefte avsluttet prosess
+        end
+
+        opt Restanse
+            Broker->>Ambita: Bestill Restanse<br/>(type: restanse)
+            Ambita->>Accountant: Etterspør restanseoversikt
+            Accountant-->>Ambita: Levere restanseoversikt
+            Ambita-->>Broker: Presentere utestående kostnader
+        end
+    end
+
+    Note over Broker,Accountant: Kan gjentas parallelt med øvrige steg
+    opt Finansielle forespørsler
+        Broker->>Ambita: Bestill SumGjeld/SumFelleskostnader
+        Ambita->>Accountant: Videreformidle finansforespørsel
+        Accountant-->>Ambita: Callback sumgjeld/sumfelleskostnader
+        Ambita-->>Broker: Oppdatere økonomioversikt
+    end
+    Note over Broker,Accountant: SumGjeld og SumFelleskostnader kan bestilles når som helst
+</div>
+
+## Dokumentasjon
+
+### Meldingskategorier
+
+#### Meldinger i hovedprosessen
+* **[Boliginformasjon](docs/boliginformasjon.md)** – bestilling av boliginformasjon
+* **[Forhåndsutlysing](docs/forhandsutlysing.md)** – forhåndsavklaring av forkjøpsrett
+* **[Salgsmelding](docs/salgsmelding.md)** – varsling om salg og eierskifte
+* **[Endring overdragelsesdato](docs/endring-overdragelsesdato.md)** – endring av overtakelsesdato
+* **[Endring kjøpere](docs/endring-kjopere.md)** – oppdatering av kjøperinformasjon
+* **[Sluttbrev](docs/sluttbrev.md)** – sluttføring av saken
+* **[Restanse](docs/restanse.md)** – innhenting av restanseinformasjon
+
+#### Frittstående meldinger
+* **[SumGjeld](docs/sumgjeld.md)** – forespørsel om total gjeld
+* **[SumFelleskostnader](docs/sumfelleskostnader.md)** – forespørsel om totale felleskostnader
+
+#### Systemmeldinger
+* **[Feilmeldinger](docs/feilmeldinger.md)** – oversikt over feilkoder
+
+### Typedefinisjoner
+
+Meldingsformatet beskrives per produkt. TypeScript-typene er referanseimplementasjon:
+
+* [Forespørsler](requestTypes.ts)
+* [Tilbakemeldinger](callbackTypes.ts)
+
+### Frittstående informasjonsmeldinger
+
+I tillegg til hovedflyten finnes to enkle meldinger som kan bestilles når som helst:
+
+* **SumGjeld** og **SumFelleskostnader** gir rask tilgang til spesifikke økonomiske nøkkeltall når Boliginformasjon ikke er nødvendig.
+* De påvirker ikke øvrige prosesser og kan bestilles parallelt.
+* Strukturen er den samme som Boliginformasjon, men de returnerer kun ett tall.
+
+## Generell informasjon om meldingsflyt
+
+Hver prosess starter med en ordre fra megler (Vitec Next). Vi sender forespørsler videre til forretningsførers system, som svarer med en eller flere meldinger. Disse oversettes til operasjoner i Vitec Next. Første versjon er PDF-basert, men vil gradvis erstattes av strukturert synkronisering med minimal påvirkning for forretningsfører.
+
+Meldinger sendes som JSON via HTTPS (POST). Tilbakemeldinger sendes også som POST, slik at kommunikasjonen er asynkron.
+
+## Kommentarer til prosessen
+
+Flytbeskrivelsene antar at forretningsfører kan håndtere stegene automatisk. Dersom deler håndteres manuelt, varsles megler slik at de kan utføre steget utenfor integrasjonen. Prosessen kan sees som tre hovedområder:
+
+* **Forkjøpsrett**
+* **Eierskifte**
+* **Restanse**
+
+Alle meldinger berører ett eller flere av disse områdene. Spesielle hensyn kreves dersom forretningsfører ikke støtter enkelte deler.
+
+## TypeSpec og klientgenerering
+
+Repoet inneholder en [TypeSpec](https://typespec.io/)–modell som et alternativt utgangspunkt. TypeSpec kompileres til OpenAPI 3.0 og brukes til å generere klientbiblioteker.
+
+### Skjemadefinisjoner
+
+API-et finnes i to formater:
+
+- **TypeScript-grensesnitt** (`requestTypes.ts`, `callbackTypes.ts`) – primær kilde
+- **TypeSpec** (`typespec/main.tsp`) – alternativ definisjon som genererer OpenAPI
+
+### Genererte klientbibliotek
+
+Fra TypeSpec genererer vi klienter for flere språk:
+
+#### TypeScript/JavaScript-klient
+- **Pakke**: `@samhandling/client`
+- **Plassering**: `typespec/generated/typescript/`
+- **Egenskaper**: full TypeScript-støtte, fetch-basert HTTP-klient, ES6+
+- **Byggefiler**: `package.json`, `tsconfig.json`
+
+#### Java-klient
+- **Pakke**: `no.samhandling:samhandling-client`
+- **Plassering**: `typespec/generated/java/`
+- **Egenskaper**: Maven/Gradle-støtte, Java 8+, innebygd HTTP-klient
+- **Byggefiler**: `pom.xml`, `build.gradle`
+
+</div>

@@ -3,7 +3,9 @@ title: "SumFelleskostnader - Total Common Costs"
 layout: default
 ---
 
-# Total Common Costs / SumFelleskostnader
+<div class="language-content lang-en" markdown="1">
+
+# Total Common Costs
 
 SumFelleskostnader is a standalone product that allows brokers to request the total common costs amount for a specific property. This is a simplified alternative to the full Boliginformasjon product when only common costs information is needed.
 
@@ -24,7 +26,7 @@ class costsReq request;
 class costsRes response;
 </div>
 
-## Total common costs request (SumFelleskostnader)
+## Total common costs request
 
 On behalf of the broker the following request is made:
 
@@ -72,7 +74,7 @@ The request contains only the basic required fields:
 * type - Set to "sumfelleskostnader"
 * All standard BasicProduct fields (ordreId, registerenhet, bestiller, meglerkontor, kontaktperson)
 
-## Total common costs response (SumFelleskostnaderSvar)
+## Total common costs response
 
 The accountant responds with the total common costs amount for the specified property:
 
@@ -130,3 +132,137 @@ When our system receives this message, it will make the common costs information
 * Common costs typically include shared expenses like maintenance, utilities, insurance, and management fees
 * For comprehensive property information including detailed cost information, use [Boliginformasjon](boliginformasjon.md) instead
 * Production orders require using the `--profile ambitamain` option
+
+</div>
+
+<div class="language-content lang-no" lang="no" markdown="1">
+
+# SumFelleskostnader
+
+SumFelleskostnader er et frittstående produkt som lar megler bestille totale felleskostnader for en bestemt eiendom. Dette er et forenklet alternativ til hele Boliginformasjon-produktet når du bare trenger informasjon om felleskostnader.
+
+Meldingstypen kan bestilles når som helst og påvirker ikke de andre produktmeldingene. Strukturen ligner på Boliginformasjon, men er langt enklere og handler utelukkende om felleskostnader.
+
+<div class="mermaid">
+flowchart LR
+  ambita([AMBITA]) --> costsReq["5.2.0<br/>Forespørsel om felleskostnader"]
+  costsReq --> accountant([FORRETNINGSFØRER])
+  accountant --> costsRes["5.2.1<br/>Svar med felleskostnader"]
+  costsRes --> ambita
+
+classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef request fill:#00ccff,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef response fill:#33dd33,stroke:#0a0f0f,stroke-width:1px,color:#000;
+class ambita,accountant actor;
+class costsReq request;
+class costsRes response;
+</div>
+
+## Forespørsel om felleskostnader
+
+På vegne av megler sendes følgende forespørsel:
+
+```json
+{
+  "type": "sumfelleskostnader",
+  "ordreId": "2888e14e-1418-4d37-b3be-0d0b623681ba",
+  "estateId": "8edbaf12-7e21-4cf7-8d72-74277d004c32",
+  "oppdragsnummer": "8-0148/23",
+  "registerenhet": {
+    "type": "matrikkel",
+    "ident": "3802-71-119-0-21"
+  },
+  "bestiller": {
+    "id": "TBF",
+    "navn": "Broker Doe",
+    "epost": "tbf@domene.no",
+    "telefon": "79119911"
+  },
+  "meglerkontor": {
+    "orgnr": "987654323",
+    "avdelingsnr": "3",
+    "navn": "Avdeling3",
+    "adresse": {
+      "gateadresse": "Testvei 3",
+      "postnummer": "0030",
+      "poststed": "OSLO"
+    },
+    "telefon": "12345678"
+  },
+  "kontaktperson": {
+    "id": "AO",
+    "navn": "Anne Olsen",
+    "epost": "aol@domene.no",
+    "telefon": "12548630"
+  }
+}
+```
+
+### Felt i forespørselen
+
+SumFelleskostnader-forespørselen bruker samme grunnstruktur som andre produktmeldinger. Detaljert feltsbeskrivelse finner du under [felles felter for forespørsler](boliginformasjon.md#request-fields-that-are-in-all-requests).
+
+Forespørselen inneholder kun de obligatoriske basisfeltene:
+* type – skal settes til "sumfelleskostnader"
+* Alle standard felter i BasicProduct (ordreId, registerenhet, bestiller, meglerkontor, kontaktperson)
+
+## Svar med felleskostnader
+
+Forretningsfører svarer med totalt beløp for felleskostnader for den angitte eiendommen:
+
+```json
+{
+  "type": "sumfelleskostnader",
+  "ordreId": "2888e14e-1418-4d37-b3be-0d0b623681ba",
+  "sumFelleskostnader": 2450.00,
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202",
+    "epost": "styret@brl.no",
+    "styreleder": {
+      "navn": "Ole Styreleder",
+      "epost": "leder@brl.no",
+      "telefonnr": "99889988"
+    }
+  },
+  "levert": "2022-07-07T15:48:07.6328836Z",
+  "referanse": "622/1",
+  "eierform": "Seksjonseier"
+}
+```
+
+### Felt i svaret
+
+Svaret inkluderer alle standard callback-felter og i tillegg:
+
+* **sumFelleskostnader** – totalbeløpet i norske kroner (NOK)
+* **type** – meldingstypen ("sumfelleskostnader")
+* **ordreId** – ordre-ID fra forespørselen
+* **forretningsforer** – informasjon om forretningsføreren som håndterer eiendommen
+* **klient** – informasjon om eierorganisasjonen
+* **levert** – tidspunkt for når svaret ble produsert
+* **referanse** – intern referanse hos forretningsføreren
+* **eierform** – type eierskap (andelseier, seksjonseier, aksjonær)
+
+Når systemet vårt mottar denne meldingen, gjøres informasjonen tilgjengelig i meglerløsningen.
+
+## Brukstips
+
+* Produktet kan bestilles uavhengig av de andre meldingstypene
+* Ingen særskilte prosesser eller godkjenninger er nødvendige
+* Svaret inneholder kun beløpet for felleskostnader, ikke en detaljert oppstilling
+* Felleskostnader omfatter typisk kostnader til drift og vedlikehold, energi, forsikring og forvaltning
+* For mer omfattende eiendomsinformasjon med kostnadsdetaljer bør du bruke [Boliginformasjon](boliginformasjon.md)
+* I produksjon må bestillingen bruke `--profile ambitamain`
+
+</div>

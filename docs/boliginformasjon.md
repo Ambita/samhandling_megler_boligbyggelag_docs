@@ -3,7 +3,9 @@ title: "Boliginformasjon - Property Information"
 layout: default
 ---
 
-# Information about the object / Boliginformasjon
+<div class="language-content lang-en" markdown="1">
+
+# Information about the object
 
 The first thing a broker needs to do is to find out which operations can be done at all, which of them can be done digitally and which of them they need to continue to do manually. This can differ from one sales project to the next. This product can be ordered by the broker, and we will forward it to the correct recipient. If the recipient is not part of the system, we will inform the broker about this.
 
@@ -22,7 +24,7 @@ class infoReq request;
 class infoRes response;
 </div>
 
-## Information request (Boliginformasjon)
+## Information request
 
 On behalf of the broker the following request is made:
 
@@ -98,7 +100,7 @@ On behalf of the broker the following request is made:
   * epost (e-mail) - The e-mail of the broker
   * telefon (phone) - The phone number of the broker
 
-## Information response (Boliginformasjon)
+## Information response
 
 The accountant responds with information about the given object, here identified with the cadastre identity 3802-71-119-0-21. This response is just an example:
 
@@ -208,3 +210,217 @@ When our system receives this message, it will construct a styled document as a 
 * Garasjelag
 * Parkeringssameie
 * Tingrettslig sameie
+
+</div>
+
+<div class="language-content lang-no" lang="no" markdown="1">
+
+# Boliginformasjon
+
+Det første megler må avklare er hvilke leveranser som er tilgjengelige, hvilke som kan håndteres digitalt og hva som fremdeles må gjøres manuelt. Dette varierer fra prospekt til prospekt. Bestillingen sendes fra megler, og vi ruter den til riktig mottaker. Dersom mottaker ikke er del av løsningen, informerer vi megler om dette.
+
+<div class="mermaid">
+flowchart LR
+  ambita([AMBITA]) --> infoReq["1.1.0<br/>Bestilling: boliginformasjon"]
+  infoReq --> accountant([FORRETNINGSFØRER])
+  accountant --> infoRes["1.2.0<br/>Svar: boliginformasjon"]
+  infoRes --> ambita
+
+classDef actor fill:#ffcc00,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef request fill:#00ccff,stroke:#0a0f0f,stroke-width:1px,color:#000;
+classDef response fill:#33dd33,stroke:#0a0f0f,stroke-width:1px,color:#000;
+class ambita,accountant actor;
+class infoReq request;
+class infoRes response;
+</div>
+
+## Forespørsel om boliginformasjon
+
+På vegne av megler sendes følgende forespørsel:
+
+```json
+{
+  "type": "boliginformasjon",
+  "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
+  "estateId": "8edbaf12-7e21-4cf7-8d72-74277d004c32",
+  "oppdragsnummer": "8-0148/23",
+  "registerenhet": {
+    "type": "matrikkel",
+    "ident": "3802-71-119-0-21"
+  },
+  "bestiller": {
+    "id": "TBF",
+    "navn": "Broker Doe",
+    "epost": "tbf@domene.no",
+    "telefon": "79119911"
+
+  },
+  "meglerkontor": {
+    "orgnr": "987654323",
+    "avdelingsnr": "3",
+    "navn": "Avdeling3",
+    "adresse": {
+      "gateadresse": "Testvei 3",
+      "postnummer": "0030",
+      "poststed": "OSLO"
+    },
+    "telefon": "12345678"
+  },
+  "kontaktperson": {
+    "id": "AO",
+    "navn": "Anne Olsen",
+    "epost": "aol@domene.no",
+    "telefon": "12548630"
+  }
+}
+```
+
+### Felt i forespørselen
+
+Felles felter for produktforespørsler er beskrevet i detalj under [felles felter for forespørsler](boliginformasjon.md#request-fields-that-are-in-all-requests).
+
+* type – meldingstypen. Styrer videre flyt. Kan være én av:
+  * boliginformasjon
+  * forhandsutlysing
+  * salgsmelding
+  * restanse
+* ordreId – unik identifikator som brukes i svarmeldingene
+* registerenhet – beskriver eiendommen
+  * type – type eiendom
+    * matrikkel – matrikkelenhet i grunnboken
+    * borettsandel – andel i borettslag
+    * aksjeandel – privat aksjeleilighet
+    * obligasjonsandel – privat obligasjonsleilighet
+  * ident – unik identifikator for eiendommen
+* bestiller – megleren som legger inn bestillingen
+  * id – unik identifikator internt hos meglerkontoret
+  * navn – navn på megler
+  * epost – e-postadresse til megler
+  * telefon – telefonnummer til megler
+* meglerkontor – informasjon om kontoret bestillingen kommer fra
+  * orgnr – organisasjonsnummer
+  * avdelingsnr – avdelingsnummer
+  * navn – navn på meglerkontoret
+  * adresse – kontorets adresse
+    * gateadresse – gateadresse med nummer og bokstav
+    * postnummer – postnummer
+    * poststed – poststed
+  * telefon – kontakttelefon til kontoret
+* kontaktperson – hvem forretningsfører skal kontakte ved spørsmål
+  * id – unik identifikator internt hos meglerkontoret
+  * navn – kontaktpersonens navn
+  * epost – kontaktpersonens e-post
+  * telefon – kontaktpersonens telefonnummer
+
+## Svar på boliginformasjon
+
+Forretningsfører returnerer informasjon for aktuell eiendom, her med matrikkelnummer 3802-71-119-0-21. Eksempel:
+
+```json
+{
+  "forkjopsrett": {
+    "harForkjopsrett": true,
+    "kanForhandsutlyses": true,
+    "intern": true,
+    "bestillingsformat": "Elektronisk",
+    "gebyr": 7225
+  },
+  "styregodkjenning": {
+    "pakrevd": true,
+    "bestillingsformat": "Manuelt",
+    "mottakerType": "forretningsforer"
+  },
+  "salgsmelding": {
+    "bestillingsformat": "Manuelt",
+    "gebyr": 6850
+  },
+  "restanse": {
+    "bestillingsformat": "Manuelt"
+  },
+  "andreHensyn": "Kundeforhold avsluttes 1.1.2023 - det gjenstår endel i forbindelse med regnskap og TPO for 2022",
+  "type": "boliginformasjon",
+  "ordreId": "1888e14e-1418-4d37-b3be-0d0b623681ba",
+  "forretningsforer": {
+    "navn": "UNTL",
+    "adresse": {
+      "gateadresse": "Postboks 112 Lier",
+      "postnummer": "0501",
+      "poststed": "Oslo"
+    },
+    "epost": "post@kunde.no"
+  },
+  "klient": {
+    "klienttype": "Borettslag tilknyttet",
+    "organisasjonsnavn": "Skauen Borettslag",
+    "organisasjonsnummer": "948677202",
+    "epost": "styret@brl.no",
+    "styreleder": {
+      "navn": "Ole Styreleder",
+      "epost": "leder@brl.no",
+      "telefonnr": "99889988"
+    }
+  },
+  "levert": "2022-07-07T15:48:07.6328836Z",
+  "referanse": "622/1",
+  "eierform": "Seksjonseier"
+}
+```
+
+### Felter i svaret
+
+Generell merknad: hvert steg i prosessen har feltet `bestillingsformat` med verdiene "Elektronisk" eller "Manuelt". "Elektronisk" betyr at steget kan gjennomføres via integrasjonen, mens "Manuelt" krever tradisjonell håndtering.
+
+* forkjopsrett – informasjon om forkjøpsrett
+  * harForkjopsrett – sann hvis forkjøpsrett gjelder for objektet
+  * kanForhandsutlyses – sann dersom forkjøpsretten kan forhåndsutlyses
+  * intern – sann dersom forkjøpsretten kun gjelder internt i laget
+  * bestillingsformat – Elektronisk eller Manuelt
+  * mottakerType – dersom bestillingsformat er "Manuelt" angis "forretningsforer" eller "lag"
+  * gebyr – pris for forkjøpsrettsavklaringen
+* styregodkjenning – status for styregodkjenning
+  * pakrevd – om styregodkjenning er påkrevd før innflytting
+  * bestillingsformat – Elektronisk eller Manuelt
+  * mottakerType – se over
+* salgsmelding – informasjon om salgsmelding
+  * bestillingsformat – se over
+  * gebyr – pris for å gjennomføre eierskiftet
+* restanse – håndtering av restanse
+  * bestillingsformat – se over
+* andreHensyn – tekstfelt med forhold megler bør være oppmerksom på
+* type – meldingstype
+* ordreId – referanse til forespørselen
+* forretningsforer – informasjon om forretningsføreren
+  * navn – selskapsnavn
+  * adresse – besøks- eller postadresse
+  * epost – e-postadresse
+* klient – informasjon om eierorganisasjonen. Obligatorisk for alle callback-typer unntatt "feil"
+  * klienttype – type klient (se listen under)
+  * organisasjonsnavn – navn på klienten
+  * organisasjonsnummer – organisasjonsnummer
+  * epost – kontaktadresse for klienten
+  * styreleder – informasjon om styreleder
+    * navn – navn på styreleder
+    * epost – e-postadresse til styreleder
+    * telefonnr – telefonnummer til styreleder
+* levert – tidspunkt for når svaret ble produsert
+* referanse – forretningsførers interne referanse
+* eierform – type eierskap (Andelseier, Seksjonseier eller Aksjonær)
+
+Når vi mottar meldingen, genererer vi et formatert PDF-dokument og leverer det direkte til meglersystemet.
+
+### Klienttyper
+* Borettslag tilknyttet
+* Tilknyttet annet boligbyggelag
+* Tilknyttet boligsameie
+* Tilknyttet-Ikke forkjøpsrett/forr.førs
+* Forkjøpsrettsavklaring/ikke forr.fører
+* Forkjøpsrett selveier/ikke forr.førsel
+* Boligsameie
+* Forening
+* Borettslag frittstående
+* Aksjeselskap, Bolig AS
+* Garasjelag
+* Parkeringssameie
+* Tingrettslig sameie
+
+</div>

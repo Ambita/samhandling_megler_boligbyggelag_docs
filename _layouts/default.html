@@ -251,6 +251,56 @@
       margin-left: auto;
     }
 
+    .language-toggle {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--ambita-purple-300);
+      background: var(--ambita-white);
+      border-radius: var(--border-radius-s);
+      overflow: hidden;
+    }
+
+    .language-toggle button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: var(--spacing-xs) var(--spacing-m);
+      background: transparent;
+      border: none;
+      font-family: var(--font-family-body);
+      font-size: var(--font-size-16);
+      color: var(--ambita-purple-500);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .language-toggle button[aria-pressed="true"] {
+      background: var(--ambita-purple-500);
+      color: var(--ambita-purple-100);
+    }
+
+    .language-toggle button:focus-visible {
+      outline: 2px solid var(--ambita-focus);
+      outline-offset: -2px;
+    }
+
+    .language-toggle button + button {
+      border-left: 1px solid var(--ambita-purple-300);
+    }
+
+    .lang-en-inline,
+    .lang-no-inline {
+      display: inline;
+    }
+
+    body[data-lang="no"] .lang-en-inline {
+      display: none !important;
+    }
+
+    body[data-lang="en"] .lang-no-inline {
+      display: none !important;
+    }
+
     .layout-width-toggle {
       border: 1px solid var(--ambita-purple-300);
       background: var(--ambita-white);
@@ -371,6 +421,18 @@
       padding-right: 1rem;
       padding-left: 1rem;
     }
+
+    .language-content {
+      display: block;
+    }
+
+    body[data-lang="no"] .lang-en {
+      display: none !important;
+    }
+
+    body[data-lang="en"] .lang-no {
+      display: none !important;
+    }
     
     /* Mobile Responsive */
     @media screen and (max-width: 768px) {
@@ -401,7 +463,7 @@
     }
   </style>
 
-  <body>
+  <body data-lang="{{ page.lang | default: site.lang | default: 'en' }}">
 
     {%- include header.html -%}
 
@@ -410,16 +472,26 @@
         <div class="content-wrapper">
           <aside class="sidebar">
             <nav class="site-nav-sidebar">
-              <h3>Documentation</h3>
+              <h3>
+                <span class="lang-en-inline">Documentation</span>
+                <span class="lang-no-inline">Dokumentasjon</span>
+              </h3>
               
               <div class="nav-section">
                 <ul>
-                  <li><a href="{{ '/README' | relative_url }}"{% if page.url contains 'README' %} class="current"{% endif %}>📋 Overview</a></li>
+                  <li>
+                    <a href="{{ '/README' | relative_url }}"{% if page.url contains 'README' %} class="current"{% endif %}>
+                      📋 <span class="lang-en-inline">Overview</span><span class="lang-no-inline">Oversikt</span>
+                    </a>
+                  </li>
                 </ul>
               </div>
               
               <div class="nav-section">
-                <h4>Main Process Flow</h4>
+                <h4>
+                  <span class="lang-en-inline">Main Process Flow</span>
+                  <span class="lang-no-inline">Hovedflyt</span>
+                </h4>
                 <ul>
                   <li><a href="{{ '/docs/boliginformasjon' | relative_url }}"{% if page.url contains 'boliginformasjon' %} class="current"{% endif %}>Boliginformasjon</a></li>
                   <li><a href="{{ '/docs/forhandsutlysing' | relative_url }}"{% if page.url contains 'forhandsutlysing' %} class="current"{% endif %}>Forhåndsutlysing</a></li>
@@ -432,7 +504,10 @@
               </div>
 
               <div class="nav-section">
-                <h4>Standalone Messages</h4>
+                <h4>
+                  <span class="lang-en-inline">Standalone Messages</span>
+                  <span class="lang-no-inline">Frittstående meldinger</span>
+                </h4>
                 <ul>
                   <li><a href="{{ '/docs/sumgjeld' | relative_url }}"{% if page.url contains 'sumgjeld' %} class="current"{% endif %}>SumGjeld</a></li>
                   <li><a href="{{ '/docs/sumfelleskostnader' | relative_url }}"{% if page.url contains 'sumfelleskostnader' %} class="current"{% endif %}>SumFelleskostnader</a></li>
@@ -440,7 +515,10 @@
               </div>
 
               <div class="nav-section">
-                <h4>System Messages</h4>
+                <h4>
+                  <span class="lang-en-inline">System Messages</span>
+                  <span class="lang-no-inline">Systemmeldinger</span>
+                </h4>
                 <ul>
                   <li><a href="{{ '/docs/feilmeldinger' | relative_url }}"{% if page.url contains 'feilmeldinger' %} class="current"{% endif %}>Feilmeldinger</a></li>
                 </ul>
@@ -466,15 +544,132 @@
       </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.11.0/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js"></script>
     <script>
       (function () {
-        if (window.mermaid) {
-          window.mermaid.initialize({
-            startOnLoad: true,
-            theme: 'neutral'
+        if (!window.mermaid) {
+          return;
+        }
+
+        window.mermaid.initialize({
+          startOnLoad: false,
+          theme: 'neutral'
+        });
+
+        function getAllMermaidNodes() {
+          return document.querySelectorAll('.language-content .mermaid');
+        }
+
+        function getNodesForLanguage(language) {
+          var selector = language === 'no'
+            ? '.language-content.lang-no .mermaid'
+            : '.language-content.lang-en .mermaid';
+          return document.querySelectorAll(selector);
+        }
+
+        function resetAllNodes() {
+          // Reset all mermaid nodes to their original state
+          getAllMermaidNodes().forEach(function (node) {
+            var source = node.getAttribute('data-mermaid-source');
+            if (source) {
+              // Completely reset the node
+              node.innerHTML = source;
+              node.removeAttribute('data-processed');
+              node.removeAttribute('data-mermaid-rendered');
+              node.removeAttribute('id');
+              node.removeAttribute('aria-labelledby');
+              node.removeAttribute('aria-describedby');
+              node.removeAttribute('role');
+              
+              // Remove any mermaid-generated attributes
+              var attrs = node.attributes;
+              for (var i = attrs.length - 1; i >= 0; i--) {
+                var attrName = attrs[i].name;
+                if (attrName.startsWith('data-mermaid-') && attrName !== 'data-mermaid-source') {
+                  node.removeAttribute(attrName);
+                }
+              }
+              
+              // Remove any child SVG elements
+              var svgElements = node.querySelectorAll('svg');
+              svgElements.forEach(function(svg) {
+                svg.remove();
+              });
+            }
           });
         }
+
+        function prepareNodesForLanguage(nodes) {
+          nodes.forEach(function (node) {
+            var source = node.getAttribute('data-mermaid-source');
+            if (!source) {
+              // Store original source on first preparation
+              source = node.innerHTML.trim();
+              node.setAttribute('data-mermaid-source', source);
+            }
+            
+            // Ensure the node contains only the source text
+            node.innerHTML = source;
+            
+            // Clean up any existing mermaid attributes
+            node.removeAttribute('data-processed');
+            node.removeAttribute('id');
+            node.removeAttribute('aria-labelledby');
+            node.removeAttribute('aria-describedby');
+            node.removeAttribute('role');
+          });
+        }
+
+        function renderForLanguage(language) {
+          var lang = language === 'no' ? 'no' : 'en';
+          
+          // First, reset all nodes to clean state
+          resetAllNodes();
+          
+          // Get nodes for current language
+          var nodes = Array.from(getNodesForLanguage(lang));
+          
+          if (!nodes.length) {
+            return;
+          }
+
+          // Prepare nodes for rendering
+          prepareNodesForLanguage(nodes);
+
+          try {
+            // Use a slight delay to ensure DOM is ready
+            setTimeout(function() {
+              window.mermaid.init(undefined, nodes);
+              nodes.forEach(function (node) {
+                node.setAttribute('data-mermaid-rendered', 'true');
+              });
+            }, 10);
+          } catch (error) {
+            console.error('Mermaid render error:', error);
+            // Retry once after a short delay
+            setTimeout(function() {
+              try {
+                window.mermaid.init(undefined, nodes);
+                nodes.forEach(function (node) {
+                  node.setAttribute('data-mermaid-rendered', 'true');
+                });
+              } catch (retryError) {
+                console.error('Mermaid retry render error:', retryError);
+              }
+            }, 100);
+          }
+        }
+
+        window.renderMermaidForLanguage = function (language) {
+          renderForLanguage(language);
+        };
+
+        // Initial render
+        var initialLanguage = document.body.getAttribute('data-lang') === 'no' ? 'no' : 'en';
+        // Use a small delay to ensure DOM is fully loaded
+        setTimeout(function() {
+          renderForLanguage(initialLanguage);
+        }, 50);
       })();
     </script>
 
