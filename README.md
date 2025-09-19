@@ -19,6 +19,105 @@ Ambita has designed a set of API messages to capture the flow between a broker a
 8. **SumGjeld** (Total debt). A standalone request to get the total debt amount for a property.
 9. **SumFelleskostnader** (Total common costs). A standalone request to get the total common costs amount for a property.
 
+## End-to-end sequence
+
+The message flow is organised in four stages that align with the product definitions:
+
+1. **Stage 1 – Boliginformasjon:** establish what is possible on the estate.
+2. **Stage 2 – Forhåndsutlysing:** optional clarification with up to three callbacks.
+3. **Stage 3 – Salgsmelding:** ownership transfer with optional update messages.
+4. **Stage 4 – Etterarbeid:** planned completion and arrears workflows.
+
+<div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant Broker as Megler<br/>(Vitec Next)
+    participant Ambita as Ambita<br/>Samhandling
+    participant Accountant as Forretningsfører
+
+    rect rgb(243,237,247)
+        Note over Broker,Accountant: Stage 1 – Boliginformasjon
+        Broker->>Ambita: Opprett ordre<br/>Boliginformasjon (type: boliginformasjon)
+        Ambita->>Accountant: Videreformidle Boliginformasjon
+        Accountant-->>Ambita: Callback boliginformasjon<br/>(forkjøpsrett/styregodkjenning)
+        Ambita-->>Broker: Oppdatere prosjektdata<br/>for meglerteamet
+    end
+
+    rect rgb(235,242,255)
+        Note over Broker,Accountant: Stage 2 – Forhåndsutlysing
+        opt Forhåndsutlysing bestilt
+            Broker->>Ambita: Send Forhåndsutlysing<br/>(type: forhandsutlysing)
+            Ambita->>Accountant: Videreformidle Forhåndsutlysing
+            loop Inntil tre forhandsutlysing-callbacker
+                Accountant-->>Ambita: Callback forhandsutlysingtidlig/utsatt/sen
+                Ambita-->>Broker: Vise forkjøpsstatus<br/>i meglerløsningen
+            end
+            opt Forkjøpsrett utløpt
+                Accountant-->>Ambita: Callback forhandsutlysingutlopt
+                Ambita-->>Broker: Signalisere utløpt forkjøpsrett
+            end
+        end
+    end
+
+    rect rgb(240,255,248)
+        Note over Broker,Accountant: Stage 3 – Salgsmelding og endringer
+        Broker->>Ambita: Send Salgsmelding<br/>(type: salgsmelding)
+        Ambita->>Accountant: Videreformidle Salgsmelding
+        Accountant-->>Ambita: Callback salgsmeldingmottatt
+        Ambita-->>Broker: Synk mottakskvittering
+
+        loop Oppdateringer til ferdigstillelse
+            Accountant-->>Ambita: Callback salgsmeldingoppdatering
+            Ambita-->>Broker: Oppdatere styregodkjenning<br/>og forkjøpsstatus
+        end
+        Accountant-->>Ambita: Callback salgsmeldingfullfort
+        Ambita-->>Broker: Markere salgsmelding som fullført
+
+        opt Endring overdragelsesdato
+            Broker->>Ambita: Send Endring overdragelsesdato<br/>(type: endringoverdragelse)
+            Ambita->>Accountant: Videreformidle datoendring
+            Accountant-->>Ambita: Callback endringoverdragelse
+            Ambita-->>Broker: Bekrefte ny overdragelsesdato
+        end
+
+        opt Endring kjøpere
+            Broker->>Ambita: Send Endring kjøpere<br/>(type: endringkjopere)
+            Ambita->>Accountant: Videreformidle kjøperendring
+            Accountant-->>Ambita: Callback endringkjoperemottatt
+            Ambita-->>Broker: Informere om ny styregodkjenning
+            Accountant-->>Ambita: Callback endringkjoperefullfort
+            Ambita-->>Broker: Bekrefte ferdigstilt kjøperendring
+        end
+
+    end
+
+    rect rgb(255,247,235)
+        Note over Broker,Accountant: Stage 4 – Etterarbeid (planlagt)
+        opt Sluttbrev
+            Broker->>Ambita: Send Sluttbrev<br/>(type: sluttbrev)
+            Ambita->>Accountant: Videreformidle Sluttbrev
+            Accountant-->>Ambita: Callback sluttbrevakseptert
+            Ambita-->>Broker: Bekrefte avsluttet prosess
+        end
+
+        opt Restanse
+            Broker->>Ambita: Bestill Restanse<br/>(type: restanse)
+            Ambita->>Accountant: Etterspør restanseoversikt
+            Accountant-->>Ambita: Levere restanseoversikt
+            Ambita-->>Broker: Presentere utestående kostnader
+        end
+    end
+
+    Note over Broker,Accountant: Kan gjentas parallelt med øvrige steg
+    opt Finansielle forespørsler
+        Broker->>Ambita: Bestill SumGjeld/SumFelleskostnader
+        Ambita->>Accountant: Videreformidle finansforespørsel
+        Accountant-->>Ambita: Callback sumgjeld/sumfelleskostnader
+        Ambita-->>Broker: Oppdatere økonomioversikt
+    end
+    Note over Broker,Accountant: SumGjeld og SumFelleskostnader kan bestilles når som helst
+</div>
+
 ## Documentation
 
 ### Message Types
