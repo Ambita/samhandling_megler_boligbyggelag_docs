@@ -6,297 +6,138 @@ exclude: true
 
 # WARP.md
 
-This file provides guidance to WARP (warp.dev) when working with code in this repository.
+Guidance for WARP (warp.dev) when working with this repository.
 
 ## Repository Overview
 
-This repository contains API documentation and type definitions for cooperation between brokers (meglere) and accountants (boligbyggelag) in the Norwegian real estate market. The system is designed to handle the complex workflow of property sales involving cooperative housing (borettslag), including preemption rights (forkjøpsrett), board approval (styregodkjenning), and ownership transfers.
+API documentation and type definitions for broker-accountant cooperation in Norwegian real estate. Handles property sales workflow for cooperative housing (borettslag), including preemption rights (forkjøpsrett), board approval (styregodkjenning), and ownership transfers.
 
 ## Repository Structure
 
 ```
 .
-├── README.md                    # Main documentation with general info and table of contents
-├── requestTypes.ts              # TypeScript interfaces for request messages  
-├── callbackTypes.ts             # TypeScript interfaces for response/callback messages
-├── docs/                        # Detailed documentation for each message type
-│   ├── boliginformasjon.md      # Property information requests
-│   ├── forhandsutlysing.md      # Advance clarification of preemption rights
-│   ├── salgsmelding.md          # Sales notifications and ownership transfers
+├── README.md                    # Main documentation
+├── requestTypes.ts              # Request message interfaces
+├── callbackTypes.ts             # Response/callback interfaces
+├── docs/                        # Per-message-type documentation
+│   ├── boliginformasjon.md      # Property information
+│   ├── forhandsutlysing.md      # Preemption rights clarification
+│   ├── salgsmelding.md          # Sales notifications/transfers
 │   ├── endring-overdragelsesdato.md # Transfer date changes
 │   ├── endring-kjopere.md       # Buyer changes
-│   ├── sluttbrev.md             # Final completion letters
+│   ├── sluttbrev.md             # Final completion
 │   ├── restanse.md              # Arrears handling
 │   └── feilmeldinger.md         # Error messages
-├── images/                      # Flowchart diagrams (.png and .graphml files)
-│   ├── Information.png          # Boliginformasjon flow
-│   ├── Clarification.png        # Forhåndsutlysing flow  
-│   ├── Salesmessage.png         # Salgsmelding flow
-│   └── Changetransferdate.png   # Endring overdragelsesdato flow
-└── typespec/                    # TypeSpec definitions (alternative to TypeScript)
-    ├── main.tsp                 # Complete TypeSpec schema definitions
-    ├── package.json             # TypeSpec tooling dependencies
-    ├── tspconfig.yaml           # TypeSpec compiler configuration
-    └── node_modules/            # TypeSpec dependencies
+├── images/                      # Flowchart diagrams
+└── typespec/                    # TypeSpec definitions
+    ├── main.tsp                 # Schema definitions
+    ├── generated/               # Client libraries (TS, Java, C#)
+    └── tsp-output/              # OpenAPI 3.0 + JSON Schema
 ```
 
 ## Development Commands
 
-### TypeScript Development
+### TypeScript
 ```bash
-# The TypeScript files are standalone - no build process needed
-# They serve as documentation and type definitions for TypeScript consumers
-
-# To validate TypeScript syntax (if you have tsc installed):
-tsc --noEmit requestTypes.ts
-tsc --noEmit callbackTypes.ts
+# Validate syntax (standalone, no build needed)
+tsc --noEmit requestTypes.ts callbackTypes.ts
 ```
 
-### TypeSpec Development  
+### TypeSpec
 ```bash
-# Navigate to typespec directory
 cd typespec/
-
-# Install dependencies
-npm install
-
-# Compile TypeSpec to OpenAPI 3.0 and JSON Schema (now working!)
-npx tsp compile .
-
-# Output goes to tsp-output/ directory
-# Generated files: 
-#   - tsp-output/@typespec/openapi3/openapi.yaml
-#   - tsp-output/@typespec/json-schema/*.yaml (for models with @jsonSchema decorator)
+npm install              # Install dependencies
+npx tsp compile .        # Compile to OpenAPI 3.0 + JSON Schema
 ```
+Output: `tsp-output/@typespec/openapi3/openapi.yaml` and `tsp-output/@typespec/json-schema/*.yaml`
 
-**Status**: ✅ **TypeSpec compilation now works successfully!** 
-
-The previous enum schema issues have been resolved by:
-- Converting `alias` literal unions to proper `enum` definitions
-- Adding proper TypeScript-compatible scalar types for dates
-- Implementing all missing request and response models
-- Fixing field type mismatches between TypeScript and TypeSpec
-- Adding all missing API endpoints: `/sluttbrev`, `/sumgjeld`, `/sumfelleskostnader`
+**Status**: ✅ TypeSpec compilation working (enum issues resolved, all endpoints implemented)
 
 ## Architecture Overview
 
-The system handles three core operations:
+### Core Operations
+1. **Clarification (Forhåndsutlysing)**: Pre-sale preemption rights (3 months validity)
+2. **Ownership Change (Salgsmelding)**: Property sale/transfer with board approval
+3. **Arrears (Restanse)**: Outstanding debts (under development)
 
-### 1. **Clarification (Forhåndsutlysing)**
-- **Purpose**: Pre-sale clarification of preemption rights
-- **Trigger**: Seller wants to clarify preemption before sale
-- **Flow**: Request → Early response → (Optional delay) → Final response
-- **Duration**: Usually 3 months validity
+## Message Flow
 
-### 2. **Ownership Change (Eierskifte/Salgsmelding)**  
-- **Purpose**: Process actual property sale and ownership transfer
-- **Trigger**: Property has been sold
-- **Flow**: Request → Received → (Optional updates) → Completed
-- **Includes**: Board approval process, buyer verification
+Asynchronous POST-based: Broker → Ambita → Accountant → Ambita → Broker (PDF + data)
 
-### 3. **Arrears (Restanse)**
-- **Purpose**: Handle outstanding debts and payments
-- **Status**: Not yet fully designed/implemented
+**Request Types**: `boliginformasjon`, `forhandsutlysing`, `salgsmelding`, `endringoverdragelse`, `endringkjopere`, `sluttbrev`
 
-## Message Flow Pattern
-
-All communication follows an asynchronous POST-based pattern:
-
-```mermaid
-sequenceDiagram
-    participant Broker as Broker System
-    participant Ambita as Ambita Platform  
-    participant Accountant as Accountant System
-    
-    Broker->>Ambita: Request (boliginformasjon, salgsmelding, etc.)
-    Ambita->>Accountant: Forward Request
-    Accountant->>Ambita: Response/Callback
-    Ambita->>Broker: Process & Deliver (PDF + structured data)
-```
-
-### Request Types
-- `boliginformasjon` - Property information request
-- `forhandsutlysing` - Preemption clarification request  
-- `salgsmelding` - Sales notification
-- `endringoverdragelse` - Transfer date change
-- `endringkjopere` - Buyer change
-- `sluttbrev` - Final completion letter
-
-### Response Naming Convention
-- `[request]mottatt` - Acknowledged/received (optional)
-- `[request]oppdatering` - Update/progress (optional) 
-- `[request]fullfort` - Completed (required)
-- `[request]utlopt` - Expired (when applicable)
-- `feil` - Error response
+**Response Suffixes**: `mottatt` (ack), `oppdatering` (update), `fullfort` (complete), `utlopt` (expired), `feil` (error)
 
 ## TypeScript vs TypeSpec
 
-This repository maintains **dual definitions**:
+**Dual definitions** maintained:
+- **TypeScript** (`*.ts`): Primary source of truth, edit first
+- **TypeSpec** (`main.tsp`): Generates OpenAPI 3.0, update after TypeScript
 
-### TypeScript Files (`*.ts`)
-- **Primary source of truth** for API contracts
-- Used directly by TypeScript/JavaScript consumers
-- Contains comprehensive JSDoc comments and examples
-- Should be **edited first** when making changes
-
-### TypeSpec Files (`typespec/main.tsp`)
-- Alternative schema definition language
-- Generates OpenAPI 3.0 specifications
-- **Now compiles successfully** and generates valid OpenAPI 3.0 specs
-- Should be updated **after** TypeScript changes to maintain consistency
-
-### Workflow for Changes
-1. **Update TypeScript interfaces first** (`requestTypes.ts`, `callbackTypes.ts`)
-2. **Mirror changes in TypeSpec** (`typespec/main.tsp`) 
-3. **Test compilation**: `cd typespec && npx tsp compile .`
-4. **Commit both versions together** to maintain sync
+**Change Workflow**:
+1. Update TypeScript interfaces (`requestTypes.ts`, `callbackTypes.ts`)
+2. Mirror in TypeSpec (`typespec/main.tsp`)
+3. Test: `cd typespec && npx tsp compile .`
+4. Commit both together
 
 ## Code Generation
 
-The TypeSpec setup now includes automatic generation of client libraries for multiple programming languages from the OpenAPI 3.0 specification.
+TypeSpec generates OpenAPI 3.0 specs and client libraries (TypeScript, Java, C#) via OpenAPI Generator CLI v2.23.1.
 
-### Available Client Libraries
+### Client Libraries
+- **TypeScript**: `typespec/generated/typescript/` → `@samhandling/client`
+- **Java**: `typespec/generated/java/` → `no.samhandling:samhandling-client` (Maven/Gradle)
+- **C#**: `typespec/generated/csharp/` → `Samhandling.Client` (.NET 8.0)
 
-#### TypeScript/JavaScript Client
-- **Location**: `typespec/generated/typescript/`
-- **Package**: `@samhandling/client` 
-- **Features**: Full TypeScript types, fetch-based HTTP client, ES6+ support
-- **Usage**: Import and use with modern JavaScript/TypeScript projects
-
-#### Java Client  
-- **Location**: `typespec/generated/java/`
-- **Package**: `no.samhandling:samhandling-client`
-- **Features**: Maven/Gradle compatible, Java 8+ support, native HTTP client
-- **Build files**: `pom.xml`, `build.gradle`, complete project structure
-
-#### C# (.NET) Client
-- **Location**: `typespec/generated/csharp/`
-- **Package**: `Samhandling.Client`
-- **Features**: .NET 8.0 compatible, async/await support, nullable reference types
-- **Build files**: `.csproj`, `.sln`, NuGet package ready
-
-### Development Commands
-
-#### Prerequisites
+### Commands
 ```bash
 cd typespec/
-npm install
+npm install              # Install dependencies
+npm run build            # Generate TypeSpec + all clients
+npm run clean            # Remove generated files
+npm run postcompile:tsp  # Regenerate clients only
 ```
 
-#### Generate Everything (TypeSpec + All Clients)
-```bash
-cd typespec/
-npm run build
-```
-This compiles TypeSpec to OpenAPI 3.0 and JSON Schema, then generates all client libraries.
-
-#### Clean Build Environment
-```bash
-cd typespec/
-npm run clean
-```
-Removes all generated files (`tsp-output/` and `generated/`) and reinstalls dependencies.
-
-#### Manual Client Generation
-To regenerate only the client libraries (after TypeSpec compilation):
-```bash
-cd typespec/
-npm run postcompile:tsp
-```
-
-### Generated Client Structure
-
-Each generated client includes:
-- **Complete API client** with all endpoints
-- **Type definitions/models** for all request/response objects
-- **Configuration options** for base URL, authentication, etc.
-- **Documentation** (README, API docs)
-- **Build configuration** (package.json, pom.xml, .csproj)
-- **Unit test templates**
-
-### Code Generation Configuration
-
-The generation process uses **OpenAPI Generator CLI v2.23.1** with language-specific configurations:
-
-- **TypeScript**: `scripts/typescript-config.json`
-- **Java**: `scripts/java-config.json` 
-- **C#**: `scripts/csharp-config.json`
-
-These files control naming conventions, package details, and framework-specific options.
-
-### Reproducible Builds
-
-The OpenAPI Generator CLI version is pinned in `package.json` to ensure consistent generation across different machines and CI environments.
+**Config**: `scripts/{typescript,java,csharp}-config.json` (naming, packages, options)
 
 ## Common Development Tasks
 
-### Adding a New Message Type
-1. Define request interface in `requestTypes.ts`
-2. Define response interface(s) in `callbackTypes.ts` 
-3. Add union type exports to `CallbackEvent` type
-4. Update TypeSpec definitions in `typespec/main.tsp`
-5. Create new documentation file in `docs/[message-type].md`
-6. Add comprehensive examples and field descriptions to the new docs file
-7. Update the table of contents in `README.md`
-8. Create flow diagram in `images/` if complex workflow
+### Adding New Message Type
+1. Define in `requestTypes.ts` and `callbackTypes.ts`
+2. Add to `CallbackEvent` union type
+3. Update `typespec/main.tsp`
+4. Create `docs/[message-type].md` with examples
+5. Update `README.md` TOC
+6. Add flow diagram to `images/` if needed
 
-### Updating Existing Messages
+### Updating Messages
 1. Modify TypeScript interfaces
-2. Update corresponding TypeSpec models
+2. Update TypeSpec models
 3. Verify backward compatibility
-4. Update examples in the relevant `docs/[message-type].md` file
-5. Test with TypeSpec compiler
+4. Update `docs/[message-type].md`
+5. Test TypeSpec compilation
 
-### PDF Generation Preferences
-When working on PDF generation features, use **Inter** as the main font and **PT Serif** for heading elements in PDF generation.
+### PDF Fonts
+Use **Inter** (body) and **PT Serif** (headings)
 
-## Message Examples Location
+## Message Examples
 
-Detailed JSON examples for all message types are documented in separate files in the `docs/` directory:
-- **[Boliginformasjon](docs/boliginformasjon.md)** - Property information request/response examples
-- **[Forhåndsutlysing](docs/forhandsutlysing.md)** - Clarification request/response examples with flow states
-- **[Salgsmelding](docs/salgsmelding.md)** - Sales notification with complete workflow examples
-- **[Endring overdragelsesdato](docs/endring-overdragelsesdato.md)** - Transfer date change examples
-- **[Endring kjøpere](docs/endring-kjopere.md)** - Buyer change examples
-- **[Sluttbrev](docs/sluttbrev.md)** - Final completion letter examples
-- **[Restanse](docs/restanse.md)** - Arrears handling (minimal, under development)
-- **[Feilmeldinger](docs/feilmeldinger.md)** - Error response examples with error codes
+See `docs/` for detailed JSON examples:
+- `boliginformasjon.md`, `forhandsutlysing.md`, `salgsmelding.md`, `endring-overdragelsesdato.md`, `endring-kjopere.md`, `sluttbrev.md`, `restanse.md`, `feilmeldinger.md`
 
-Each file contains complete request/response examples, field descriptions, and workflow explanations specific to that message type.
+## Guidelines
 
-## Development Guidelines
-
-- **Maintain consistency** between TypeScript and TypeSpec definitions
-- **Preserve backward compatibility** when modifying existing interfaces
-- **Use Norwegian field names** consistently (kjopesum, salgsmelding, etc.)
-- **Document complex flows** with sequence diagrams in README
-- **Include comprehensive examples** for all new message types
-- **Test TypeSpec compilation** before committing changes
+- Maintain TypeScript/TypeSpec consistency
+- Preserve backward compatibility
+- Use Norwegian field names (kjopesum, salgsmelding, etc.)
+- Document complex flows with diagrams
+- Include examples for new message types
+- Test TypeSpec compilation before committing
 
 ## Troubleshooting
 
-### TypeSpec Development
-The TypeSpec setup is now working correctly. If you encounter issues:
-
-1. Ensure all dependencies are installed: `cd typespec && npm install`
-2. Run compilation to check for errors: `npx tsp compile .`
-3. Check that the generated OpenAPI file exists: `tsp-output/@typespec/openapi3/openapi.yaml`
-4. When making changes, update TypeScript files first, then mirror in TypeSpec
-
-### Missing Dependencies
-```bash
-cd typespec/
-npm install
-```
-
-This installs the TypeSpec compiler and OpenAPI 3.0 emitter tools.
-
-### Regenerating OpenAPI Specification
-After making changes to TypeSpec definitions:
-
-```bash
-cd typespec/
-npx tsp compile .
-```
-
-The generated OpenAPI 3.0 specification will be available at `tsp-output/@typespec/openapi3/openapi.yaml`.
+**TypeSpec issues**:
+1. `cd typespec && npm install`
+2. `npx tsp compile .`
+3. Verify `tsp-output/@typespec/openapi3/openapi.yaml` exists
+4. Always update TypeScript first, then TypeSpec
